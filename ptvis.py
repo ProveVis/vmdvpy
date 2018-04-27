@@ -99,6 +99,7 @@ class PTVisualizer:
 
         # keyboard event
         def Keypress(obj, event):
+            print(type(obj))
             key = obj.GetKeySym()
             # step
             if key == 'space':
@@ -106,8 +107,12 @@ class PTVisualizer:
             # all
             if key == 'Return':
                 self.step(False)
+            print(key)
+            print(self.view.GetVertexColorArrayName())
 
-        self.view.GetInteractor().AddObserver("KeyPressEvent", Keypress)
+        # self.view.GetInteractor().AddObserver("KeyPressEvent", Keypress)
+        # self.view.GetInteractor().AddObserver("KeyPressEvent", lambda obj,event: print(obj.GetKeySym()))
+        self.view.GetInteractor().AddObserver(vtk.vtkCommand.KeyPressEvent, Keypress)
 
         pass
 

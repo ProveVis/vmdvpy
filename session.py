@@ -3,9 +3,9 @@ import vtk
 import abc
 import graph
 import sys
-from viewers import treeviewer, digraphviewer
+from viewers import viewer, treeviewer, digraphviewer
 # from PyQt5 import QtGui
-# from PyQt5.QtWidgets import QApplication, QWidget, QFrame, QMainWindow, QVBoxLayout, QAction, QMenu
+from PyQt5.QtWidgets import QApplication, QWidget, QFrame, QMainWindow, QVBoxLayout, QAction, QMenu
 # from PyQt5.QtGui import QCursor
 # from PyQt5 import QtCore
 # from vtk.qt.QVTKRenderWindowInteractor import QVTKRenderWindowInteractor
@@ -33,10 +33,11 @@ class Session:
         pass
 
 class TreeSession(Session):
-    def __init__(self, descr, attributes):
-        super(TreeSession, self).__init__(descr, 'Tree', attributes)
+    def __init__(self, descr, attributes, rootNid):
+        Session.__init__(self, descr, 'Tree', attributes)
         self.tree = graph.Tree(attributes)
-        self.viewer = treeviewer.TreeViewer()
+        self.viewer = treeviewer.TreeViewer(rootNid)
+        self.viewer.setWindowTitle(descr)
     
     def parseJSON(self, data):
         pass
@@ -48,10 +49,10 @@ class TreeSession(Session):
         self.viewer.close()
 
 class DiGraphSession(Session):
-    def __init__(self, descr, attributes):
-        super(DiGraphSession, self).__init__(descr, 'DiGraph', attributes)
+    def __init__(self, descr, attributes, startNid):
+        Session.__init__(self, descr, 'DiGraph', attributes)
         self.digraph = graph.DiGraph(attributes)
-        self.viewer = digraphviewer.DiGraphViewer()
+        self.viewer = digraphviewer.DiGraphViewer(startNid)
     
     def parseJSON(self, data):
         pass
@@ -63,3 +64,14 @@ class DiGraphSession(Session):
         self.viewer.close()
 
 
+if __name__ == '__main__':
+    app = QApplication(sys.argv)
+    # QtGui.Q
+
+    session = TreeSession('hello',[],0)
+    session.showViewer()
+
+    digraphSession = DiGraphSession('digraph viewer',[],0)
+    digraphSession.showViewer()
+
+    sys.exit(app.exec_())

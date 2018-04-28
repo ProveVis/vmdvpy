@@ -6,13 +6,18 @@ from PyQt5 import QtCore
 from viewers import viewer
 
 class DiGraphViewer(viewer.Viewer):
-    def __init__(self, startNid):
+    def __init__(self):
         viewer.Viewer.__init__(self)
+        
+        # view.SetLayoutStrategy(self.layout)
+        # viewer.Viewer.initViewerWindow(self, startNid, vtk.vtkDirectedGraph(), layout)
         layout = vtk.vtkForceDirectedLayoutStrategy()
         layout.ThreeDimensionalLayoutOn ()
         layout.AutomaticBoundsComputationOn()
-        # view.SetLayoutStrategy(self.layout)
-        viewer.Viewer.initViewerWindow(self, startNid, vtk.vtkDirectedGraph(), layout)
+        viewer.Viewer.initViewerWindow(self,vtk.vtkDirectedGraph(), layout)
         viewer.Viewer.setWindowTitle(self, 'DiGraph')
         # pass
     
+    def addViewerNode(self, nid):
+        # if not self.vtkComponentInitialed:
+        viewer.Viewer.addViewerNode(self, nid)

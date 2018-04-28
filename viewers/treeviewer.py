@@ -8,10 +8,19 @@ from vtk.qt.QVTKRenderWindowInteractor import QVTKRenderWindowInteractor
 from viewers import viewer
 
 class TreeViewer(viewer.Viewer):
-    def __init__(self, rootNid):
+    edgeLabel = {}
+    def __init__(self):
         viewer.Viewer.__init__(self)
-        viewer.Viewer.initViewerWindow(self, rootNid, vtk.vtkTree(), 'Cone')
+        viewer.Viewer.initViewerWindow(self, vtk.vtkTree(), 'Cone')
 
+    def addViewerNode(self, nid):
+        # if not self.vtkComponentInitialed:
+        #     self.initViewerWindow(nid, vtk.vtkTree(), 'Cone')
+        viewer.Viewer.addViewerNode(self, nid)
+
+    def addViewerEdge(self, fromId, toId, label):
+        viewer.Viewer.addViewerEdge(self, fromId, toId)
+        self.edgeLabel[(fromId, toId)] = label
 
 
 

@@ -21,8 +21,16 @@ class Viewer(QMainWindow):
         
         self.ren = vtk.vtkRenderer()
         self.vtkWidget.GetRenderWindow().AddRenderer(self.ren)
+        
+        self.frame.setLayout(self.vl)
+        self.setCentralWidget(self.frame)
 
-    def initViewerWindow(self, rootNid, graph, layoutStrategy):
+        # self.vtkComponentInitialed = False
+
+    # def initVtkComponent(self, rootNid):
+
+
+    def initViewerWindow(self, graph, layoutStrategy):
         self.view = vtk.vtkGraphLayoutView()
         self.graph = graph
         self.graphUnder = vtk.vtkMutableDirectedGraph()
@@ -47,9 +55,10 @@ class Viewer(QMainWindow):
         # toVertexId2 = self.graph.AddVertex()
         # self.graph.AddEdge(fromVertexId, toVertexId)
         # self.graph.AddEdge(fromVertexId, toVertexId2)
-        rootVertex = self.graphUnder.AddVertex()
-        self.nid2Vertex[rootNid] = rootVertex
-        self.vertex2Nid[rootVertex] = rootNid
+        self.dummyVertex = self.graphUnder.AddVertex()
+        self.dummyVertexExists = True
+        # self.nid2Vertex[rootNid] = rootVertex
+        # self.vertex2Nid[rootVertex] = rootNid
         self.graph.CheckedShallowCopy(self.graphUnder)
         self.view.ResetCamera()
         self.view.Render()
@@ -67,16 +76,20 @@ class Viewer(QMainWindow):
         self.iren = self.vtkWidget.GetRenderWindow().GetInteractor()
         self.iren.Initialize()
 
-        self.frame.setLayout(self.vl)
-        self.setCentralWidget(self.frame)
+        # self.vtkComponentInitialed = True
+
 
     def addViewerNode(self, nid):
         if nid not in self.nid2Vertex:
-            vertex = vtk.graph.AddVertex()
+            vertex = self.graphUnder.AddVertex()
             self.nid2Vertex[nid] = vertex
             self.vertex2Nid[vertex] = nid
         else:
             print('Viewer: ',nid, 'has already been added')
+        if self.dummyVertexExists:
+            self.graphUnder.RemoveVertex(self.dummyVertex)
+            self.dummyVertexExists = False
+
 
     def addViewerEdge(self, fromId, toId):
         if fromId in self.nid2Vertex and toId in self.nid2Vertex:

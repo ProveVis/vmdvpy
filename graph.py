@@ -144,13 +144,30 @@ class Tree:
                 queue.append(childId)
         return nids
 
-    def ancestors(self, nid):
+    def getAncestors(self, nid):
         nids = []
         tmpNid = self.parent[nid]
         while tmpNid != self.root:
             nids.append(tmpNid)
             tmpNid = self.parent[tmpNid]
         nids.append(self.root)
+        return nids
+
+    def getChildren(self, nid):
+        if nid in self.children:
+            return self.children[nid]
+        else:
+            return []
+
+    def getDescendants(self, nid):
+        nids = []
+        queue = deque([nid])
+        while len(queue) != 0:
+            currentNid = queue.popleft()
+            if currentNid in self.children:
+                for childId in self.children[currentNid]:
+                    nids.append(childId)
+                    queue.append(childId)
         return nids
         # pass
     # pass

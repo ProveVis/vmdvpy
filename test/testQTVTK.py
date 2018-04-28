@@ -62,10 +62,8 @@ class MainWindow(QMainWindow):
         # self.view.SetVertexColorArrayName('Color')
         
 
-
         self.rightClickStart = QCursor.pos()
         self.rightClickEnd = QCursor.pos()
-
 
 
         fromVertexId = self.graph.AddVertex()

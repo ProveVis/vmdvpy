@@ -18,9 +18,9 @@ class TreeViewer(viewer.Viewer):
         #     self.initViewerWindow(nid, vtk.vtkTree(), 'Cone')
         viewer.Viewer.addViewerNode(self, nid)
 
-    def addViewerEdge(self, fromId, toId, label):
-        viewer.Viewer.addViewerEdge(self, fromId, toId)
-        self.edgeLabel[(fromId, toId)] = label
+    # def addViewerEdge(self, fromId, toId, label):
+    #     viewer.Viewer.addViewerEdge(self, fromId, toId)
+    #     self.edgeLabel[(fromId, toId)] = label
 
 
 

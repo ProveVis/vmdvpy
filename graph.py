@@ -216,7 +216,7 @@ class DiGraph:
         if fromId in self.post:
             posts = self.post[fromId]
             if toId not in posts:
-                posts.append[toId]
+                posts.append(toId)
         else:
             self.post[fromId] = [toId]
         # 2. update the pre edges of toId

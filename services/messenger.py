@@ -9,8 +9,9 @@ from PyQt5 import QtCore
 
 
 class Messenger(QThread):
-    def __init__(self, parent = None):
+    def __init__(self, v, parent = None):
         super(Messenger, self).__init__(parent)
+        self.v = v
 
     initSessionSignal = QtCore.pyqtSignal(str, str, list, str)
     affectSignal = QtCore.pyqtSignal(affect.Affect)
@@ -19,9 +20,10 @@ class Messenger(QThread):
     def run(self):
         print('Messenger thread start...')
         while True:
-            data = vmdv.fetchJSON()
+            data = self.v.fetchJSON()
             # print('Fetched an Affect object')
             t = data['type']
+            # print('Received a json object:', t)
             if t == 'create_session':
                 if data['graph_type'] == 'Tree':
                     attris = []
@@ -42,7 +44,7 @@ class Messenger(QThread):
                 else:
                     print('Unknown graph type:', data['graph_type'])
             elif t == 'remove_session':
-                vmdv.sessions.pop(data['session_id'])
+                self.v.sessions.pop(data['session_id'])
             elif t == 'add_node':
                 # vmdv.putAffect(AddNodeAffect(data['session_id'], data['node']['id'], data['node']['label'], data['node']['state']))
                 a = AddNodeAffect(data['session_id'], data['node']['id'], data['node']['label'], data['node']['state'])

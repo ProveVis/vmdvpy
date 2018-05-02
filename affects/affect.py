@@ -10,5 +10,5 @@ class Affect:
         pass
     
     @abc.abstractmethod
-    def affect(self):
+    def affect(self,v):
         pass

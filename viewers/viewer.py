@@ -25,6 +25,8 @@ class Viewer(QMainWindow):
         self.frame.setLayout(self.vl)
         self.setCentralWidget(self.frame)
 
+        self.edgeLabel = {}
+
         # self.vtkComponentInitialed = False
 
     # def initVtkComponent(self, rootNid):
@@ -80,18 +82,28 @@ class Viewer(QMainWindow):
 
 
     def addViewerNode(self, nid):
+        if self.dummyVertexExists:
+            # self.graphUnder.RemoveVertex(self.dummyVertex)
+            self.nid2Vertex[nid] = self.dummyVertex
+            self.vertex2Nid[self.dummyVertex] = nid
+            self.dummyVertexExists = False
         if nid not in self.nid2Vertex:
             vertex = self.graphUnder.AddVertex()
             self.nid2Vertex[nid] = vertex
             self.vertex2Nid[vertex] = nid
         else:
-            print('Viewer: ',nid, 'has already been added')
-        if self.dummyVertexExists:
-            self.graphUnder.RemoveVertex(self.dummyVertex)
-            self.dummyVertexExists = False
+            print('Viewer:',nid, 'has already been added')
 
 
-    def addViewerEdge(self, fromId, toId):
-        if fromId in self.nid2Vertex and toId in self.nid2Vertex:
-            self.graph.AddEdge(self.nid2Vertex[fromId], self.nid2Vertex[toId])
-            self.tree.CheckedShallowCopy(self.graphUnder)
+
+    def addViewerEdge(self, fromId, toId, label):
+        if fromId in self.nid2Vertex and toId in self.nid2Vertex and (fromId, toId) not in self.edgeLabel:
+            self.graphUnder.AddEdge(self.nid2Vertex[fromId], self.nid2Vertex[toId])
+            self.graph.CheckedShallowCopy(self.graphUnder)
+            self.view.ResetCamera()
+            self.view.Render()
+            self.edgeLabel[(fromId, toId)] = label
+        elif fromId not in self.nid2Vertex:
+            print('Node (from)', fromId, 'is not added')
+        elif toId not in self.nid2Vertex:
+            print('Node (to)', toId, 'is not added')

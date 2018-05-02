@@ -13,7 +13,7 @@ class AddNodeAffect(affect.Affect):
         self.state = state
 
     def affect(self):
-        session = vmdv.sessions[self.sid]
+        session = vmdv.findSession(self.sid)
         node = graph.Node()
         node.setProperty('id', self.nid)
         node.setProperty('label', self.label)
@@ -29,7 +29,7 @@ class AddEdgeAffect(affect.Affect):
         self.label = label
 
     def affect(self):
-        s = vmdv.sessions[self.sid]
+        s = vmdv.findSession(self.sid)
         if s.__class__ == 'TreeSession':
             s.addEdge(self.fromId, self.toId, self.label)
         elif s.__class__ == 'DiGraphSession':

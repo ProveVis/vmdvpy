@@ -81,7 +81,9 @@ class DiGraphSession(Session):
         self.viewer.addViewerEdge(fromId, toId)
 
 
-def initTreeSession(session):
+def initTreeSession():
+    session = TreeSession('hello',[])
+    session.showViewer()
     node = graph.Node()
     node.setProperty('id', 0)
     session.addNode(node)
@@ -90,9 +92,8 @@ if __name__ == '__main__':
     app = QApplication(sys.argv)
     # QtGui.Q
 
-    session = TreeSession('hello',[])
-    session.showViewer()
-    thread = threading.Thread(target=initTreeSession, args=(session,))
+    
+    thread = threading.Thread(target=initTreeSession, args=())
     thread.start()
     # initTreeSession(session)
     # session.showViewer()

@@ -92,7 +92,8 @@ class Viewer(QMainWindow):
             self.nid2Vertex[nid] = vertex
             self.vertex2Nid[vertex] = nid
         else:
-            print('Viewer:',nid, 'has already been added')
+            # print('Viewer:',nid, 'has already been added')
+            pass
 
 
 

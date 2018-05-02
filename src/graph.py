@@ -66,7 +66,8 @@ class Tree:
         if nid not in self.nodes:
             self.nodes[nid] = node
         else:
-            print('Cannot add tree node', nid, 'twice')
+            # print('Cannot add tree node', nid, 'twice')
+            pass
         # self.updateHeight()
     
     def setRoot(self, nid):

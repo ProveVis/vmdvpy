@@ -52,14 +52,14 @@ class MainWindow(QMainWindow):
         self.color1.SetNumberOfComponents(1)
         self.color1.SetName('Color')
         colorTable = vtk.vtkLookupTable()
-        colorTable.SetNumberOfTableValues(2)
-        colorTable.SetTableValue(0,0.5,1.0,0.0)
-        colorTable.SetTableValue(1,0.0,1.0,0.0)
+        colorTable.SetNumberOfColors(2)
+        colorTable.SetTableValue(0,0.0,238.0/255.0,0.0)
+        colorTable.SetTableValue(1,0.0,238.0/255.0,0.0)
         colorTable.Build()
         theme.SetCellLookupTable(colorTable)
         self.color1.InsertNextValue(0)
         self.color1.InsertNextValue(1)
-        # self.view.SetVertexColorArrayName('Color')
+        self.view.SetVertexColorArrayName('Color')
         
 
         self.rightClickStart = QCursor.pos()

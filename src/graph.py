@@ -35,6 +35,13 @@ class Tree:
         self.height = 0
         self.root = ''
 
+    def treeHeight(self):
+        return self.height
+
+    def nodeHeight(self, nid):
+        n = self.nodes[nid]
+        return n.height
+
     def updateHeight(self):
         if self.root == '':
             print('Cannot update height of the tree: root not found')

@@ -39,3 +39,6 @@ class AddEdgeAffect(affect.Affect):
             # print('Adding digraph edge', self.fromId, '-->', self.toId)
         else:
             print("Unknown session type in AddEdgeAffect:", s.__class__.__name__)
+
+class HighlightChildrenAffect(affect.Affect):
+    

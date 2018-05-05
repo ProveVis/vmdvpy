@@ -5,10 +5,10 @@ import session
 
 class Affect:
 
-    def __init__(self, session):
-        self.session = session
+    def __init__(self):
+        # self.session = session
         pass
     
     @abc.abstractmethod
-    def affect(self,v):
+    def affect(self,s):
         pass

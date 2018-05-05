@@ -9,10 +9,13 @@ from vtk.qt.QVTKRenderWindowInteractor import QVTKRenderWindowInteractor
 class Viewer(QMainWindow):
     nid2Vertex = {}
     vertex2Nid = {}
+    selectedNids = []
 
-    def __init__(self, parent=None):
+    def __init__(self, sesion, parent=None):
         QMainWindow.__init__(self, parent)
         
+        # self.colors = colors
+        self.sesion = sesion
         self.frame = QFrame()
 
         self.vl = QVBoxLayout()
@@ -27,10 +30,6 @@ class Viewer(QMainWindow):
 
         self.edgeLabel = {}
 
-        # self.vtkComponentInitialed = False
-
-    # def initVtkComponent(self, rootNid):
-
 
     def initViewerWindow(self, graph, layoutStrategy):
         self.view = vtk.vtkGraphLayoutView()
@@ -44,23 +43,16 @@ class Viewer(QMainWindow):
         self.view.SetColorVertices(True)
         self.view.SetEdgeSelection(False)
         theme = vtk.vtkViewTheme.CreateOceanTheme()
-        # theme.SetLineWidth(4)
-        # theme.SetPointSize(32)
+
         self.view.ApplyViewTheme(theme)
         theme.FastDelete()
 
         self.rightClickStart = QCursor.pos()
         self.rightClickEnd = QCursor.pos()
 
-        # fromVertexId = self.graph.AddVertex()
-        # toVertexId = self.graph.AddVertex()
-        # toVertexId2 = self.graph.AddVertex()
-        # self.graph.AddEdge(fromVertexId, toVertexId)
-        # self.graph.AddEdge(fromVertexId, toVertexId2)
         self.dummyVertex = self.graphUnder.AddVertex()
         self.dummyVertexExists = True
-        # self.nid2Vertex[rootNid] = rootVertex
-        # self.vertex2Nid[rootVertex] = rootNid
+
         self.graph.CheckedShallowCopy(self.graphUnder)
         self.view.ResetCamera()
         self.view.Render()
@@ -78,7 +70,19 @@ class Viewer(QMainWindow):
         self.iren = self.vtkWidget.GetRenderWindow().GetInteractor()
         self.iren.Initialize()
 
-        # self.vtkComponentInitialed = True
+        def selection(obj, e):
+            # print('selection triggered')
+            selected = []
+            sel = obj.GetCurrentSelection()
+            selvs = sel.GetNode(0).GetSelectionList()
+            print('selected', selvs.GetNumberOfTuples(),'nodes')
+            for idx in range(selvs.GetNumberOfTuples()):
+                selected.append(selvs.GetValue(idx))
+                # print('node', selvs.GetValue(idx))
+            self.selectedNids = selected
+
+
+        self.view.GetRepresentation(0).GetAnnotationLink().AddObserver("AnnotationChangedEvent", selection)
 
 
     def addViewerNode(self, nid):
@@ -95,8 +99,6 @@ class Viewer(QMainWindow):
             # print('Viewer:',nid, 'has already been added')
             pass
 
-
-
     def addViewerEdge(self, fromId, toId, label):
         if fromId in self.nid2Vertex and toId in self.nid2Vertex and (fromId, toId) not in self.edgeLabel:
             self.graphUnder.AddEdge(self.nid2Vertex[fromId], self.nid2Vertex[toId])
@@ -108,3 +110,8 @@ class Viewer(QMainWindow):
             print('Node (from)', fromId, 'is not added')
         elif toId not in self.nid2Vertex:
             print('Node (to)', toId, 'is not added')
+
+    def setVertexColorByName(self, vid, cname):
+        cidx = self.sesion.colors.colorIndex(cname)
+        self.vertexColors.InsertValue(vid,cidx)
+        self.graph.CheckedShallowCopy(self.graphUnder)

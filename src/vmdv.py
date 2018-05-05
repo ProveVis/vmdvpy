@@ -4,6 +4,7 @@ from services import network, messenger
 import collections
 import threading
 from PyQt5.QtWidgets import QApplication
+from viewers import utils
 
 class VMDV:
 
@@ -47,19 +48,20 @@ class VMDV:
 
     def initSession(self, sid, descr, attris, graphType):
         # global sessions
+    # public static final RGBColor fromColor = new RGBColor(44.0f/255,82.0f/255,68.0f/255);
+	# public static final RGBColor toColor = new RGBColor(0,1,0);
         if graphType == 'Tree':
-            s = session.TreeSession(descr, attris)
+            s = session.TreeSession(sid, descr, attris, utils.GradualColoring(utils.RGB(44/255,82/255,68/255), utils.RGB(0,1,0)))
             self.sessions[sid] = s
             s.showViewer()
             print('Showed a Tree:', sid)
         else:
-            s = session.DiGraphSession(descr, attris)
+            s = session.DiGraphSession(sid, descr, attris, utils.FixedColoring())
             self.sessions[sid] = s
             s.showViewer()
             print('Showed a DiGraph', sid)
 
     def handleAffect(self, a):
-        # a = fetchAffect()
         if a != None:
             a.affect(self)
             # print('main thread performed an affect')
@@ -70,22 +72,10 @@ class VMDV:
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     v = VMDV()
-    # jsonThread = threading.Thread(target=network.listen, args=(v,3333,))
     jsonThread = network.Network(v, 3333)
-    # affectThread = threading.Thread(target=messenger.parseJSON, args=())
     affectThread = messenger.Messenger(v)
     affectThread.initSessionSignal.connect(v.initSession)
     affectThread.affectSignal.connect(v.handleAffect)
-    # handleAffectThread = threading.Thread(target=handleAffect.handle, args=())
     jsonThread.start()
     affectThread.start()    
-    # handleAffectThread.start()
-    # QtGui.Q
-
-    # session = TreeSession('hello',[])
-    # session.showViewer()
-
-    # digraphSession = DiGraphSession('digraph viewer',[])
-    # digraphSession.showViewer()
-
     sys.exit(app.exec_())

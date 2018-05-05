@@ -8,9 +8,10 @@ from vtk.qt.QVTKRenderWindowInteractor import QVTKRenderWindowInteractor
 from viewers import viewer
 
 class TreeViewer(viewer.Viewer):
-    edgeLabel = {}
-    def __init__(self):
-        viewer.Viewer.__init__(self)
+    # edgeLabel = {}
+    def __init__(self, sesion):
+        viewer.Viewer.__init__(self, sesion)
+        # self.sesion = sesion
         viewer.Viewer.initViewerWindow(self, vtk.vtkTree(), 'Cone')
 
     def addViewerNode(self, nid):

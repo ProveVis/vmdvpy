@@ -4,28 +4,16 @@ import abc
 import graph
 import sys
 from viewers import viewer, treeviewer, digraphviewer
-# from PyQt5 import QtGui
 from PyQt5.QtWidgets import QApplication, QWidget, QFrame, QMainWindow, QVBoxLayout, QAction, QMenu
-# from PyQt5.QtGui import QCursor
-# from PyQt5 import QtCore
-# from vtk.qt.QVTKRenderWindowInteractor import QVTKRenderWindowInteractor
 import threading
 
 class Session:
-    def __init__(self, descr, graphType, attributes):
+    def __init__(self, id, descr, graphType, attributes, colors):
+        self.id = id
         self.descr = descr
         self.graphType = graphType
         self.attributes = attributes
-        # if graphType == 'Tree':
-        #     self.viewer = TreeViewer(attributes)
-        # elif graphType == 'DiGraph':
-        #     self.viewer = DiGraphViewer(attributes)
-        # else:
-        #     print ("Unknown graph type:", graphType, 'exit!')
-        #     sys.exit(1)
-    # @abc.abstractmethod
-    # def parseJSON(self, data):
-    #     pass
+        self.colors = colors
     @abc.abstractmethod
     def showViewer(self):
         pass
@@ -34,14 +22,14 @@ class Session:
         pass
 
 class TreeSession(Session):
-    def __init__(self, descr, attributes):
-        Session.__init__(self, descr, 'Tree', attributes)
+    def __init__(self, id, descr, attributes, colors):
+        Session.__init__(self, id, descr, 'Tree', attributes, colors)
         self.tree = graph.Tree(attributes)
-        self.viewer = treeviewer.TreeViewer()
+        self.viewer = treeviewer.TreeViewer(self)
         self.viewer.setWindowTitle(descr)
     
-    # def parseJSON(self, data):
-    #     pass
+    def getSelectedNids(self):
+        return self.viewer.selectedNids
     
     def showViewer(self):
         self.viewer.show()
@@ -58,13 +46,14 @@ class TreeSession(Session):
         self.viewer.addViewerEdge(fromId, toId, label)
 
 class DiGraphSession(Session):
-    def __init__(self, descr, attributes):
-        Session.__init__(self, descr, 'DiGraph', attributes)
+    def __init__(self, id, descr, attributes, colors):
+        Session.__init__(self, id, descr, 'DiGraph', attributes, colors)
         self.digraph = graph.DiGraph(attributes)
-        self.viewer = digraphviewer.DiGraphViewer()
+        self.viewer = digraphviewer.DiGraphViewer(self)
     
-    # def parseJSON(self, data):
-    #     pass
+    
+    def getSelectedNids(self):
+        return self.viewer.selectedNids
     
     def showViewer(self):
         self.viewer.show()
@@ -82,7 +71,6 @@ class DiGraphSession(Session):
 
 
 def initTreeSession(s):
-    
     s.showViewer()
     node = graph.Node()
     node.setProperty('id', '0')

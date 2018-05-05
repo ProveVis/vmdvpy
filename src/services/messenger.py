@@ -14,7 +14,7 @@ class Messenger(QThread):
         self.v = v
 
     initSessionSignal = QtCore.pyqtSignal(str, str, list, str)
-    affectSignal = QtCore.pyqtSignal(affect.Affect)
+    affectSignal = QtCore.pyqtSignal(str, affect.Affect)
 
 
     def run(self):
@@ -48,7 +48,7 @@ class Messenger(QThread):
             elif t == 'add_node':
                 # vmdv.putAffect(AddNodeAffect(data['session_id'], data['node']['id'], data['node']['label'], data['node']['state']))
                 a = AddNodeAffect(data['session_id'], data['node']['id'], data['node']['label'], data['node']['state'])
-                self.affectSignal.emit(a)
+                self.affectSignal.emit(data['session_id'], a)
             elif t == 'add_edge':
                 a = None
                 if 'label' in data:
@@ -57,7 +57,7 @@ class Messenger(QThread):
                 else:
                     # vmdv.putAffect(AddEdgeAffect(data['session_id'], data['from_id'], data['to_id']))
                     a = AddEdgeAffect(data['session_id'], data['from_id'], data['to_id'])
-                self.affectSignal.emit(a)
+                self.affectSignal.emit(data['session_id'], a)
             elif t == 'feedback':
                 if data['status'] == 'OK':
                     print('Session received feedback from the prover:', data['session_id'], ',', data['status'])

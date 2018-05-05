@@ -143,6 +143,16 @@ class PTVisualizer:
         # self.text_widget.SetTextActor(self.text_actor)
         # self.text_widget.SelectableOff()
         # self.text_widget.On()
+        def selection(obj, e):
+            # print('selection triggered')
+            sel = obj.GetCurrentSelection()
+            selvs = sel.GetNode(0).GetSelectionList()
+            print('selected', selvs.GetNumberOfTuples(),'nodes')
+            for idx in range(selvs.GetNumberOfTuples()):
+                print('node', selvs.GetValue(idx))
+
+
+        self.view.GetRepresentation(0).GetAnnotationLink().AddObserver("AnnotationChangedEvent", selection)
 
     def show(self):
         camera = self.view.GetRenderer().GetActiveCamera()

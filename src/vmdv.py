@@ -21,9 +21,7 @@ class VMDV:
         self.jsonSem.release()
 
     def fetchJSON(self):
-        # print('fetching json message')
         self.jsonSem.acquire()
-        # print('json message fetched')
         return self.jsonQueue.popleft()
 
     def putAffect(self, affect):
@@ -61,13 +59,9 @@ class VMDV:
             s.showViewer()
             print('Showed a DiGraph', sid)
 
-    def handleAffect(self, a):
-        if a != None:
-            a.affect(self)
-            # print('main thread performed an affect')
-        else:
-            pass
-            # print('Main thread fetched a None affect')
+    def handleAffect(self, sid, a):
+        s = self.sessions[sid]
+        s.handleAffect(a)
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)

@@ -42,21 +42,27 @@ class AddEdgeAffect(affect.Affect):
             print("Unknown session type in AddEdgeAffect:", s.__class__.__name__)
 
 class HighlightChildrenAffect(affect.Affect):
-    def __init__(self):
-        pass
+    def __init__(self, nids):
+        # pass
         # self.sesion = sesion
-        # self.nids = nids
+        self.nids = nids
 
     def affect(self,s):
         if s.__class__.__name__ == session.DiGraphSession.__name__:
             print('Cannot highlight children nodes for DiGraphs')
         elif s.__class__.__name__ == session.TreeSession.__name__:
-            selectedNids = s.getSelectedNids()
+            # selectedNids = s.getSelectedNids()
 
 
 class HighlightAncestorsAffect(affect.Affect):
+    def __init__(self, nids):
+        self.nids = nids
     def affect(self,s):
         if s.__class__.__name__ == session.DiGraphSession.__name__:
             print('Cannot highlight children nodes for DiGraphs')
         elif s.__class__.__name__ == session.TreeSession.__name__:
-            selectedNids = s.getSelectedNids()        
+            # selectedNids = s.getSelectedNids()        
+
+
+class ClearColorAffect(affect.Affect):
+    

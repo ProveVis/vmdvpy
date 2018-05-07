@@ -5,6 +5,8 @@ from PyQt5.QtGui import QCursor
 from PyQt5 import QtCore
 from vtk.qt.QVTKRenderWindowInteractor import QVTKRenderWindowInteractor
 
+def posEqual(pos1, pos2):
+    return pos1.x() == pos2.x() and pos1.y() ==  pos2.y()
 
 class Viewer(QMainWindow):
     nid2Vertex = {}
@@ -28,6 +30,12 @@ class Viewer(QMainWindow):
         self.frame.setLayout(self.vl)
         self.setCentralWidget(self.frame)
 
+        self.foregroundMenu = QMenu
+        self.backgroundMenu = QMenu
+        self.setContextMenuPolicy(QtCore.Qt.CustomContextMenu)
+        
+        self.rightClickedPos = None
+
         self.edgeLabel = {}
 
 
@@ -46,9 +54,6 @@ class Viewer(QMainWindow):
 
         self.view.ApplyViewTheme(theme)
         theme.FastDelete()
-
-        self.rightClickStart = QCursor.pos()
-        self.rightClickEnd = QCursor.pos()
 
         self.dummyVertex = self.graphUnder.AddVertex()
         self.dummyVertexExists = True
@@ -83,6 +88,26 @@ class Viewer(QMainWindow):
 
 
         self.view.GetRepresentation(0).GetAnnotationLink().AddObserver("AnnotationChangedEvent", selection)
+
+    def selfRightMousePress(self, obj, event):
+        self.rightClickedPos = QCursor.pos()
+    def selfRightMouseRelease(self, obj, event):
+        if self.rightClickedPos == None or posEqual(self.rightClickedPos, QCursor.pos()):
+            if len(self.selectedNids) == 0:
+                self.backgroundMenu.exec_(QCursor.pos())
+            else:
+                self.foregroundMenu.exec_(QCursor.pos())
+    
+
+    def addForegroundMenuItem(self, trgr):
+        act = QAction(trgr.label, self)
+        act.triggered.connect(lambda x: trgr.action())
+        self.foregroundMenu.addAction(act)
+
+    def addBackgroundMenuItem(self, trgr):
+        act = QAction(trgr.label, self)
+        act.triggered.connect(lambda x: trgr.action())
+        self.backgroundMenu.addAction(act)
 
 
     def addViewerNode(self, nid):

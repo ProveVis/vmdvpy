@@ -17,9 +17,14 @@ class Session:
     @abc.abstractmethod
     def showViewer(self):
         pass
+
     @abc.abstractmethod
     def closeViewer(self):
         pass
+    
+    def handleAffect(self, a):
+        a.affect(self)
+
 
 class TreeSession(Session):
     def __init__(self, id, descr, attributes, colors):
@@ -45,12 +50,13 @@ class TreeSession(Session):
         self.tree.addEdge(fromId, toId)
         self.viewer.addViewerEdge(fromId, toId, label)
 
+
+
 class DiGraphSession(Session):
     def __init__(self, id, descr, attributes, colors):
         Session.__init__(self, id, descr, 'DiGraph', attributes, colors)
         self.digraph = graph.DiGraph(attributes)
         self.viewer = digraphviewer.DiGraphViewer(self)
-    
     
     def getSelectedNids(self):
         return self.viewer.selectedNids
@@ -68,7 +74,6 @@ class DiGraphSession(Session):
     def addEdge(self, fromId, toId, label):
         self.digraph.addEdge(fromId, toId)
         self.viewer.addViewerEdge(fromId, toId, label)
-
 
 def initTreeSession(s):
     s.showViewer()

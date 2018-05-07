@@ -15,12 +15,21 @@ class Trigger:
 
 
 class HighlightChildrenTrigger(Trigger):
-    
+    def __init__(self, sesion):
+        Trigger.__init__(self, sesion, 'Highlight Children')
     # will return a list of affect objects
     def action(self):
-        return [affectImpl.HighlightChildrenAffect()]
+        return [affectImpl.HighlightChildrenAffect(self.sesion.getSelectedNids())]
 
 class HighlightAncestorsTrigger(Trigger):
+    def __init__(self, sesion):
+        Trigger.__init__(self, sesion, 'Highlight Ancestors')
     def action(self):
-        return [affectImpl.HighlightAncestorsAffect()]
+        return [affectImpl.HighlightAncestorsAffect(self.sesion.getSelectedNids())]
+
+class ClearColorTrigger(Trigger):
+    def __init__(self, sesion):
+        Trigger.__init__(self, sesion, 'Clear Color')
+    def action(self):
+        
 

@@ -5,13 +5,14 @@ import collections
 import threading
 from PyQt5.QtWidgets import QApplication
 from viewers import utils
+from operations import trigger
 
 class VMDV:
 
     jsonSem = threading.Semaphore(0)
     jsonQueue = collections.deque([])
 
-    # affectSem = threading.Semaphore(0)
+    affectSem = threading.Semaphore(0)
     affectQueue = collections.deque([])
 
     sessions = {}
@@ -24,20 +25,21 @@ class VMDV:
         self.jsonSem.acquire()
         return self.jsonQueue.popleft()
 
-    def putAffect(self, affect):
+    def putAffect(self, a):
         # global affectQueue
-        self.affectQueue.append(affect)
-        # affectSem.release()
+        self.affectQueue.append(a)
+        self.affectSem.release()
 
     def fetchAffect(self):
         # print('fetching affect object')
-        # affectSem.acquire()
+        self.affectSem.acquire()
+        return self.affectQueue.popleft()
         # print('fetched affect object')
         # global affectQueue
-        if len(self.affectQueue) != 0:
-            return self.affectQueue.popleft()
-        else:
-            return None
+        # if len(self.affectQueue) != 0:
+        #     return self.affectQueue.popleft()
+        # else:
+        #     return None
 
 
 
@@ -49,12 +51,16 @@ class VMDV:
     # public static final RGBColor fromColor = new RGBColor(44.0f/255,82.0f/255,68.0f/255);
 	# public static final RGBColor toColor = new RGBColor(0,1,0);
         if graphType == 'Tree':
-            s = session.TreeSession(sid, descr, attris, utils.GradualColoring(utils.RGB(44/255,82/255,68/255), utils.RGB(0,1,0)))
+            s = session.TreeSession(self, sid, descr, attris, utils.GradualColoring(utils.RGB(44/255,82/255,68/255), utils.RGB(0,1,0)))
+            s.viewer.addBackgroundMenuItem(trigger.ClearColorTrigger(s))
+            s.viewer.addForegroundMenuItem(trigger.HighlightChildrenTrigger(s))
+            s.viewer.addForegroundMenuItem(trigger.HighlightAncestorsTrigger(s))
             self.sessions[sid] = s
             s.showViewer()
             print('Showed a Tree:', sid)
         else:
-            s = session.DiGraphSession(sid, descr, attris, utils.FixedColoring())
+            s = session.DiGraphSession(self, sid, descr, attris, utils.FixedColoring())
+            s.viewer.addBackgroundMenuItem(trigger.ClearColorTrigger(s))
             self.sessions[sid] = s
             s.showViewer()
             print('Showed a DiGraph', sid)
@@ -67,7 +73,7 @@ if __name__ == '__main__':
     app = QApplication(sys.argv)
     v = VMDV()
     jsonThread = network.Network(v, 3333)
-    affectThread = messenger.Messenger(v)
+    affectThread = messenger.Receiver(v)
     affectThread.initSessionSignal.connect(v.initSession)
     affectThread.affectSignal.connect(v.handleAffect)
     jsonThread.start()

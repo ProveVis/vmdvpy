@@ -6,60 +6,41 @@ from affects.affectImpl import *
 from affects import affect
 from PyQt5.QtCore import QThread
 from PyQt5 import QtCore
+import abc
 
 
-class Messenger(QThread):
+class Receiver(QThread):
     def __init__(self, v, parent = None):
-        super(Messenger, self).__init__(parent)
+        super(Receiver, self).__init__(parent)
         self.v = v
 
-    initSessionSignal = QtCore.pyqtSignal(str, str, list, str)
-    affectSignal = QtCore.pyqtSignal(str, affect.Affect)
+    def run(self):
+        print('Receiver thread start...')
+        while True:
+            (sid, a) = self.v.fetchAffect()
+            if sid != '':
+                self.v.handleAffect(sid, a)
+            else:
+                print('Affect cannot be sent to a session')
 
+class Message:
+    @abc.abstractmethod
+    def toJson(self):
+        pass
+class ClearColorMessage(Message):
+    def __init__(self, sid):
+        self.sid = sid
+    def toJson(self):
+        return json.dumps({'type':'clear_color', 'session_id': self.sid})
+
+
+class Sender(QThread):
+    def __init__(self, v, parent = None):
+        QThread.__init__(self, parent)
+        self.v = v
 
     def run(self):
-        print('Messenger thread start...')
+        print('Sender thread start...')
         while True:
-            data = self.v.fetchJSON()
-            # print('Fetched an Affect object')
-            t = data['type']
-            # print('Received a json object:', t)
-            if t == 'create_session':
-                if data['graph_type'] == 'Tree':
-                    attris = []
-                    if 'attributes' in data:
-                        attris = data['attributes']
-                    # s = session.TreeSession(data['session_descr'], attris)
-                    # vmdv.sessions[data['session_id']] = s
-                    # s.showViewer()
-                    self.initSessionSignal.emit(data['session_id'], data['session_descr'], attris, 'Tree')
-                elif data['graph_type'] == 'DiGraph':
-                    attris = []
-                    if 'attributes' in data:
-                        attris = data['attributes']
-                    # s = session.DiGraphSession(data['session_descr'], attris)
-                    # vmdv.sessions[data['session_id']] = s
-                    # s.showViewer()
-                    self.initSessionSignal.emit(data['session_id'], data['session_descr'], attris, 'DiGraph')
-                else:
-                    print('Unknown graph type:', data['graph_type'])
-            elif t == 'remove_session':
-                self.v.sessions.pop(data['session_id'])
-            elif t == 'add_node':
-                # vmdv.putAffect(AddNodeAffect(data['session_id'], data['node']['id'], data['node']['label'], data['node']['state']))
-                a = AddNodeAffect(data['session_id'], data['node']['id'], data['node']['label'], data['node']['state'])
-                self.affectSignal.emit(data['session_id'], a)
-            elif t == 'add_edge':
-                a = None
-                if 'label' in data:
-                    # vmdv.putAffect(AddEdgeAffect(data['session_id'], data['from_id'], data['to_id'], data['label']))
-                    a = AddEdgeAffect(data['session_id'], data['from_id'], data['to_id'], data['label'])
-                else:
-                    # vmdv.putAffect(AddEdgeAffect(data['session_id'], data['from_id'], data['to_id']))
-                    a = AddEdgeAffect(data['session_id'], data['from_id'], data['to_id'])
-                self.affectSignal.emit(data['session_id'], a)
-            elif t == 'feedback':
-                if data['status'] == 'OK':
-                    print('Session received feedback from the prover:', data['session_id'], ',', data['status'])
-                else:
-                    print('Session received feedback from the prover:', data['session_id'], ',', data['status'], ',', data['error_msg'])
+
+            

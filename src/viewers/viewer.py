@@ -5,6 +5,7 @@ from PyQt5.QtGui import QCursor
 from PyQt5 import QtCore
 from vtk.qt.QVTKRenderWindowInteractor import QVTKRenderWindowInteractor
 
+
 def posEqual(pos1, pos2):
     return pos1.x() == pos2.x() and pos1.y() ==  pos2.y()
 
@@ -48,12 +49,25 @@ class Viewer(QMainWindow):
         self.view.SetInteractionModeTo3D()
         self.view.SetLayoutStrategy(layoutStrategy)
 
+        # build lookup table and the vtkIntArray object
+        self.colorArray = vtk.vtkIntArray()
+        self.colorArray.SetNumberOfComponents(1)
+        self.colorArray.SetName("color")
+        self.lookupTable = vtk.vtkLookupTable()
+        self.lookupTable.Build()
+        self.graphUnder.GetVertexData().AddArray(self.colorArray)
+        self.view.SetVertexColorArrayName("color")
+        self.view.ColorVerticesOn()
+        
+        # using a theme
         self.view.SetColorVertices(True)
         self.view.SetEdgeSelection(False)
         theme = vtk.vtkViewTheme.CreateOceanTheme()
-
         self.view.ApplyViewTheme(theme)
         theme.FastDelete()
+        theme.SetLineWidth(1)
+        theme.SetPointSize(20)
+        theme.SetPointLookupTable(self.lookupTable)
 
         self.dummyVertex = self.graphUnder.AddVertex()
         self.dummyVertexExists = True
@@ -89,6 +103,9 @@ class Viewer(QMainWindow):
 
         self.view.GetRepresentation(0).GetAnnotationLink().AddObserver("AnnotationChangedEvent", selection)
 
+    def updateRendering(self):
+        self.graph.CheckedShallowCopy(self.graphUnder)
+
     def selfRightMousePress(self, obj, event):
         self.rightClickedPos = QCursor.pos()
     def selfRightMouseRelease(self, obj, event):
@@ -98,17 +115,20 @@ class Viewer(QMainWindow):
             else:
                 self.foregroundMenu.exec_(QCursor.pos())
     
+    def performAction(self, trgr):
+        afects = trgr.action()
+        for a in afects:
+            self.sesion.v.putAffect(self.sesion.sid, a)
 
     def addForegroundMenuItem(self, trgr):
         act = QAction(trgr.label, self)
-        act.triggered.connect(lambda x: trgr.action())
+        act.triggered.connect(lambda x: self.performAction(trgr))
         self.foregroundMenu.addAction(act)
 
     def addBackgroundMenuItem(self, trgr):
         act = QAction(trgr.label, self)
-        act.triggered.connect(lambda x: trgr.action())
+        act.triggered.connect(lambda x: self.performAction(trgr))
         self.backgroundMenu.addAction(act)
-
 
     def addViewerNode(self, nid):
         if self.dummyVertexExists:

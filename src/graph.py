@@ -234,9 +234,3 @@ class DiGraph:
                 pres.append(fromId)
         else:
             self.pre[toId] = [fromId]
-
-        # pass
-    # def removeNode(self, nid):
-    #     pass
-    # def removeEdge(self, fromId, toId):
-    #     pass

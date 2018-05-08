@@ -35,13 +35,13 @@ class GradualColoring(Coloring):
         nr = len(self.reservedColor)
         lookupTable.SetNumberOfTableValues(nr+grades)
         for i in range(nr):
-            c = self.reservedColor[i]
+            (nc,c) = self.reservedColor[i]
             lookupTable.SetTableValue(i,c.r,c.g,c.b) 
         for j in range(grades):
             c = slicingColor(self.startingRgb, self.endingRgb, grades, j)
             lookupTable.SetTableValue(j+nr, c.r, c.g, c.b)
 
-    def updateColorArray(self, colorArray, vid, node):
+    def updateVertexColor(self, colorArray, vid, node):
         nstate = node.getProperty('state')
         if nstate == 'Proved':
             colorArray.InsertValue(vid, node.height)
@@ -53,10 +53,10 @@ class FixedColoring(Coloring):
         nr = len(self.reservedColor)
         lookupTable.SetNumberOfTableValues(nr)
         for i in range(nr):
-            c = self.reservedColor[i]
+            (nc,c) = self.reservedColor[i]
             lookupTable.SetTableValue(i,c.r,c.g,c.b) 
 
-    def updateColorArray(self, colorArray, vid, node):
+    def updateVertexColor(self, colorArray, vid, node):
         # (nc, c) = self.reservedColor[0]
         colorArray.InsertValue(vid, 1)
         

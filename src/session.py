@@ -47,6 +47,7 @@ class TreeSession(Session):
         nid = node.getProperty('id')
         self.tree.addNode(nid, node)
         self.viewer.addViewerNode(nid)
+        self.colors.updateVertexColor(self.viewer.colorArray, self.viewer.nid2Vertex[nid], node)
 
     def addEdge(self, fromId, toId, label):
         heightBefore = self.tree.height
@@ -57,7 +58,13 @@ class TreeSession(Session):
             self.colors.updateLookupTable(self.viewer.lookupTable, heightAfter)
         node = self.tree.getNode(toId)
         vtoId = self.viewer.nid2Vertex[toId]
-        self.colors.updateColorArray(self.viewer.colorArray, vtoId, node)
+        print('tree height:', self.tree.height, 'and node height:', node.height)
+        self.colors.updateVertexColor(self.viewer.colorArray, vtoId, node)
+        self.viewer.updateRendering()
+
+    def resetGraphColor(self):
+        for nid in self.tree.nodes:
+            self.colors.updateVertexColor(self.viewer.colorArray, self.viewer.nid2Vertex[nid], self.tree.nodes[nid])
         self.viewer.updateRendering()
 
 class DiGraphSession(Session):
@@ -76,15 +83,22 @@ class DiGraphSession(Session):
         self.viewer.close()
 
     def addNode(self, node):
-        self.digraph.addNode(node.getProperty('id'), node)
-        self.viewer.addViewerNode(node.getProperty('id'))
+        nid = node.getProperty('id')
+        self.digraph.addNode(nid, node)
+        self.viewer.addViewerNode(nid)
+        self.colors.updateVertexColor(self.viewer.colorArray, self.viewer.nid2Vertex[nid], node)
 
     def addEdge(self, fromId, toId, label):
         self.digraph.addEdge(fromId, toId)
         self.viewer.addViewerEdge(fromId, toId, label)
         node = self.digraph.getNode(toId)
         vtoId = self.viewer.nid2Vertex[toId]
-        self.colors.updateColorArray(self.viewer.colorArray, vtoId, node)
+        self.colors.updateVertexColor(self.viewer.colorArray, vtoId, node)
+        self.viewer.updateRendering()
+    
+    def resetGraphColor(self):
+        for nid in self.digraph.nodes:
+            self.colors.updateVertexColor(self.viewer.colorArray, self.viewer.nid2Vertex[nid], self.digraph.nodes[nid])
         self.viewer.updateRendering()
 
 def initTreeSession(s):

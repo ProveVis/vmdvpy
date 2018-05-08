@@ -31,5 +31,5 @@ class ClearColorTrigger(Trigger):
     def __init__(self, sesion):
         Trigger.__init__(self, sesion, 'Clear Color')
     def action(self):
-        
+        return [affectImpl.ClearColorAffect()]
 

@@ -4,6 +4,7 @@ from PyQt5.QtWidgets import QApplication, QWidget, QFrame, QMainWindow, QVBoxLay
 from PyQt5.QtGui import QCursor
 from PyQt5 import QtCore
 from vtk.qt.QVTKRenderWindowInteractor import QVTKRenderWindowInteractor
+from affects import affect
 
 
 def posEqual(pos1, pos2):
@@ -13,6 +14,7 @@ class Viewer(QMainWindow):
     nid2Vertex = {}
     vertex2Nid = {}
     selectedNids = []
+    affectSignal = QtCore.pyqtSignal(str, affect.Affect)
 
     def __init__(self, sesion, parent=None):
         QMainWindow.__init__(self, parent)
@@ -31,8 +33,8 @@ class Viewer(QMainWindow):
         self.frame.setLayout(self.vl)
         self.setCentralWidget(self.frame)
 
-        self.foregroundMenu = QMenu
-        self.backgroundMenu = QMenu
+        self.foregroundMenu = QMenu()
+        self.backgroundMenu = QMenu()
         self.setContextMenuPolicy(QtCore.Qt.CustomContextMenu)
         
         self.rightClickedPos = None
@@ -58,13 +60,18 @@ class Viewer(QMainWindow):
         self.graphUnder.GetVertexData().AddArray(self.colorArray)
         self.view.SetVertexColorArrayName("color")
         self.view.ColorVerticesOn()
+
+        self.lookupTable.SetNumberOfTableValues(4)
+        self.lookupTable.SetTableValue(0,1.0,0.0,0.0)    # red
+        self.colorArray.InsertValue(0,0)
         
+        # print('color array ready')
         # using a theme
         self.view.SetColorVertices(True)
         self.view.SetEdgeSelection(False)
         theme = vtk.vtkViewTheme.CreateOceanTheme()
         self.view.ApplyViewTheme(theme)
-        theme.FastDelete()
+        # theme.FastDelete()
         theme.SetLineWidth(1)
         theme.SetPointSize(20)
         theme.SetPointLookupTable(self.lookupTable)
@@ -75,7 +82,7 @@ class Viewer(QMainWindow):
         self.graph.CheckedShallowCopy(self.graphUnder)
         self.view.ResetCamera()
         self.view.Render()
-        self.currentVertexId = None
+        # self.currentVertexId = None
 
         camera = self.view.GetRenderer().GetActiveCamera()
         camera.SetPosition(0, 1, 0)
@@ -119,13 +126,16 @@ class Viewer(QMainWindow):
         afects = trgr.action()
         for a in afects:
             self.sesion.v.putAffect(self.sesion.sid, a)
+            # self.affectSignal.emit(self.sesion.sid, a)
 
     def addForegroundMenuItem(self, trgr):
+        print('Viewer adding foreground menu item', trgr.label)
         act = QAction(trgr.label, self)
         act.triggered.connect(lambda x: self.performAction(trgr))
         self.foregroundMenu.addAction(act)
 
     def addBackgroundMenuItem(self, trgr):
+        print('Viewer adding background menu item', trgr.label)
         act = QAction(trgr.label, self)
         act.triggered.connect(lambda x: self.performAction(trgr))
         self.backgroundMenu.addAction(act)

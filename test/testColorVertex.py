@@ -61,16 +61,7 @@ class PTVisualizer:
         self.vertexColors.SetName("color")
         self.lookup = vtk.vtkLookupTable()
         self.lookup.Build()
-        self.lookup.SetNumberOfTableValues(4)
-        self.lookup.SetTableValue(0,1.0,0.0,0.0)    # red
-        self.lookup.SetTableValue(1,0.0,1.0,0.0)    # green
-        self.lookup.SetTableValue(2,0.0,0.0,1.0)    # blue
-        self.lookup.SetTableValue(3,1.0,1.0,1.0)    # white
 
-        self.vertexColors.InsertNextValue(0)
-        self.vertexColors.InsertNextValue(1)
-        self.vertexColors.InsertNextValue(2)
-        self.vertexColors.InsertNextValue(3)
         # self.vertexColors.InsertValue(v1,0)
         # self.vertexColors.InsertValue(v2,1)
         # self.vertexColors.InsertValue(v3,2)
@@ -86,6 +77,17 @@ class PTVisualizer:
         theme.SetPointSize(20)
         theme.SetPointLookupTable(self.lookup)
         self.view.ApplyViewTheme(theme)
+
+        self.lookup.SetNumberOfTableValues(4)
+        self.lookup.SetTableValue(0,1.0,0.0,0.0)    # red
+        self.lookup.SetTableValue(1,0.0,1.0,0.0)    # green
+        self.lookup.SetTableValue(2,0.0,0.0,1.0)    # blue
+        self.lookup.SetTableValue(3,1.0,1.0,1.0)    # white
+
+        self.vertexColors.InsertNextValue(0)
+        self.vertexColors.InsertNextValue(1)
+        self.vertexColors.InsertNextValue(2)
+        self.vertexColors.InsertNextValue(3)
 
         self.tree.CheckedShallowCopy(self.graph)
 

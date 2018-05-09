@@ -61,7 +61,7 @@ class VMDV:
 	# public static final RGBColor toColor = new RGBColor(0,1,0);
         print('showing viewer in thread:', threading.current_thread())
         if graphType == 'Tree':
-            s = session.TreeSession(self, sid, descr, attris, utils.GradualColoring(utils.RGB(44/255,82/255,68/255), utils.RGB(0,1,0)))
+            s = session.TreeSession(self, sid, descr, attris, utils.GradualColoring(utils.RGB(0,0,1), utils.RGB(0,1,0)))
             s.viewer.addBackgroundMenuItem(trigger.ClearColorTrigger(s))
             s.viewer.addForegroundMenuItem(trigger.HighlightChildrenTrigger(s))
             s.viewer.addForegroundMenuItem(trigger.HighlightAncestorsTrigger(s))
@@ -80,7 +80,7 @@ class VMDV:
         # self.affectThread.start()    
 
     def handleAffect(self, sid, a):
-        print('handling affect')
+        # print('handling affect')
         if sid == '':
             a.affect()
         else:    

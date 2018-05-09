@@ -47,7 +47,8 @@ class TreeSession(Session):
         nid = node.getProperty('id')
         self.tree.addNode(nid, node)
         self.viewer.addViewerNode(nid)
-        self.colors.updateVertexColor(self.viewer.colorArray, self.viewer.nid2Vertex[nid], node)
+        # self.colors.updateVertexColor(self.viewer.colorArray, self.viewer.nid2Vertex[nid], node)
+        # self.viewer.colorArray.InsertNextValue(0)
 
     def addEdge(self, fromId, toId, label):
         heightBefore = self.tree.height
@@ -58,7 +59,7 @@ class TreeSession(Session):
             self.colors.updateLookupTable(self.viewer.lookupTable, heightAfter)
         node = self.tree.getNode(toId)
         vtoId = self.viewer.nid2Vertex[toId]
-        print('tree height:', self.tree.height, 'and node height:', node.height)
+        # print('tree height:', self.tree.height, 'and node height:', node.height)
         self.colors.updateVertexColor(self.viewer.colorArray, vtoId, node)
         self.viewer.updateRendering()
 
@@ -72,6 +73,7 @@ class DiGraphSession(Session):
         Session.__init__(self, v, sid, descr, 'DiGraph', attributes, colors)
         self.digraph = graph.DiGraph(attributes)
         self.viewer = digraphviewer.DiGraphViewer(self)
+        self.colors.updateLookupTable(self.viewer.lookupTable)
     
     def getSelectedNids(self):
         return self.viewer.selectedNids
@@ -86,7 +88,8 @@ class DiGraphSession(Session):
         nid = node.getProperty('id')
         self.digraph.addNode(nid, node)
         self.viewer.addViewerNode(nid)
-        self.colors.updateVertexColor(self.viewer.colorArray, self.viewer.nid2Vertex[nid], node)
+        # self.colors.updateVertexColor(self.viewer.colorArray, self.viewer.nid2Vertex[nid], node)
+        # self.viewer.updateRendering()
 
     def addEdge(self, fromId, toId, label):
         self.digraph.addEdge(fromId, toId)

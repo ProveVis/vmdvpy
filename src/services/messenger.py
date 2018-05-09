@@ -48,16 +48,16 @@ class Receiver(QThread):
                             attris = []
                             if 'attributes' in data:
                                 attris = data['attributes']
-                            self.v.putAffect('', affectImpl.InitSessionAffect(self.v, data['session_id'], data['session_descr'], attris, 'Tree'))
+                            # self.v.putAffect('', affectImpl.InitSessionAffect(self.v, data['session_id'], data['session_descr'], attris, 'Tree'))
                             # self.v.initSession(data['session_id'], data['session_descr'], attris, 'Tree')
-                            # self.initSessionSignal.emit(data['session_id'], data['session_descr'], attris, 'Tree')
+                            self.initSessionSignal.emit(data['session_id'], data['session_descr'], attris, 'Tree')
                         elif data['graph_type'] == 'DiGraph':
                             attris = []
                             if 'attributes' in data:
                                 attris = data['attributes']
-                            self.v.putAffect('', affectImpl.InitSessionAffect(self.v, data['session_id'], data['session_descr'], attris, 'DiGraph'))    
+                            # self.v.putAffect('', affectImpl.InitSessionAffect(self.v, data['session_id'], data['session_descr'], attris, 'DiGraph'))    
                             # self.v.initSession(data['session_id'], data['session_descr'], attris, 'DiGraph')
-                            # self.initSessionSignal.emit(data['session_id'], data['session_descr'], attris, 'DiGraph')
+                            self.initSessionSignal.emit(data['session_id'], data['session_descr'], attris, 'DiGraph')
                         else:
                             print('Unknown graph type:', data['graph_type'])
                     elif t == 'remove_session':
@@ -97,7 +97,7 @@ class AffectParser(QThread):
         print('Affect parser thread start...')
         while True:
             (sid, a) = self.v.fetchAffect()
-            print('fetched an effect for', sid)
+            # print('fetched an effect for', sid)
             self.affectSignal.emit(sid, a)
             # self.v.handleAffect(sid, a)
             # if sid != '':
@@ -114,7 +114,7 @@ class ClearColorMessage(Message):
     def __init__(self, sid):
         self.sid = sid
     def toStr(self):
-        return json.dumps({'type':'clear_color', 'session_id': self.sid})
+        return (json.dumps({'type':'clear_color', 'session_id': self.sid}))+'\n'
 
 
 class Sender(QThread):
@@ -127,5 +127,5 @@ class Sender(QThread):
         print('Sender thread start...')
         while True:
             m = self.v.fetchMsg()
-            self.sock.sendall(m.toStr())
+            self.sock.sendall(m.toStr().encode('utf-8'))
             

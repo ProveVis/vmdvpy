@@ -11,14 +11,14 @@ def posEqual(pos1, pos2):
     return pos1.x() == pos2.x() and pos1.y() ==  pos2.y()
 
 class Viewer(QMainWindow):
-    nid2Vertex = {}
-    vertex2Nid = {}
-    selectedNids = []
+
     affectSignal = QtCore.pyqtSignal(str, affect.Affect)
 
     def __init__(self, sesion, parent=None):
         QMainWindow.__init__(self, parent)
-        
+        self.nid2Vertex = {}
+        self.vertex2Nid = {}
+        self.selectedNids = []
         # self.colors = colors
         self.sesion = sesion
         self.frame = QFrame()
@@ -56,25 +56,24 @@ class Viewer(QMainWindow):
         self.colorArray.SetNumberOfComponents(1)
         self.colorArray.SetName("color")
         self.lookupTable = vtk.vtkLookupTable()
+        self.lookupTable.SetNumberOfTableValues(4)
+        self.lookupTable.SetTableValue(0,1.0,0.0,0.0)    # red
         self.lookupTable.Build()
+        self.colorArray.InsertValue(0,0)
         self.graphUnder.GetVertexData().AddArray(self.colorArray)
         self.view.SetVertexColorArrayName("color")
         self.view.ColorVerticesOn()
-
-        self.lookupTable.SetNumberOfTableValues(4)
-        self.lookupTable.SetTableValue(0,1.0,0.0,0.0)    # red
-        self.colorArray.InsertValue(0,0)
         
         # print('color array ready')
         # using a theme
         self.view.SetColorVertices(True)
         self.view.SetEdgeSelection(False)
         theme = vtk.vtkViewTheme.CreateOceanTheme()
-        self.view.ApplyViewTheme(theme)
         # theme.FastDelete()
         theme.SetLineWidth(1)
-        theme.SetPointSize(20)
-        theme.SetPointLookupTable(self.lookupTable)
+        theme.SetPointSize(10)
+        theme.SetCellLookupTable(self.lookupTable)
+        self.view.ApplyViewTheme(theme)
 
         self.dummyVertex = self.graphUnder.AddVertex()
         self.dummyVertexExists = True
@@ -105,10 +104,15 @@ class Viewer(QMainWindow):
             for idx in range(selvs.GetNumberOfTuples()):
                 selected.append(selvs.GetValue(idx))
                 # print('node', selvs.GetValue(idx))
-            self.selectedNids = selected
+            self.selectedNids = list(map(lambda x: self.vertex2Nid[x],selected))
+            # print('selected vids:', selected)
+            # print('selected nids:', self.selectedNids)
 
 
         self.view.GetRepresentation(0).GetAnnotationLink().AddObserver("AnnotationChangedEvent", selection)
+        self.view.GetInteractor().AddObserver(vtk.vtkCommand.RightButtonPressEvent, self.selfRightMousePress)
+        self.view.GetInteractor().AddObserver(vtk.vtkCommand.RightButtonReleaseEvent, self.selfRightMouseRelease)
+
 
     def updateRendering(self):
         self.graph.CheckedShallowCopy(self.graphUnder)
@@ -146,10 +150,12 @@ class Viewer(QMainWindow):
             self.nid2Vertex[nid] = self.dummyVertex
             self.vertex2Nid[self.dummyVertex] = nid
             self.dummyVertexExists = False
+            self.colorArray.InsertNextValue(0)
         if nid not in self.nid2Vertex:
             vertex = self.graphUnder.AddVertex()
             self.nid2Vertex[nid] = vertex
             self.vertex2Nid[vertex] = nid
+            self.colorArray.InsertNextValue(0)
         else:
             # print('Viewer:',nid, 'has already been added')
             pass
@@ -168,5 +174,5 @@ class Viewer(QMainWindow):
 
     def setVertexColorByName(self, vid, cname):
         cidx = self.sesion.colors.colorIndex(cname)
-        self.vertexColors.InsertValue(vid,cidx)
+        self.colorArray.SetValue(vid,cidx)
         self.graph.CheckedShallowCopy(self.graphUnder)

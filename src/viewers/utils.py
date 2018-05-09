@@ -15,14 +15,15 @@ def slicingColor(c1, c2, total, index):
     
 class Coloring:
     def __init__(self):
-        self.reservedColor = [('red', RGB(1.0, 0.0, 0.0)), ('green', RGB(0.0, 1.0, 0.0)), ('blue', RGB(0.0, 1.0, 0.0))]
+        self.reservedColor = [('red', RGB(1.0, 0.0, 0.0)), ('green', RGB(0.0, 1.0, 0.0)), ('blue', RGB(0.0, 0.0, 1.0))]
 
     def colorIndex(self, cname):
-        for i in len(self.reservedColor):
+        for i in range(len(self.reservedColor)):
+            # print('color', i,':', self.reservedColor[i][0])
             nc = self.reservedColor[i]
             if nc[0] == cname:
                 return i
-        return -1
+        return 0
 
 class GradualColoring(Coloring):
     def __init__(self, startingRgb, endingRgb):
@@ -42,9 +43,10 @@ class GradualColoring(Coloring):
             lookupTable.SetTableValue(j+nr, c.r, c.g, c.b)
 
     def updateVertexColor(self, colorArray, vid, node):
+        nr = len(self.reservedColor)
         nstate = node.getProperty('state')
         if nstate == 'Proved':
-            colorArray.InsertValue(vid, node.height)
+            colorArray.SetValue(vid, nr+node.height)
         else:
             print('Don\'t know to color node with state', nstate)
 
@@ -58,5 +60,5 @@ class FixedColoring(Coloring):
 
     def updateVertexColor(self, colorArray, vid, node):
         # (nc, c) = self.reservedColor[0]
-        colorArray.InsertValue(vid, 1)
+        colorArray.SetValue(vid, 0)
         

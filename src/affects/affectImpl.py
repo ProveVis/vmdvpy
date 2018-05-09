@@ -47,7 +47,7 @@ class AddNodeAffect(affect.Affect):
         node.setProperty('label', self.label)
         node.setProperty('state', self.state)
         s.addNode(node)
-        # print('Adding node', self.nid)
+        print('Adding node', self.nid)
         # pass
         
 class AddEdgeAffect(affect.Affect):
@@ -84,9 +84,8 @@ class HighlightChildrenAffect(affect.Affect):
             vids = map(lambda x: s.viewer.nid2Vertex[x], childrenIds)
             for vid in vids:
                 s.viewer.setVertexColorByName(vid, 'red')
-
-            # selectedNids = s.getSelectedNids()
-
+            s.viewer.updateRendering()
+            
 
 class HighlightAncestorsAffect(affect.Affect):
     def __init__(self, nids):
@@ -100,7 +99,8 @@ class HighlightAncestorsAffect(affect.Affect):
                 ancestorsIds = ancestorsIds + s.tree.getAncestors(nid)
             vids = map(lambda x: s.viewer.nid2Vertex[x], ancestorsIds)
             for vid in vids:
-                s.viewer.setVertexColorByName(vid, 'red')     
+                s.viewer.setVertexColorByName(vid, 'blue')     
+            s.viewer.updateRendering()
 
 
 class ClearColorAffect(affect.Affect):

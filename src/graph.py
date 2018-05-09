@@ -90,9 +90,9 @@ class Tree:
         else:
             if fromId not in self.children:
                 self.children[fromId] = []
-            children = self.children[fromId]
-            if toId not in children:
-                children.append(toId)
+            childrenIds = self.children[fromId]
+            if toId not in childrenIds:
+                childrenIds.append(toId)
                 toNode = self.getNode(toId)
                 fromNode = self.getNode(fromId)
                 toNode.setHeight(fromNode.height+1)

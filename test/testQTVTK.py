@@ -23,7 +23,7 @@ class MainWindow(QMainWindow):
         self.selected = []
         self.treeHeight = 0
 
-        self.colors = GradualColoring(RGB(0,1,0), RGB(0,0,1))
+        self.colors = FixedColoring()
 
         self.frame = QFrame()
 
@@ -53,12 +53,11 @@ class MainWindow(QMainWindow):
         self.colorArray.SetNumberOfComponents(1)
         self.colorArray.SetName('color')
         self.colorTable = vtk.vtkLookupTable()
-        self.colorTable.SetNumberOfColors(2)
-        self.colorTable.SetTableValue(0,0,238/255,0)
-        self.colorTable.SetTableValue(1,0,238/255,0)
+        self.colorTable.SetNumberOfTableValues(2)
+        self.colorTable.SetTableValue(0,0,238/255,0,1)
+        self.colorTable.SetTableValue(1,0,238/255,0,1)
         self.colorTable.Build()
         
-        # self.colorArray.Fill(0)
         self.colorArray.InsertValue(0, 0)
         self.colorArray.InsertValue(1, 1)
         self.graph.GetVertexData().AddArray(self.colorArray)
@@ -68,44 +67,24 @@ class MainWindow(QMainWindow):
         self.view.SetColorVertices(True)
         self.view.SetEdgeSelection(False)
         theme = vtk.vtkViewTheme.CreateOceanTheme()
-        theme.SetCellLookupTable(self.colorTable)
-        # theme.SetLineWidth(4)
-        # theme.SetPointSize(32)
+        theme.FastDelete()
+        theme.SetPointLookupTable(self.colorTable)
         self.view.ApplyViewTheme(theme)
-        # theme.FastDelete()
+
 
         vid = self.graph.AddVertex()
-        vid2 = self.graph.AddVertex()
         self.vids.append(vid)
-        self.vids.append(vid2)
         self.vertexHeight[vid] = 0
-        self.vertexHeight[vid2] = 1
-        self.graph.AddEdge(vid, vid2)
-        self.children[vid] = [vid2]
         self.tree.CheckedShallowCopy(self.graph)
         
 
         self.rightClickStart = QCursor.pos()
         self.rightClickEnd = QCursor.pos()
 
-
-
-        # fromVertexId = self.graph.AddVertex()
-        # toVertexId = self.graph.AddVertex()
-        # toVertexId2 = self.graph.AddVertex()
-        # self.graph.AddEdge(fromVertexId, toVertexId)
-        # self.graph.AddEdge(fromVertexId, toVertexId2)
-        # self.graph.GetVertexData().AddArray(self.color1)
-        # self.color1.InsertValue(toVertexId2,0)
-        # self.tree.CheckedShallowCopy(self.graph)
-        # self.view.ResetCamera()
-        # self.view.Render()
-        # self.currentVertexId = None
-
-        camera = self.view.GetRenderer().GetActiveCamera()
-        camera.SetPosition(0, 1, 0)
-        camera.SetFocalPoint(0, 0, 0)
-        camera.SetViewUp(0, 0, 1)
+        self.camera = self.view.GetRenderer().GetActiveCamera()
+        self.camera.SetPosition(0, 1, 0)
+        self.camera.SetFocalPoint(0, 0, 0)
+        self.camera.SetViewUp(0, 0, 1)
 
         self.view.ResetCamera()
         self.view.Render()
@@ -128,7 +107,7 @@ class MainWindow(QMainWindow):
             selected = []
             sel = obj.GetCurrentSelection()
             selvs = sel.GetNode(0).GetSelectionList()
-            print('selected', selvs.GetNumberOfTuples(),'nodes')
+            # print('selected', selvs.GetNumberOfTuples(),'nodes')
             for idx in range(selvs.GetNumberOfTuples()):
                 selected.append(selvs.GetValue(idx))
                 # print('node', selvs.GetValue(idx))
@@ -139,17 +118,12 @@ class MainWindow(QMainWindow):
 
         self.view.GetRepresentation(0).GetAnnotationLink().AddObserver("AnnotationChangedEvent", selection)
 
-        # self.show()
-
-    # def mouseMoveEvent(self,event):
-    #     if event.button == Qt.RightButton and event.:
-
     def selfRightMousePress(self, obj, event):
-        print('setting rightClickStart')
+        # print('setting rightClickStart')
         self.rightClickStart = QCursor.pos()
     
     def selfRightMouseRelease(self, obj, event):
-        print('Showing context menu')
+        # print('Showing context menu')
         if posEqual(self.rightClickStart, QCursor.pos()):
             if len(self.selected) == 0:
                 self.backgroundContextMenu.exec_(QCursor.pos())
@@ -159,20 +133,14 @@ class MainWindow(QMainWindow):
     def mousePressEvent(self, event):
         print('Mouse press', event.button(), event.pos())
         if event.button() == QtCore.Qt.RightButton:
-            print('setting rightClickStart')
+            # print('setting rightClickStart')
             self.rightClickStart = event.pos()
 
     def mouseReleaseEvent(self, event):
         print('Mouse release', event.button(), event.pos())
         if event.button() == QtCore.Qt.RightButton and posEqual(event.pos(), self.rightClickStart):
-            print('Showing context menu')
+            # print('Showing context menu')
             self.contextMenu.exec_(QCursor.pos())
-
-        
-    
-    # def contextMenuEvent(self, event):
-    #     print('Showing context menu')
-    #     self.contextMenu.exec_(QCursor.pos())
 
     def addChild(self):
         selected = self.selected
@@ -187,12 +155,13 @@ class MainWindow(QMainWindow):
                 self.children[selected[0]] = [vid]
             else:
                 self.children[selected[0]].append(vid)
-            print('added an edge', selected[0],'-->',vid)
+            # print('added an edge', selected[0],'-->',vid)
 
-            self.colorArray.InsertValue(vid, self.vertexHeight[vid])
-            self.colors.updateLookupTable(self.colorTable, self.treeHeight)
+            self.colorArray.InsertValue(vid, 1)
+            self.colors.updateLookupTable(self.colorTable)
 
             self.tree.CheckedShallowCopy(self.graph)
+            self.view.ResetCamera()
 
     def removeNode(self):
         selected = self.selected
@@ -202,17 +171,33 @@ class MainWindow(QMainWindow):
             self.vertexHeight.pop(selected[0])
 
     def clearColor(self):
+        self.colors.updateLookupTable(self.colorTable)
         for vid in self.vertexHeight:
-            self.colors.updateVertexColor(self.colorArray, vid, self.vertexHeight[vid])
+            self.colors.updateVertexColor(self.colorArray, vid, self.colors.colorIndex('green'))
         self.tree.CheckedShallowCopy(self.graph)
+        # self.view.GetInteractor().Render()
+        # print('size of colorArray:', self.colorArray.GetNumberOfTuples(), self.colorArray)
+        
 
     def highlightChildren(self):
         childrenIds = self.children[self.selected[0]]
-        cid = self.colors.colorIndex('green')
-        # for vid in childrenIds:
-        #     self.colorArray.SetValue(vid, cid)
-        self.colors.updateVerticesColor(self.colorArray,childrenIds, self.vertexHeight, cid)
+        cid = self.colors.colorIndex('blue')
+        for vid in childrenIds:
+            self.colorArray.InsertValue(vid, cid)
+        # self.colors.updateVerticesColor(self.colorArray,childrenIds, self.vertexHeight, cid)
         self.tree.CheckedShallowCopy(self.graph)
+
+    def printColorData(self):
+        print('ColorArray:', self.colorArray.GetNumberOfTuples())
+        for i in range(self.colorArray.GetNumberOfTuples()):
+            print('(',i,',', self.colorArray.GetValue(i) ,')', end=';')
+        print('\nColorTable:', self.colorTable.GetNumberOfTableValues())
+        for j in range(self.colorTable.GetNumberOfTableValues()):
+            print('(', j, self.colorTable.GetTableValue(j), ')', end=';')
+        print('\ntreeHeight:\n', self.treeHeight)
+        # for vid in self.treeHeight:
+
+
 
     def createContextMenu(self):
         # addAction = QAction("Add Node", self)
@@ -221,22 +206,22 @@ class MainWindow(QMainWindow):
         closeAction = QAction('Close', self)
         clearColorAction = QAction('Clear Color', self)
         highlightChildrenAction = QAction('Highlight Children', self)
-        self.backgroundContextMenu.addAction(closeAction)
+        printColorDataAction = QAction('Print Color Data', self)
+        # self.backgroundContextMenu.addAction(closeAction)
         self.backgroundContextMenu.addAction(clearColorAction)
+        self.backgroundContextMenu.addAction(printColorDataAction)
         self.foregroundContextMenu.addAction(addAction)
         self.foregroundContextMenu.addAction(removeAction)
         self.foregroundContextMenu.addAction(highlightChildrenAction)
+        self.foregroundContextMenu.addAction(printColorDataAction)
+        
         # self.contextMenu.addAction(actionAddChild)
         addAction.triggered.connect(lambda x: self.addChild())
         removeAction.triggered.connect(lambda x: self.removeNode())
-        closeAction.triggered.connect(lambda x: self.close())
+        # closeAction.triggered.connect(lambda x: self.close())
         clearColorAction.triggered.connect(lambda x: self.clearColor())
         highlightChildrenAction.triggered.connect(lambda x: self.highlightChildren())
-    # def showContexMenu(self, pos):
-    #     print('Showing context menu')
-    #     pass
-
-
+        printColorDataAction.triggered.connect(lambda x: self.printColorData())
 
 class RGB:
     def __init__(self, r, g, b):
@@ -252,8 +237,8 @@ def slicingColor(c1, c2, total, index):
     
 class Coloring:
     def __init__(self):
-        # self.reservedColor = [('red', RGB(1.0, 0.0, 0.0)), ('green', RGB(0.0, 1.0, 0.0)), ('blue', RGB(0.0, 0.0, 1.0))]
-        self.reservedColor = []
+        self.reservedColor = [('red', RGB(1.0, 1.0, 0.2)),('green', RGB(1.0, 0.0, 0.0)), ('blue', RGB(0.0, 0.0, 1.0))]
+        # self.reservedColor = []
 
     def colorIndex(self, cname):
         for i in range(len(self.reservedColor)):
@@ -272,23 +257,20 @@ class GradualColoring(Coloring):
 
     def updateLookupTable(self, lookupTable, grades):
         nr = len(self.reservedColor)
-        lookupTable.SetNumberOfTableValues(nr+grades)
+        lookupTable.SetNumberOfTableValues(nr)
         for i in range(nr):
             (nc,c) = self.reservedColor[i]
             lookupTable.SetTableValue(i,c.r,c.g,c.b) 
-        for j in range(grades):
-            c = slicingColor(self.startingRgb, self.endingRgb, grades, j)
-            lookupTable.SetTableValue(j+nr, c.r, c.g, c.b)
-        lookupTable.Build()
+        # for j in range(grades):
+        #     c = slicingColor(self.startingRgb, self.endingRgb, grades, j)
+        #     lookupTable.SetTableValue(j+nr, c.r, c.g, c.b,1)
+        # lookupTable.Build()
 
     def updateVertexColor(self, colorArray, vid, nodeHeight):
         nr = len(self.reservedColor)
-        # nstate = node.getProperty('state')
-        # if nstate == 'Proved':
-        colorArray.SetValue(vid, nr+nodeHeight)
-        # else:
-        #     print('Don\'t know to color node with state', nstate)
-
+        # colorArray.SetValue(vid, nr+nodeHeight)
+        colorArray.InsertValue(vid, self.colorIndex('green'))
+        
     def updateVerticesColor(self, colorArray, vids, vertexHeight, cid):
         for vid in vids:
             colorArray.SetValue(vid, cid)
@@ -304,9 +286,9 @@ class FixedColoring(Coloring):
             (nc,c) = self.reservedColor[i]
             lookupTable.SetTableValue(i,c.r,c.g,c.b) 
 
-    def updateVertexColor(self, colorArray, vid, node):
+    def updateVertexColor(self, colorArray, vid, cid):
         # (nc, c) = self.reservedColor[0]
-        colorArray.SetValue(vid, 0)
+        colorArray.SetValue(vid, cid)
         
 
 if __name__ == "__main__":

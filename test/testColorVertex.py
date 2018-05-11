@@ -134,17 +134,6 @@ class PTVisualizer:
         print(v6)
         self.graph.AddEdge(v1, v6)
         self.tree.CheckedShallowCopy(self.graph)
-        # Create the TextActor
-        # text_representation = vtk.vtkTextRepresentation()
-        # text_representation.GetPositionCoordinate().SetValue(0.6, 0.0)
-        # text_representation.GetPosition2Coordinate().SetValue(0.4, 1.0)
-
-        # self.text_widget.CreateDefaultRepresentation()
-        # self.text_widget.SetRepresentation(text_representation)
-        # self.text_widget.SetInteractor(self.view.GetInteractor())
-        # self.text_widget.SetTextActor(self.text_actor)
-        # self.text_widget.SelectableOff()
-        # self.text_widget.On()
         def selection(obj, e):
             # print('selection triggered')
             sel = obj.GetCurrentSelection()

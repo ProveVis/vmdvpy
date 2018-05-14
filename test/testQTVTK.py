@@ -23,7 +23,7 @@ class MainWindow(QMainWindow):
         self.selected = []
         self.treeHeight = 0
 
-        self.colors = FixedColoring()
+        self.colors = GradualColoring(RGB(0,1,0), RGB(0,0,1))
 
         self.frame = QFrame()
 
@@ -49,17 +49,19 @@ class MainWindow(QMainWindow):
         self.view.SetInteractionModeTo3D()
         self.view.SetLayoutStrategyToCone()
 
+        # self.view.SetGlyphType(vtk.vtkGraphToGlyphs.SPHERE)
+
         self.colorArray = vtk.vtkIntArray()
         self.colorArray.SetNumberOfComponents(1)
         self.colorArray.SetName('color')
         self.colorTable = vtk.vtkLookupTable()
-        self.colorTable.SetNumberOfTableValues(2)
-        self.colorTable.SetTableValue(0,0,238/255,0,1)
-        self.colorTable.SetTableValue(1,0,238/255,0,1)
+        # self.colorTable.SetNumberOfTableValues(2)
+        # self.colorTable.SetTableValue(0,0,238/255,0,1)
+        # self.colorTable.SetTableValue(1,0,238/255,0,1)
         self.colorTable.Build()
         
-        self.colorArray.InsertValue(0, 0)
-        self.colorArray.InsertValue(1, 1)
+        # self.colorArray.InsertValue(0, 0)
+        # self.colorArray.InsertValue(1, 1)
         self.graph.GetVertexData().AddArray(self.colorArray)
         self.view.SetVertexColorArrayName('color')
         self.view.ColorVerticesOn()
@@ -73,8 +75,13 @@ class MainWindow(QMainWindow):
 
 
         vid = self.graph.AddVertex()
+        self.colorArray.InsertValue(vid, vid)
         self.vids.append(vid)
         self.vertexHeight[vid] = 0
+        self.treeHeight = 1
+        self.colors.setGrades(1)
+        self.colors.insertColorTuple(vid, 0)
+        self.colors.updateLookupTable(self.colorTable)
         self.tree.CheckedShallowCopy(self.graph)
         
 
@@ -146,10 +153,11 @@ class MainWindow(QMainWindow):
         selected = self.selected
         if len(selected) != 0:
             vid = self.graph.AddVertex()
+            self.colorArray.InsertValue(vid, vid)
             self.vids.append(vid)
             self.vertexHeight[vid] = self.vertexHeight[selected[0]]+1
-            if self.vertexHeight[vid] > self.treeHeight:
-                self.treeHeight = self.vertexHeight[vid]
+            if self.vertexHeight[vid]+1 > self.treeHeight:
+                self.treeHeight = self.vertexHeight[vid]+1
             self.graph.AddEdge(selected[0], vid)
             if selected[0] not in self.children:
                 self.children[selected[0]] = [vid]
@@ -157,8 +165,13 @@ class MainWindow(QMainWindow):
                 self.children[selected[0]].append(vid)
             # print('added an edge', selected[0],'-->',vid)
 
-            self.colorArray.InsertValue(vid, 1)
+            # self.colorArray.InsertValue(vid, 1)
+            self.colors.setGrades(self.treeHeight)
+            self.colors.insertColorTuple(vid, self.vertexHeight[vid])
             self.colors.updateLookupTable(self.colorTable)
+
+            # self.colors.updateLookupTable(self.colorTable, self.treeHeight+1)
+            # self.colors.updateVertexColor(self.colorArray, vid, self.vertexHeight[vid])
 
             self.tree.CheckedShallowCopy(self.graph)
             self.view.ResetCamera()
@@ -166,25 +179,31 @@ class MainWindow(QMainWindow):
     def removeNode(self):
         selected = self.selected
         if len(selected) != 0:
+            self.colorArray.RemoveTuple(selected[0])
             self.graph.RemoveVertex(selected[0])
             self.vids.remove(selected[0])
             self.vertexHeight.pop(selected[0])
+            self.tree.CheckedShallowCopy(self.graph)
 
     def clearColor(self):
+        self.colors.resetAllColorTuples()
         self.colors.updateLookupTable(self.colorTable)
-        for vid in self.vertexHeight:
-            self.colors.updateVertexColor(self.colorArray, vid, self.colors.colorIndex('green'))
         self.tree.CheckedShallowCopy(self.graph)
+        # for vid in self.vertexHeight:
+        #     self.colors.updateVertexColor(self.colorArray, vid, self.vertexHeight[vid])
+        # self.tree.CheckedShallowCopy(self.graph)
         # self.view.GetInteractor().Render()
         # print('size of colorArray:', self.colorArray.GetNumberOfTuples(), self.colorArray)
         
 
     def highlightChildren(self):
         childrenIds = self.children[self.selected[0]]
-        cid = self.colors.colorIndex('blue')
+        cid = self.colors.colorIndex('red')
         for vid in childrenIds:
-            self.colorArray.InsertValue(vid, cid)
+            self.colors.updateColorTuple(vid, 'red')
+            # self.colorArray.InsertValue(vid, cid)
         # self.colors.updateVerticesColor(self.colorArray,childrenIds, self.vertexHeight, cid)
+        self.colors.updateLookupTable(self.colorTable)
         self.tree.CheckedShallowCopy(self.graph)
 
     def printColorData(self):
@@ -193,8 +212,8 @@ class MainWindow(QMainWindow):
             print('(',i,',', self.colorArray.GetValue(i) ,')', end=';')
         print('\nColorTable:', self.colorTable.GetNumberOfTableValues())
         for j in range(self.colorTable.GetNumberOfTableValues()):
-            print('(', j, self.colorTable.GetTableValue(j), ')', end=';')
-        print('\ntreeHeight:\n', self.treeHeight)
+            print('(', j, self.colorTable.GetTableValue(j), ')', end=';\n')
+        print('\nvertexHeight:\n', self.vertexHeight)
         # for vid in self.treeHeight:
 
 
@@ -233,12 +252,25 @@ def slicingColor(c1, c2, total, index):
     r = c1.r + index/total*(c2.r-c1.r)
     g = c1.g + index/total*(c2.g-c1.g)
     b = c1.b + index/total*(c2.b-c1.b)
-    return RGB(r,g,b)
+    return RGB(round(r*100)/100,round(g*100)/100,round(b*100)/100)
     
 class Coloring:
     def __init__(self):
-        self.reservedColor = [('red', RGB(1.0, 1.0, 0.2)),('green', RGB(1.0, 0.0, 0.0)), ('blue', RGB(0.0, 0.0, 1.0))]
+        self.reservedColor = [('red', RGB(1.0, 0, 0)), ('green', RGB(0, 1.0, 0.0)), ('blue', RGB(0.0, 0.0, 1.0))]
+        # self.reservedColor = [('red', RGB(1,1,0))]
         # self.reservedColor = []
+        
+        # Each element in allColors has the form (int, int, RGB), 
+        # where the first int specifies specifies the vid, the second int specifies the index, 
+        # and RGB specifies the color
+        self.allColors = []
+
+    def getColorByName(self, cname):
+        for i in range(len(self.reservedColor)):
+            nc, c = self.reservedColor[i]
+            if nc == cname:
+                return c
+        return None
 
     def colorIndex(self, cname):
         for i in range(len(self.reservedColor)):
@@ -253,30 +285,130 @@ class GradualColoring(Coloring):
         Coloring.__init__(self)
         self.startingRgb = startingRgb
         self.endingRgb = endingRgb
-        # self.reservedRgb
+        self.grades = 0
 
-    def updateLookupTable(self, lookupTable, grades):
-        nr = len(self.reservedColor)
-        lookupTable.SetNumberOfTableValues(nr)
-        for i in range(nr):
-            (nc,c) = self.reservedColor[i]
-            lookupTable.SetTableValue(i,c.r,c.g,c.b) 
-        # for j in range(grades):
-        #     c = slicingColor(self.startingRgb, self.endingRgb, grades, j)
-        #     lookupTable.SetTableValue(j+nr, c.r, c.g, c.b,1)
-        # lookupTable.Build()
+    def setGrades(self, newGrades):
+        self.grades = newGrades
+    def incrGrades(self):
+        self.grades = self.grades + 1
+    def decrGrades(self):
+        self.grades = self.grades - 1
 
-    def updateVertexColor(self, colorArray, vid, nodeHeight):
-        nr = len(self.reservedColor)
-        # colorArray.SetValue(vid, nr+nodeHeight)
-        colorArray.InsertValue(vid, self.colorIndex('green'))
+    def calculateColorByIndex(self, total, index):
+        c1 = self.startingRgb
+        c2 = self.endingRgb
+        r = c1.r + index/total*(c2.r-c1.r)
+        g = c1.g + index/total*(c2.g-c1.g)
+        b = c1.b + index/total*(c2.b-c1.b)
+        return RGB(round(r*100)/100,round(g*100)/100,round(b*100)/100)
+
+    def updateColorTuple(self, updatedVid, cname):
+        c = self.getColorByName(cname)
+        if c == None:
+            print('Cannot find color', cname)
+        else:
+            updated = False
+            for i in range(len(self.allColors)):
+                tmpVid, tmpIndex, tmpC = self.allColors[i]
+                if tmpVid == updatedVid:
+                    self.allColors[i] = (tmpVid, tmpIndex, c)
+                    updated = True
+                    break
+            if not updated:
+                print('Cannot update color tuple with vid:', updatedVid)
+
+    def resetColorTuple(self, resetVid):
+        reset = False
+        for i in range(len(self.allColors)):
+            tmpVid, tmpIndex, tmpC = self.allColors[i]
+            if tmpVid == resetVid:
+                self.allColors[i] = (tmpVid, tmpIndex, self.calculateColorByIndex(self.grades, index))
+                reset = True
+                break
+        if not reset:
+            print('Cannot reset color tuple with vid:', resetVid)
+
+    def resetAllColorTuples(self):
+        for i in range(len(self.allColors)):
+            tmpVid, tmpIndex, tmpC = self.allColors[i]
+            self.allColors[i] = (tmpVid, tmpIndex, self.calculateColorByIndex(self.grades, tmpIndex))
+
+    def insertColorTuple(self, newVid, newIndex, gradesChanged=True):
+        inserted = False
+        if gradesChanged:
+            for i in range(len(self.allColors)):
+                vid, index, c = self.allColors[i]
+                self.allColors[i] = (vid, index, self.calculateColorByIndex(self.grades, index))
+                if vid == newVid:
+                    inserted = True
+                elif vid > newVid and not inserted:
+                    self.allColors.insert(i, (newVid, newIndex, self.calculateColorByIndex(self.grades, newIndex)))
+                    inserted = True
+        else:
+            for i in range(len(self.allColors)):
+                vid, index, c = self.allColors[i]
+                if vid == newVid:
+                    inserted = True
+                    break
+                elif vid > newVid and not inserted:
+                    self.allColors.insert(i, (newVid, newIndex, self.calculateColorByIndex(self.grades, newIndex)))
+                    inserted = True
+                    break
+        if not inserted:
+            self.allColors.append((newVid, newIndex, self.calculateColorByIndex(self.grades, newIndex)))
+            inserted = True
+
+    def removeColorTuple(self, removedVid, gradesChanged=True):
+        removed = False
+        if gradesChanged:
+            for i in range(len(self.allColors)):
+                vid, index, c = self.allColors[i]
+                self.allColors[i] = (vid, index, self.calculateColorByIndex(self.grades, index))
+                if vid == removedVid:
+                    self.allColors.pop(i)
+                    removed = True
+        else:
+            for i in range(len(self.allColors)):
+                vid, index, c = self.allColors[i]
+                if vid == removedVid:
+                    self.allColors.pop(i)
+                    removed = True
+                    break
+        if not removed:
+            print('Cannot remove color tuple with vid:', removedVid)
+            removed = True
+
+    def updateLookupTable(self, lookupTable):
+        nt = len(self.allColors)
+        lookupTable.SetNumberOfTableValues(nt)
+        i = 0
+        for ct in self.allColors:
+            c = ct[2]
+            lookupTable.SetTableValue(i, c.r, c.g, c.b)
+            i = i + 1
+
+    # def updateLookupTable(self, lookupTable, grades):
+    #     nr = len(self.reservedColor)
+    #     lookupTable.SetNumberOfTableValues(nr+grades)
+    #     for i in range(nr):
+    #         (nc,c) = self.reservedColor[i]
+    #         lookupTable.SetTableValue(i,c.r,c.g,c.b) 
+    #     for j in range(grades):
+    #         c = slicingColor(self.startingRgb, self.endingRgb, grades, j)
+    #         lookupTable.SetTableValue(j+nr, c.r, c.g, c.b,1)
+    #     # lookupTable.Build()
+
+    # def updateVertexColor(self, colorArray, vid, nodeHeight):
+    #     nr = len(self.reservedColor)
+    #     colorArray.InsertValue(vid, nr+nodeHeight)
+    #     # colorArray.InsertValue(vid, self.colorIndex('green'))
         
-    def updateVerticesColor(self, colorArray, vids, vertexHeight, cid):
-        for vid in vids:
-            colorArray.SetValue(vid, cid)
-        for vid in vertexHeight :
-            if vid not in vids:
-                colorArray.SetValue(vid, vertexHeight[vid])
+    # def updateVerticesColor(self, colorArray, vids, vertexHeight, cid):
+    #     for vid in vids:
+    #         colorArray.SetValue(vid, cid)
+    #     for vid in vertexHeight :
+    #         if vid not in vids:
+    #             colorArray.SetValue(vid, vertexHeight[vid])
 
 class FixedColoring(Coloring):
     def updateLookupTable(self, lookupTable):

@@ -56,8 +56,8 @@ class Viewer(QMainWindow):
         self.colorArray.SetNumberOfComponents(1)
         self.colorArray.SetName("color")
         self.lookupTable = vtk.vtkLookupTable()
-        self.lookupTable.SetNumberOfTableValues(4)
-        self.lookupTable.SetTableValue(0,1.0,0.0,0.0)    # red
+        # self.lookupTable.SetNumberOfTableValues(4)
+        # self.lookupTable.SetTableValue(0,1.0,0.0,0.0)    # red
         self.lookupTable.Build()
         self.colorArray.InsertValue(0,0)
         self.graphUnder.GetVertexData().AddArray(self.colorArray)
@@ -69,10 +69,10 @@ class Viewer(QMainWindow):
         self.view.SetColorVertices(True)
         self.view.SetEdgeSelection(False)
         theme = vtk.vtkViewTheme.CreateOceanTheme()
-        # theme.FastDelete()
+        theme.FastDelete()
         theme.SetLineWidth(1)
         theme.SetPointSize(10)
-        theme.SetCellLookupTable(self.lookupTable)
+        theme.SetPointLookupTable(self.lookupTable)
         self.view.ApplyViewTheme(theme)
 
         self.dummyVertex = self.graphUnder.AddVertex()
@@ -104,8 +104,10 @@ class Viewer(QMainWindow):
             for idx in range(selvs.GetNumberOfTuples()):
                 selected.append(selvs.GetValue(idx))
                 # print('node', selvs.GetValue(idx))
-            self.selectedNids = list(map(lambda x: self.vertex2Nid[x],selected))
-            # print('selected vids:', selected)
+            self.selectedNids = [self.vertex2Nid[x] for x in selected]
+            # list(map(lambda x: self.vertex2Nid[x],selected))
+            print('selected vids:', selected)
+            print('selected Nodes:', self.selectedNids)
             # print('selected nids:', self.selectedNids)
 
 
@@ -116,6 +118,7 @@ class Viewer(QMainWindow):
 
     def updateRendering(self):
         self.graph.CheckedShallowCopy(self.graphUnder)
+        self.view.ResetCamera()
 
     def selfRightMousePress(self, obj, event):
         self.rightClickedPos = QCursor.pos()

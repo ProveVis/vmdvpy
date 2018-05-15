@@ -33,3 +33,8 @@ class ClearColorTrigger(Trigger):
     def action(self):
         return [affectImpl.ClearColorAffect()]
 
+class PrintColorDataTrigger(Trigger):
+    def __init__(self, sesion):
+        Trigger.__init__(self, sesion, 'Print Color Data')
+    def action(self):
+        return [affectImpl.PrintColorDataAffect()]

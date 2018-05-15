@@ -81,9 +81,13 @@ class HighlightChildrenAffect(affect.Affect):
             childrenIds = []
             for nid in self.nids:
                 childrenIds = childrenIds + s.tree.getChildren(nid)
-            vids = map(lambda x: s.viewer.nid2Vertex[x], childrenIds)
-            for vid in vids:
-                s.viewer.setVertexColorByName(vid, 'red')
+            # vids = map(lambda x: s.viewer.nid2Vertex[x], childrenIds)
+            
+            vids = [s.viewer.nid2Vertex[x] for x in childrenIds]
+            print('children of', self.nids, ':', childrenIds, ", vids:", vids)
+            # for vid in vids:
+            #     s.viewer.setVertexColorByName(vid, 'red')
+            s.colors.updateColorsOfVertices(s.viewer.lookupTable, vids, 'red')
             s.viewer.updateRendering()
             
 
@@ -98,8 +102,9 @@ class HighlightAncestorsAffect(affect.Affect):
             for nid in self.nids:
                 ancestorsIds = ancestorsIds + s.tree.getAncestors(nid)
             vids = map(lambda x: s.viewer.nid2Vertex[x], ancestorsIds)
-            for vid in vids:
-                s.viewer.setVertexColorByName(vid, 'blue')     
+            # for vid in vids:
+            #     s.viewer.setVertexColorByName(vid, 'red')     
+            s.colors.updateColorsOfVertices(s.viewer.lookupTable, vids, 'red')
             s.viewer.updateRendering()
 
 
@@ -107,3 +112,13 @@ class ClearColorAffect(affect.Affect):
     def affect(self, s):
         s.v.putMsg(messenger.ClearColorMessage(s.sid))
         s.resetGraphColor()
+
+class PrintColorDataAffect(affect.Affect):
+    def affect(self, s):
+        print('ColorArray:', s.viewer.colorArray.GetNumberOfTuples())
+        for i in range(s.viewer.colorArray.GetNumberOfTuples()):
+            print('(',i,',', s.viewer.colorArray.GetValue(i) ,')', end=';')
+        print('\nColorTable:', s.viewer.lookupTable.GetNumberOfTableValues())
+        for j in range(s.viewer.lookupTable.GetNumberOfTableValues()):
+            print('(', j, s.viewer.lookupTable.GetTableValue(j), ')', end=';\n')
+        # print('\nvertexHeight:\n', self.vertexHeight)

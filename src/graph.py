@@ -63,18 +63,20 @@ class Tree:
                     self.getNode(nid).setHeight(parentHeight + 1)
                     if parentHeight+1>maxNodeHeight:
                         maxNodeHeight = parentHeight + 1
-            self.height = maxNodeHeight
+            self.height = maxNodeHeight + 1
             print('Now tree has height', self.height)
                     
     def addNode(self, nid, node):
+        addingRoot = False
         if len(self.nodes) == 0:
             # self.setRoot(nid)
             self.root = nid
+            addingRoot = True
         if nid not in self.nodes:
             self.nodes[nid] = node
-        else:
-            # print('Cannot add tree node', nid, 'twice')
-            pass
+        if addingRoot:
+            node.setHeight(0)
+            self.height = 1
         # self.updateHeight()
     
     def setRoot(self, nid):
@@ -97,8 +99,8 @@ class Tree:
                 fromNode = self.getNode(fromId)
                 toNode.setHeight(fromNode.height+1)
                 # update height of the tree
-                if toNode.height > self.height:
-                    self.height = toNode.height
+                if toNode.height + 1 > self.height:
+                    self.height = toNode.height + 1
                 # self.getNode(toId).setHeight(self.getNode(fromId).height+1)
             self.parent[toId] = fromId
 

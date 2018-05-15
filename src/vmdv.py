@@ -37,12 +37,6 @@ class VMDV:
         # print('fetching affect object')
         self.affectSem.acquire()
         return self.affectQueue.popleft()
-        # print('fetched affect object')
-        # global affectQueue
-        # if len(self.affectQueue) != 0:
-        #     return self.affectQueue.popleft()
-        # else:
-        #     return None
 
     def putMsg(self, m):
         self.msgQueue.append(m)
@@ -56,15 +50,14 @@ class VMDV:
         return self.sessions[sid]
 
     def initSession(self, sid, descr, attris, graphType):
-        # global sessions
-    # public static final RGBColor fromColor = new RGBColor(44.0f/255,82.0f/255,68.0f/255);
-	# public static final RGBColor toColor = new RGBColor(0,1,0);
         print('showing viewer in thread:', threading.current_thread())
         if graphType == 'Tree':
             s = session.TreeSession(self, sid, descr, attris, utils.GradualColoring(utils.RGB(0,0,1), utils.RGB(0,1,0)))
             s.viewer.addBackgroundMenuItem(trigger.ClearColorTrigger(s))
             s.viewer.addForegroundMenuItem(trigger.HighlightChildrenTrigger(s))
             s.viewer.addForegroundMenuItem(trigger.HighlightAncestorsTrigger(s))
+            s.viewer.addForegroundMenuItem(trigger.PrintColorDataTrigger(s))
+            s.viewer.addBackgroundMenuItem(trigger.PrintColorDataTrigger(s))
             s.viewer.affectSignal.connect(self.handleAffect)
             self.sessions[sid] = s
             s.showViewer()
@@ -77,8 +70,6 @@ class VMDV:
             s.showViewer()
             print('Showed a DiGraph', sid)
         
-        # self.affectThread.start()    
-
     def handleAffect(self, sid, a):
         # print('handling affect')
         if sid == '':
@@ -89,7 +80,6 @@ class VMDV:
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
-    
     v = VMDV()
     affectThread = messenger.AffectParser(v)
     affectThread.affectSignal.connect(v.handleAffect)
@@ -97,7 +87,6 @@ if __name__ == '__main__':
     jsonThread = messenger.Receiver(v)
     jsonThread.initSessionSignal.connect(v.initSession)
     jsonThread.affectSignal.connect(v.handleAffect)
-    # affectThread.affectSignal.connect(v.handleAffect)
     jsonThread.start()
 
     sys.exit(app.exec_())

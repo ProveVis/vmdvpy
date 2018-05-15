@@ -55,17 +55,19 @@ class TreeSession(Session):
         self.tree.addEdge(fromId, toId)
         self.viewer.addViewerEdge(fromId, toId, label)
         heightAfter = self.tree.height
-        if heightAfter > heightBefore:
-            self.colors.updateLookupTable(self.viewer.lookupTable, heightAfter)
+        # if heightAfter > heightBefore:
+        #     self.colors.updateLookupTable(self.viewer.lookupTable, heightAfter)
         node = self.tree.getNode(toId)
         vtoId = self.viewer.nid2Vertex[toId]
         # print('tree height:', self.tree.height, 'and node height:', node.height)
-        self.colors.updateVertexColor(self.viewer.colorArray, vtoId, node)
+        # self.colors.updateVertexColor(self.viewer.colorArray, vtoId, node)
+        self.colors.insertColorOfVertex(self.viewer.lookupTable, vtoId, node.height, heightAfter)
         self.viewer.updateRendering()
 
     def resetGraphColor(self):
-        for nid in self.tree.nodes:
-            self.colors.updateVertexColor(self.viewer.colorArray, self.viewer.nid2Vertex[nid], self.tree.nodes[nid])
+        self.colors.resetColorsOfAllVertices(self.viewer.lookupTable)
+        # for nid in self.tree.nodes:
+        #     self.colors.updateVertexColor(self.viewer.colorArray, self.viewer.nid2Vertex[nid], self.tree.nodes[nid])
         self.viewer.updateRendering()
 
 class DiGraphSession(Session):
@@ -96,8 +98,8 @@ class DiGraphSession(Session):
         self.viewer.addViewerEdge(fromId, toId, label)
         node = self.digraph.getNode(toId)
         vtoId = self.viewer.nid2Vertex[toId]
-        self.colors.updateVertexColor(self.viewer.colorArray, vtoId, node)
-        self.viewer.updateRendering()
+        # self.colors.updateVertexColor(self.viewer.colorArray, vtoId, node)
+        # self.viewer.updateRendering()
     
     def resetGraphColor(self):
         for nid in self.digraph.nodes:

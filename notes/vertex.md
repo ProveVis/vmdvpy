@@ -1,0 +1,3 @@
+# Vertices visualization issues
+
+For trees, vertices are only shown when they are related by edges. Each vertex is given an integer ID when created using `AddVertex()`. However, the ID of each vertex is not fixed, it can be dynamically changed as other vertices being removed from the tree. To be more precise, an ID is the order of its corresponding vertex, and at any time, when there are `n` vertices, the IDs of these vertices are exactly `0,1,...,n-1`, respectively.

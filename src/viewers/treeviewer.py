@@ -15,13 +15,20 @@ class TreeViewer(viewer.Viewer):
         viewer.Viewer.initViewerWindow(self, vtk.vtkTree(), 'Cone')
 
     def addViewerNode(self, nid):
-        # if not self.vtkComponentInitialed:
-        #     self.initViewerWindow(nid, vtk.vtkTree(), 'Cone')
-        viewer.Viewer.addViewerNode(self, nid)
-
-    # def addViewerEdge(self, fromId, toId, label):
-    #     viewer.Viewer.addViewerEdge(self, fromId, toId)
-    #     self.edgeLabel[(fromId, toId)] = label
-
+        if self.dummyVertexExists:
+            # self.graphUnder.RemoveVertex(self.dummyVertex)
+            self.nid2Vertex[nid] = self.dummyVertex
+            self.vertex2Nid[self.dummyVertex] = nid
+            self.dummyVertexExists = False
+            self.colorArray.InsertValue(self.dummyVertex, self.dummyVertex)
+            self.sesion.colors.insertColorOfVertex(self.lookupTable, self.dummyVertex, 0, 1)
+        if nid not in self.nid2Vertex:
+            vertex = self.graphUnder.AddVertex()
+            self.nid2Vertex[nid] = vertex
+            self.vertex2Nid[vertex] = nid
+            self.colorArray.InsertValue(vertex, vertex)
+        else:
+            # print('Viewer:',nid, 'has already been added')
+            pass
 
 

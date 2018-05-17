@@ -23,7 +23,6 @@ class Coloring:
 
     def colorIndex(self, cname):
         for i in range(len(self.reservedColor)):
-            # print('color', i,':', self.reservedColor[i][0])
             nc = self.reservedColor[i]
             if nc[0] == cname:
                 return i
@@ -175,7 +174,6 @@ class FixedColoring(Coloring):
 
     def colorIndex(self, cname):
         for i in range(len(self.allColors)):
-            # print('color', i,':', self.reservedColor[i][0])
             nc = self.allColors[i]
             if nc[0] == cname:
                 return i

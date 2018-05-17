@@ -1,37 +1,36 @@
 from affects import affect
 import sys
 sys.path.append('..')
-import session
+from viewers import treeviewer, digraphviewer
 import vmdv
 import graph
 from viewers import utils
 from services import messenger
 from operations import trigger
 
-class InitSessionAffect(affect.Affect):
-    def __init__(self, v, sid, descr, attris, graphType):
-        self.v = v
-        self.sid = sid
-        self.descr = descr
-        self.attris = attris
-        self.graphType = graphType
+# class InitSessionAffect(affect.Affect):
+#     def __init__(self, v, sid, descr, attris, graphType):
+#         self.v = v
+#         self.sid = sid
+#         self.descr = descr
+#         self.attris = attris
+#         self.graphType = graphType
 
-    def affect(self, s = None):
-        if self.graphType == 'Tree':
-            s = session.TreeSession(self, self.sid, self.descr, self.attris, utils.GradualColoring(utils.RGB(44/255,82/255,68/255), utils.RGB(0,1,0)))
-            s.viewer.addBackgroundMenuItem(trigger.ClearColorTrigger(s))
-            s.viewer.addForegroundMenuItem(trigger.HighlightChildrenTrigger(s))
-            s.viewer.addForegroundMenuItem(trigger.HighlightAncestorsTrigger(s))
-            self.v.sessions[self.sid] = s
-            s.showViewer()
-            print('Showed a Tree:', self.sid)
-        else:
-            s = session.DiGraphSession(self, self.sid, self.descr, self.attris, utils.FixedColoring())
-            s.viewer.addBackgroundMenuItem(trigger.ClearColorTrigger(s))
-            self.v.sessions[self.sid] = s
-            s.showViewer()
-            print('Showed a DiGraph', self.sid)
-        # self.v.affectThread.start()
+#     def affect(self, s = None):
+#         if self.graphType == 'Tree':
+#             s = session.TreeSession(self, self.sid, self.descr, self.attris, utils.GradualColoring(utils.RGB(44/255,82/255,68/255), utils.RGB(0,1,0)))
+#             s.viewer.addBackgroundMenuItem(trigger.ClearColorTrigger(s))
+#             s.viewer.addForegroundMenuItem(trigger.HighlightChildrenTrigger(s))
+#             s.viewer.addForegroundMenuItem(trigger.HighlightAncestorsTrigger(s))
+#             self.v.sessions[self.sid] = s
+#             s.showViewer()
+#             print('Showed a Tree:', self.sid)
+#         else:
+#             s = session.DiGraphSession(self, self.sid, self.descr, self.attris, utils.FixedColoring())
+#             s.viewer.addBackgroundMenuItem(trigger.ClearColorTrigger(s))
+#             self.v.sessions[self.sid] = s
+#             s.showViewer()
+#             print('Showed a DiGraph', self.sid)
 
 class AddNodeAffect(affect.Affect):
     def __init__(self, nid, label, state):
@@ -40,85 +39,64 @@ class AddNodeAffect(affect.Affect):
         self.label = label
         self.state = state
 
-    def affect(self,s):
+    def affect(self,viewer):
         # session = v.findSession(self.sid)
         node = graph.Node()
         node.setProperty('id', self.nid)
         node.setProperty('label', self.label)
         node.setProperty('state', self.state)
-        s.addNode(node)
+        viewer.addNode(node)
         print('Adding node', self.nid)
         # pass
         
 class AddEdgeAffect(affect.Affect):
     def __init__(self, fromId, toId, label=''):
-        # self.sid = sid
         self.fromId = fromId
         self.toId = toId
         self.label = label
 
-    def affect(self,s):
-        # s = v.findSession(self.sid)
-        if s.__class__.__name__ == session.TreeSession.__name__:
-            s.addEdge(self.fromId, self.toId, self.label)
-            # print('Adding tree edge', self.fromId, '-->', self.toId)
-        elif s.__class__.__name__ == session.DiGraphSession.__name__:
-            s.addEdge(self.fromId, self.toId, self.label)
-            # print('Adding digraph edge', self.fromId, '-->', self.toId)
-        else:
-            print("Unknown session type in AddEdgeAffect:", s.__class__.__name__)
+    def affect(self, viewer):
+        viewer.addEdge(self.fromId, self.toId, self.label)
 
 class HighlightChildrenAffect(affect.Affect):
-    def __init__(self, nids):
-        # pass
-        # self.sesion = sesion
-        self.nids = nids
+    def __init__(self, vids):
+        self.vids = vids
 
-    def affect(self,s):
-        if s.__class__.__name__ == session.DiGraphSession.__name__:
+    def affect(self, viewer):
+        if viewer.__class__.__name__ == session.DiGraphSession.__name__:
             print('Cannot highlight children nodes for DiGraphs')
-        elif s.__class__.__name__ == session.TreeSession.__name__:
-            childrenIds = []
-            for nid in self.nids:
-                childrenIds = childrenIds + s.tree.getChildren(nid)
-            # vids = map(lambda x: s.viewer.nid2Vertex[x], childrenIds)
-            
-            vids = [s.viewer.nid2Vertex[x] for x in childrenIds]
-            print('children of', self.nids, ':', childrenIds, ", vids:", vids)
-            # for vid in vids:
-            #     s.viewer.setVertexColorByName(vid, 'red')
-            s.colors.updateColorsOfVertices(s.viewer.lookupTable, vids, 'red')
-            s.viewer.updateRendering()
+        elif viewer.__class__.__name__ == treeviewer.TreeViewer.__name__:
+            childrenVids = []
+            for vid in self.vids:
+                childrenVids = childrenVids + viewer.children[vid]
+            viewer.colors.updateColorsOfVertices(viewer.lookupTable, childrenVids, 'red')
+            viewer.updateRendering()
             
 
 class HighlightAncestorsAffect(affect.Affect):
-    def __init__(self, nids):
-        self.nids = nids
-    def affect(self,s):
-        if s.__class__.__name__ == session.DiGraphSession.__name__:
+    def __init__(self, vids):
+        self.vids = vids
+    def affect(self, viewer):
+        if viewer.__class__.__name__ == digraphviewer.DiGraphViewer.__name__:
             print('Cannot highlight children nodes for DiGraphs')
-        elif s.__class__.__name__ == session.TreeSession.__name__:
-            ancestorsIds = []
-            for nid in self.nids:
-                ancestorsIds = ancestorsIds + s.tree.getAncestors(nid)
-            vids = map(lambda x: s.viewer.nid2Vertex[x], ancestorsIds)
-            # for vid in vids:
-            #     s.viewer.setVertexColorByName(vid, 'red')     
-            s.colors.updateColorsOfVertices(s.viewer.lookupTable, vids, 'red')
-            s.viewer.updateRendering()
+        elif viewer.__class__.__name__ == treeviewer.TreeViewer.__name__:
+            ancestorsVids = []
+            for vid in self.vids:
+                ancestorsVids = ancestorsVids.append(viewer.parent[vid])
+            viewer.colors.updateColorsOfVertices(viewer.lookupTable, ancestorsVids, 'red')
+            viewer.updateRendering()
 
 
 class ClearColorAffect(affect.Affect):
-    def affect(self, s):
-        s.v.putMsg(messenger.ClearColorMessage(s.sid))
-        s.resetGraphColor()
+    def affect(self, viewer):
+        viewer.putMsg(messenger.ClearColorMessage(viewer.sid))
+        viewer.resetGraphColor()
 
 class PrintColorDataAffect(affect.Affect):
-    def affect(self, s):
-        print('ColorArray:', s.viewer.colorArray.GetNumberOfTuples())
-        for i in range(s.viewer.colorArray.GetNumberOfTuples()):
-            print('(',i,',', s.viewer.colorArray.GetValue(i) ,')', end=';')
-        print('\nColorTable:', s.viewer.lookupTable.GetNumberOfTableValues())
-        for j in range(s.viewer.lookupTable.GetNumberOfTableValues()):
-            print('(', j, s.viewer.lookupTable.GetTableValue(j), ')', end=';\n')
-        # print('\nvertexHeight:\n', self.vertexHeight)
+    def affect(self, viewer):
+        print('ColorArray:', viewer.colorArray.GetNumberOfTuples())
+        for i in range(viewer.colorArray.GetNumberOfTuples()):
+            print('(',i,',', viewer.colorArray.GetValue(i) ,')', end=';')
+        print('\nColorTable:', viewer.lookupTable.GetNumberOfTableValues())
+        for j in range(viewer.lookupTable.GetNumberOfTableValues()):
+            print('(', j, viewer.lookupTable.GetTableValue(j), ')', end=';\n')

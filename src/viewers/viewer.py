@@ -5,42 +5,50 @@ from PyQt5.QtGui import QCursor
 from PyQt5 import QtCore
 from vtk.qt.QVTKRenderWindowInteractor import QVTKRenderWindowInteractor
 from affects import affect
+import abc
 
+class Node:
+    def __init__(self):
+        self.props = {}
+    def setProperty(self, key, value):
+        self.props[key] = value
+    def getProperty(self, key):
+        return self.props[key]
 
 def posEqual(pos1, pos2):
     return pos1.x() == pos2.x() and pos1.y() ==  pos2.y()
 
 class Viewer(QMainWindow):
-
     affectSignal = QtCore.pyqtSignal(str, affect.Affect)
-
-    def __init__(self, sesion, parent=None):
+    def __init__(self, vmdv, sid, descr, attributes, colors, parent=None):
+        # Initial the UI components
         QMainWindow.__init__(self, parent)
-        self.nid2Vertex = {}
-        self.vertex2Nid = {}
-        self.selectedNids = []
-        # self.colors = colors
-        self.sesion = sesion
         self.frame = QFrame()
-
         self.vl = QVBoxLayout()
         self.vtkWidget = QVTKRenderWindowInteractor(self.frame)
         self.vl.addWidget(self.vtkWidget)
-        
         self.ren = vtk.vtkRenderer()
         self.vtkWidget.GetRenderWindow().AddRenderer(self.ren)
-        
         self.frame.setLayout(self.vl)
         self.setCentralWidget(self.frame)
-
         self.foregroundMenu = QMenu()
         self.backgroundMenu = QMenu()
         self.setContextMenuPolicy(QtCore.Qt.CustomContextMenu)
-        
         self.rightClickedPos = None
 
+        # Data structures that record graphs
+        self.vertexNumber = 0
+        self.vertices = {}
+        self.selectedVids = []
+        self.nid2Vid = {}
         self.edgeLabel = {}
 
+        # Other data structures 
+        self.vmdv = vmdv
+        self.sid = sid
+        self.descr = descr
+        self.attributes = attributes
+        self.colors = colors
 
     def initViewerWindow(self, graph, layoutStrategy):
         self.view = vtk.vtkGraphLayoutView()
@@ -147,35 +155,20 @@ class Viewer(QMainWindow):
         act.triggered.connect(lambda x: self.performAction(trgr))
         self.backgroundMenu.addAction(act)
 
-    def addViewerNode(self, nid):
-        if self.dummyVertexExists:
-            # self.graphUnder.RemoveVertex(self.dummyVertex)
-            self.nid2Vertex[nid] = self.dummyVertex
-            self.vertex2Nid[self.dummyVertex] = nid
-            self.dummyVertexExists = False
-            self.colorArray.InsertNextValue(0)
-        if nid not in self.nid2Vertex:
-            vertex = self.graphUnder.AddVertex()
-            self.nid2Vertex[nid] = vertex
-            self.vertex2Nid[vertex] = nid
-            self.colorArray.InsertNextValue(0)
-        else:
-            # print('Viewer:',nid, 'has already been added')
-            pass
+    def handleAffect(self, a):
+        a.affect(self)
 
-    def addViewerEdge(self, fromId, toId, label):
-        if fromId in self.nid2Vertex and toId in self.nid2Vertex and (fromId, toId) not in self.edgeLabel:
-            self.graphUnder.AddEdge(self.nid2Vertex[fromId], self.nid2Vertex[toId])
-            self.graph.CheckedShallowCopy(self.graphUnder)
-            self.view.ResetCamera()
-            self.view.Render()
-            self.edgeLabel[(fromId, toId)] = label
-        elif fromId not in self.nid2Vertex:
-            print('Node (from)', fromId, 'is not added')
-        elif toId not in self.nid2Vertex:
-            print('Node (to)', toId, 'is not added')
+    @abc.abstractmethod
+    def addNode(self, nid):
+        pass
+    @abc.abstractmethod
+    def addEdge(self, fromId, toId, label):
+        pass
 
+    def resetGraphColor(self):
+        self.colors.resetColorsOfAllVertices(self.viewer.lookupTable)
+        self.viewer.updateRendering()
     def setVertexColorByName(self, vid, cname):
-        cidx = self.sesion.colors.colorIndex(cname)
+        cidx = self.colors.colorIndex(cname)
         self.colorArray.SetValue(vid,cidx)
         self.graph.CheckedShallowCopy(self.graphUnder)

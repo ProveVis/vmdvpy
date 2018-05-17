@@ -64,8 +64,8 @@ class Receiver(QThread):
                         self.v.sessions.pop(data['session_id'])
                     elif t == 'add_node':
                         a = affectImpl.AddNodeAffect(data['node']['id'], data['node']['label'], data['node']['state'])
-                        self.v.putAffect(data['session_id'], a)
-                        # self.affectSignal.emit(data['session_id'], a)
+                        # self.v.putAffect(data['session_id'], a)
+                        self.affectSignal.emit(data['session_id'], a)
                     elif t == 'add_edge':
                         a = None
                         if 'label' in data:
@@ -73,8 +73,8 @@ class Receiver(QThread):
                         else:
                             a = affectImpl.AddEdgeAffect(
                                 data['session_id'], data['from_id'], data['to_id'])
-                        self.v.putAffect(data['session_id'], a)
-                        # self.affectSignal.emit(data['session_id'], a)
+                        # self.v.putAffect(data['session_id'], a)
+                        self.affectSignal.emit(data['session_id'], a)
                     elif t == 'feedback':
                         if data['status'] == 'OK':
                             print('Session received feedback from the prover:',
@@ -86,24 +86,19 @@ class Receiver(QThread):
                     # print('json loads error:', recvdStr)
                     pass
 
-class AffectParser(QThread):
-    def __init__(self, v, parent = None):
-        super(AffectParser, self).__init__(parent)
-        self.v = v
+# class AffectParser(QThread):
+#     def __init__(self, v, parent = None):
+#         super(AffectParser, self).__init__(parent)
+#         self.v = v
 
-    affectSignal = QtCore.pyqtSignal(str, affect.Affect)
+#     affectSignal = QtCore.pyqtSignal(str, affect.Affect)
 
-    def run(self):
-        print('Affect parser thread start...')
-        while True:
-            (sid, a) = self.v.fetchAffect()
-            # print('fetched an effect for', sid)
-            self.affectSignal.emit(sid, a)
-            # self.v.handleAffect(sid, a)
-            # if sid != '':
-            #     self.v.handleAffect(sid, a)
-            # else:
-            #     print('Affect cannot be sent to a session')
+#     def run(self):
+#         print('Affect parser thread start...')
+#         while True:
+#             (sid, a) = self.v.fetchAffect()
+#             self.affectSignal.emit(sid, a)
+
 
 
 class Message:

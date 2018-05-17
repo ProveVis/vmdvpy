@@ -1,11 +1,11 @@
-from PyQt5.QtCore import QThread
+from PyQt5.QtCore import QThread, QObject
 from PyQt5.QtWidgets import QApplication
 from PyQt5 import QtCore
 import threading
 import sys
 
 
-class TestQThread(QThread):
+class TestQThread(QObject):
     def __init__(self, parent=None):
         super(TestQThread,self).__init__(parent)
 
@@ -27,5 +27,5 @@ if __name__ == '__main__':
     qa = QApplication(sys.argv)
     t = TestQThread()
     t.testSignal.connect(t.test)
-    t.start()
-    sys.exit(qa.exec_())
+    t.run()
+    sys.exit(1)

@@ -9,9 +9,19 @@ import json
 import socket
 import logging
 
-def matchJSONStr(toBeMatched)
-    if toBeMatched.startswith('{\"type\":')
-
+def matchJSONStr(toBeMatched):
+    result = ('', toBeMatched)
+    if toBeMatched.startswith('{\"type\":'):
+        flag = 0
+        length = len(toBeMatched)
+        for i in range(length):
+            if toBeMatched[i] == '{':
+                flag += 1
+            elif toBeMatched[i] == '}':
+                flag -= 1
+            elif toBeMatched[i] == '\n' and flag == 0:
+                result = (toBeMatched[0:i], toBeMatched[i+1:length])
+    return result
 
 class Receiver(QThread):
     def __init__(self, v, parent=None):

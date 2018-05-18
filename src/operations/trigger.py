@@ -17,13 +17,13 @@ class HighlightChildrenTrigger(Trigger):
         Trigger.__init__(self, viewer, 'Highlight Children')
     # will return a list of affect objects
     def action(self):
-        return [affectImpl.HighlightChildrenAffect(self.viewer.selected)]
+        return [affectImpl.HighlightChildrenAffect(self.viewer.selectedVids)]
 
 class HighlightAncestorsTrigger(Trigger):
     def __init__(self, viewer):
         Trigger.__init__(self, viewer, 'Highlight Ancestors')
     def action(self):
-        return [affectImpl.HighlightAncestorsAffect(self.viewer.selected)]
+        return [affectImpl.HighlightAncestorsAffect(self.viewer.selectedVids)]
 
 class ClearColorTrigger(Trigger):
     def __init__(self, viewer):

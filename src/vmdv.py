@@ -7,6 +7,8 @@ from PyQt5 import QtCore
 from viewers import utils, treeviewer, digraphviewer
 from operations import trigger
 import socket
+import logging
+import os
 
 class VMDV:
     def __init__(self):
@@ -17,6 +19,7 @@ class VMDV:
         self.msgQueue = collections.deque([])
 
         self.viewers = {}
+        self.jsonThread = None
         
 
     # def putJSON(self, data):
@@ -77,8 +80,20 @@ class VMDV:
             viewer = self.viewers[sid]
             viewer.handleAffect(a)
 
+    def closeViewer(self, sid):
+        viewer = self.viewers.pop(sid)
+        viewer.close()
+        if len(self.viewers) == 0:
+            self.jsonThread.stop()
+
 if __name__ == '__main__':
     app = QApplication(sys.argv)
+    os.system('rm -f log/globalLog.txt')
+    fileLogger = logging.getLogger('file')
+    fileLogger.addHandler(logging.FileHandler('log/globalLog.txt'))
+    fileLogger.setLevel(logging.DEBUG)
+    cliLogger = logging.getLogger('cli')
+    cliLogger.addHandler(logging.StreamHandler(sys.stdout))
     v = VMDV()
     # affectThread = messenger.AffectParser(v)
     # affectThread.affectSignal.connect(v.handleAffect)

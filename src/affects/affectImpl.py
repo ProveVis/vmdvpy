@@ -46,7 +46,7 @@ class AddNodeAffect(affect.Affect):
         node.setProperty('label', self.label)
         node.setProperty('state', self.state)
         viewer.addNode(node)
-        print('Adding node', self.nid)
+        # print('Adding node', self.nid)
         # pass
         
 class AddEdgeAffect(affect.Affect):
@@ -63,7 +63,7 @@ class HighlightChildrenAffect(affect.Affect):
         self.vids = vids
 
     def affect(self, viewer):
-        if viewer.__class__.__name__ == session.DiGraphSession.__name__:
+        if viewer.__class__.__name__ == digraphviewer.DiGraphViewer.__name__:
             print('Cannot highlight children nodes for DiGraphs')
         elif viewer.__class__.__name__ == treeviewer.TreeViewer.__name__:
             childrenVids = []
@@ -82,14 +82,22 @@ class HighlightAncestorsAffect(affect.Affect):
         elif viewer.__class__.__name__ == treeviewer.TreeViewer.__name__:
             ancestorsVids = []
             for vid in self.vids:
-                ancestorsVids = ancestorsVids.append(viewer.parent[vid])
+                if vid in viewer.parent:
+                    tmpVid = viewer.parent[vid]
+                    while True:
+                        ancestorsVids.append(tmpVid)
+                        if tmpVid in viewer.parent:
+                            tmpVid = viewer.parent[tmpVid]
+                        else:
+                            break
+                # ancestorsVids.append(viewer.parent[vid])
             viewer.colors.updateColorsOfVertices(viewer.lookupTable, ancestorsVids, 'red')
             viewer.updateRendering()
 
 
 class ClearColorAffect(affect.Affect):
     def affect(self, viewer):
-        viewer.putMsg(messenger.ClearColorMessage(viewer.sid))
+        viewer.vmdv.putMsg(messenger.ClearColorMessage(viewer.sid))
         viewer.resetGraphColor()
 
 class PrintColorDataAffect(affect.Affect):

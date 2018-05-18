@@ -8,6 +8,9 @@ from affects import affect
 import abc
 
 class Node:
+    '''
+    A Node represents information of a vertex in a 3D graph.
+    '''
     def __init__(self):
         self.props = {}
     def setProperty(self, key, value):
@@ -112,11 +115,12 @@ class Viewer(QMainWindow):
             for idx in range(selvs.GetNumberOfTuples()):
                 selected.append(selvs.GetValue(idx))
                 # print('node', selvs.GetValue(idx))
-            self.selectedNids = [self.vertex2Nid[x] for x in selected]
+            # self.selectedNids = [self.vi for x in selected]
             # list(map(lambda x: self.vertex2Nid[x],selected))
             print('selected vids:', selected)
-            print('selected Nodes:', self.selectedNids)
+            # print('selected Nodes:', self.selectedNids)
             # print('selected nids:', self.selectedNids)
+            self.selectedVids = selected
 
 
         self.view.GetRepresentation(0).GetAnnotationLink().AddObserver("AnnotationChangedEvent", selection)
@@ -132,7 +136,7 @@ class Viewer(QMainWindow):
         self.rightClickedPos = QCursor.pos()
     def selfRightMouseRelease(self, obj, event):
         if self.rightClickedPos == None or posEqual(self.rightClickedPos, QCursor.pos()):
-            if len(self.selectedNids) == 0:
+            if len(self.selectedVids) == 0:
                 self.backgroundMenu.exec_(QCursor.pos())
             else:
                 self.foregroundMenu.exec_(QCursor.pos())
@@ -140,7 +144,8 @@ class Viewer(QMainWindow):
     def performAction(self, trgr):
         afects = trgr.action()
         for a in afects:
-            self.sesion.v.putAffect(self.sesion.sid, a)
+            # self.sesion.v.putAffect(self.sesion.sid, a)
+            a.affect(self)
             # self.affectSignal.emit(self.sesion.sid, a)
 
     def addForegroundMenuItem(self, trgr):
@@ -166,8 +171,8 @@ class Viewer(QMainWindow):
         pass
 
     def resetGraphColor(self):
-        self.colors.resetColorsOfAllVertices(self.viewer.lookupTable)
-        self.viewer.updateRendering()
+        self.colors.resetColorsOfAllVertices(self.lookupTable)
+        self.updateRendering()
     def setVertexColorByName(self, vid, cname):
         cidx = self.colors.colorIndex(cname)
         self.colorArray.SetValue(vid,cidx)

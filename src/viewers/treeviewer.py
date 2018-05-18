@@ -6,6 +6,7 @@ from PyQt5.QtGui import QCursor
 from PyQt5 import QtCore
 from vtk.qt.QVTKRenderWindowInteractor import QVTKRenderWindowInteractor
 from viewers import viewer
+import sys
 
 class TreeViewer(viewer.Viewer):
     def __init__(self, vmdv, sid, descr, attributes, colors):
@@ -57,6 +58,9 @@ class TreeViewer(viewer.Viewer):
             fromVid = self.nid2Vid[fromNid]
             toVid = self.nid2Vid[toNid]
             if (fromVid, toVid) not in self.edgeLabel:
+                if fromVid not in self.vertexHeight:
+                    print('From node', fromNid, 'was not in an edge')
+                    sys.exit(1)
                 self.vertexHeight[toVid] = self.vertexHeight[fromVid] + 1
                 if self.vertexHeight[toVid] + 1 > self.treeHeight:
                     self.treeHeight = self.vertexHeight[toVid] + 1

@@ -188,3 +188,5 @@ class FixedColoring(Coloring):
     def updateVertexColor(self, colorArray, vid, cid):
         # (nc, c) = self.reservedColor[0]
         colorArray.SetValue(vid, cid)
+    def resetColorsOfAllVertices(self, lookupTable):
+        self.updateLookupTable(lookupTable)

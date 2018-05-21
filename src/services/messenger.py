@@ -10,7 +10,6 @@ import socket
 import logging
 
 def matchJSONStr(toBeMatched):
-    result = ('', toBeMatched)
     if toBeMatched.startswith('{\"type\":'):
         flag = 0
         length = len(toBeMatched)
@@ -19,9 +18,17 @@ def matchJSONStr(toBeMatched):
                 flag += 1
             elif toBeMatched[i] == '}':
                 flag -= 1
-            elif toBeMatched[i] == '\n' and flag == 0:
-                result = (toBeMatched[0:i], toBeMatched[i+1:length])
-    return result
+            elif toBeMatched[i] == '\n' and flag == 0 and i != 0:
+                return (toBeMatched[:i], toBeMatched[i+1:])
+        return ('', toBeMatched)
+    elif toBeMatched[0] == '\n':
+        if len(toBeMatched) == 1:
+            return ('', '')
+        else:
+            return matchJSONStr(toBeMatched[1:])
+    else:
+        return ('', toBeMatched)
+
 
 class Receiver(QThread):
     def __init__(self, v, parent=None):
@@ -54,8 +61,19 @@ class Receiver(QThread):
                     break
                 
 
-                logging.getLogger('file').info('Received JSON:'+recvdBytes.decode('utf-8'))
-                recvdStrs = recvdBytes.decode('utf-8').split('\n')
+                # logging.getLogger('file').info('Received JSON:'+recvdBytes.decode('utf-8'))
+                recvdStrs = []
+                m, r = matchJSONStr(unmatchedStr + (recvdBytes.decode('utf-8')))
+                while m != '':
+                    recvdStrs.append(m)
+                    if r == '':
+                        break
+                    else:
+                        m, r = matchJSONStr(r)
+                unmatchedStr = r
+
+
+                # recvdStrs = recvdBytes.decode('utf-8').split('\n')
                 for recvdStr in recvdStrs:
                     try:
                         data = json.loads(recvdStr)

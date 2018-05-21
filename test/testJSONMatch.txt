@@ -1,0 +1,4 @@
+{"type":"add_node","session_id":"safe","node":{"id":"15490","label":"{holding3_right=[];holding2_right=[];lez_right=[];maz_right=[];holding3_left=[];holding2_left=[];lez_left=[];maz_left=[];base_right=[];base_left=[];intermediate=[];final=[];runway=[];departure_right=[{seq=3;mahf=Right;};];departure_left=[{seq=10;mahf=Left;};];} |- AR(x, y, (FALSE), (atom_safe (y)), {holding3_right=[];holding2_right=[];lez_right=[];maz_right=[];holding3_left=[];holding2_left=[];lez_left=[];maz_left=[];base_right=[];base_left=[];intermediate=[];final=[];runway=[];departure_right=[{seq=10;mahf=Right;};];departure_left=[{seq=10;mahf=Left;};];})","state":"Proved"}}
+{"type":"add_edge","session_id":"safe","from_id":"15482","to_id":"15490","label":""}
+{"type":"add_node","session_id":"safe","node":{"id":"15491","label":"{holding3_right=[];holding2_right=[];
+

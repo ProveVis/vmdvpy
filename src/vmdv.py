@@ -82,9 +82,9 @@ class VMDV:
 
     def closeViewer(self, sid):
         viewer = self.viewers.pop(sid)
-        viewer.close()
         if len(self.viewers) == 0:
             self.jsonThread.stop()
+        viewer.close()
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)

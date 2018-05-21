@@ -141,36 +141,36 @@ class GradualColoring(Coloring):
 
     def updateColorOfVertex(self, lookupTable, updatedVid, cname):
         self.updateColorTuple(updatedVid, cname)
-        self.updateLookupTable(lookupTable)
+        # self.updateLookupTable(lookupTable)
     def updateColorsOfVertices(self, lookupTable, updatedVids, cname):
         for vid in updatedVids:
             self.updateColorTuple(vid, cname)
-        self.updateLookupTable(lookupTable)
+        # self.updateLookupTable(lookupTable)
     def resetColorOfVertex(self, lookupTable, resetVid):
         self.resetColorTuple(resetVid)
-        self.updateLookupTable(lookupTable)
+        # self.updateLookupTable(lookupTable)
     def resetColorsOfAllVertices(self, lookupTable):
         self.resetAllColorTuples()
-        self.updateLookupTable(lookupTable)
+        # self.updateLookupTable(lookupTable)
     def insertColorOfVertex(self, lookupTable, newVid, newIndex, newGrades):
         gradesChanged = False
         if newGrades != self.grades:
             self.setGrades(newGrades)
             gradesChanged = True
         self.insertColorTuple(newVid, newIndex, gradesChanged)
-        self.updateLookupTable(lookupTable)
+        # self.updateLookupTable(lookupTable)
     def removeColorOfVertex(self, lookupTable, removedVid, newGrades):
         gradesChanged = False
         if newGrades != self.grades:
             self.setGrades(newGrades)
             gradesChanged = True
         self.removeColorTuple(removedVid, gradesChanged)
-        self.updateLookupTable(lookupTable)
+        # self.updateLookupTable(lookupTable)
 
 class FixedColoring(Coloring):
     def __init__(self):
         Coloring.__init__(self)
-        self.allColors = [('green', RGB(0,1,0)), ('red', RGB(1,0,0))]
+        self.allColors = [('blue', RGB(0,0,1)), ('red', RGB(1,0,0))]
 
     def colorIndex(self, cname):
         for i in range(len(self.allColors)):

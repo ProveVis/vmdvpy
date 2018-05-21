@@ -9,6 +9,7 @@ class DiGraphViewer(viewer.Viewer):
     def __init__(self, vmdv, sid, descr, attributes, colors):
         viewer.Viewer.__init__(self, vmdv, sid, descr, attributes, colors)
         layout = vtk.vtkForceDirectedLayoutStrategy()
+        layout.SetMaxNumberOfIterations(70)
         layout.ThreeDimensionalLayoutOn ()
         layout.AutomaticBoundsComputationOn()
         viewer.Viewer.initViewerWindow(self,vtk.vtkDirectedGraph(), layout)
@@ -42,7 +43,7 @@ class DiGraphViewer(viewer.Viewer):
             self.pre[vid] = []
             self.colorArray.InsertValue(vid, 0)
         else:
-            print('Viewer:',nid, 'has already been added')
+            print('DiGraph Viewer:',nid, 'has already been added')
             pass
 
     def addEdge(self, fromNid, toNid, label):
@@ -60,5 +61,5 @@ class DiGraphViewer(viewer.Viewer):
                 self.pre[toVid].append(fromVid)
                 self.edgeLabel[(fromVid, toVid)] = label
                 self.graphUnder.AddEdge(fromVid, toVid)
-                self.graph.CheckedShallowCopy(self.graphUnder)
-                self.view.ResetCamera()
+                # self.graph.CheckedShallowCopy(self.graphUnder)
+                # self.view.ResetCamera()

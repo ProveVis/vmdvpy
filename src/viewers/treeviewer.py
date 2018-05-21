@@ -7,6 +7,7 @@ from PyQt5 import QtCore
 from vtk.qt.QVTKRenderWindowInteractor import QVTKRenderWindowInteractor
 from viewers import viewer
 import sys
+import logging
 
 class TreeViewer(viewer.Viewer):
     def __init__(self, vmdv, sid, descr, attributes, colors):
@@ -36,6 +37,7 @@ class TreeViewer(viewer.Viewer):
             self.dummyVertexExists = False
             self.colorArray.InsertValue(self.dummyVertex, self.dummyVertex)
             self.colors.insertColorOfVertex(self.lookupTable, self.dummyVertex, 0, 1)
+            logging.getLogger('file').info('Adding Node '+nid)
         if nid not in self.nid2Vid:
             vid = self.graphUnder.AddVertex()
             self.vertexNumber += 1
@@ -43,8 +45,9 @@ class TreeViewer(viewer.Viewer):
             self.nid2Vid[nid] = vid
             self.children[vid] = []
             self.colorArray.InsertValue(vid, vid)
+            logging.getLogger('file').info('Adding Node '+nid)
         else:
-            print('Viewer:',nid, 'has already been added')
+            print('Tree Viewer:',nid, 'has already been added')
             pass
 
     def addEdge(self, fromNid, toNid, label):
@@ -58,6 +61,7 @@ class TreeViewer(viewer.Viewer):
             fromVid = self.nid2Vid[fromNid]
             toVid = self.nid2Vid[toNid]
             if (fromVid, toVid) not in self.edgeLabel:
+                logging.getLogger('file').info('Adding tree edge: ' + fromNid + '->' + toNid)
                 if fromVid not in self.vertexHeight:
                     print('From node', fromNid, 'was not in an edge')
                     sys.exit(1)
@@ -69,4 +73,4 @@ class TreeViewer(viewer.Viewer):
                 self.edgeLabel[(fromVid, toVid)] = label
                 self.graphUnder.AddEdge(fromVid, toVid)
                 self.colors.insertColorOfVertex(self.lookupTable, toVid, self.vertexHeight[toVid], self.treeHeight)
-                self.updateRendering()
+                # self.updateRendering()

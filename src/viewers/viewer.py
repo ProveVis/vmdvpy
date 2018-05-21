@@ -171,7 +171,9 @@ class Viewer(QMainWindow):
         pass
 
     def resetGraphColor(self):
+        self.graph.CheckedShallowCopy(self.graphUnder)
         self.colors.resetColorsOfAllVertices(self.lookupTable)
+        self.colors.updateLookupTable(self.lookupTable)
         self.updateRendering()
     def setVertexColorByName(self, vid, cname):
         cidx = self.colors.colorIndex(cname)

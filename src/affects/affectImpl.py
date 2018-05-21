@@ -70,6 +70,7 @@ class HighlightChildrenAffect(affect.Affect):
             for vid in self.vids:
                 childrenVids = childrenVids + viewer.children[vid]
             viewer.colors.updateColorsOfVertices(viewer.lookupTable, childrenVids, 'red')
+            viewer.colors.updateLookupTable(viewer.lookupTable)
             viewer.updateRendering()
             
 
@@ -92,6 +93,7 @@ class HighlightAncestorsAffect(affect.Affect):
                             break
                 # ancestorsVids.append(viewer.parent[vid])
             viewer.colors.updateColorsOfVertices(viewer.lookupTable, ancestorsVids, 'red')
+            viewer.colors.updateLookupTable(viewer.lookupTable)
             viewer.updateRendering()
 
 

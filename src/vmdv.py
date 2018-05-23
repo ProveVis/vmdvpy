@@ -88,10 +88,10 @@ class VMDV:
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
-    os.system('rm -f log/globalLog.txt')
-    fileLogger = logging.getLogger('file')
-    fileLogger.addHandler(logging.FileHandler('log/globalLog.txt'))
-    fileLogger.setLevel(logging.DEBUG)
+    # os.system('rm -f log/globalLog.txt')
+    # fileLogger = logging.getLogger('file')
+    # fileLogger.addHandler(logging.FileHandler('log/globalLog.txt'))
+    # fileLogger.setLevel(logging.DEBUG)
     cliLogger = logging.getLogger('cli')
     cliLogger.addHandler(logging.StreamHandler(sys.stdout))
     v = VMDV()

@@ -127,6 +127,26 @@ class Viewer(QMainWindow):
         self.view.GetInteractor().AddObserver(vtk.vtkCommand.RightButtonPressEvent, self.selfRightMousePress)
         self.view.GetInteractor().AddObserver(vtk.vtkCommand.RightButtonReleaseEvent, self.selfRightMouseRelease)
 
+        self.isLeftButtonPressed = False
+        self.pixelRatio = QApplication.desktop().devicePixelRatio()
+        self.view.GetInteractor().AddObserver(vtk.vtkCommand.MouseMoveEvent, self.MouseMoved, 100)
+        self.view.GetInteractor().AddObserver(vtk.vtkCommand.LeftButtonPressEvent, self.LeftButtonPressed, 100)
+        self.view.GetInteractor().AddObserver(vtk.vtkCommand.LeftButtonReleaseEvent, self.LeftButtonReleased, 100)
+
+    def LeftButtonPressed(self, obj, event):
+        self.isLeftButtonPressed = True
+        pos = obj.GetEventPosition()
+        obj.SetEventPosition(pos[0] * self.pixelRatio, pos[1] * self.pixelRatio)
+    
+    def LeftButtonReleased(self, obj, event):
+        self.isLeftButtonPressed = False
+        pos = obj.GetEventPosition()
+        obj.SetEventPosition(pos[0] * self.pixelRatio, pos[1] * self.pixelRatio)
+
+    def MouseMoved(self, obj, event):
+        if self.isLeftButtonPressed:
+            pos = obj.GetEventPosition()
+            obj.SetEventPosition(pos[0] * self.pixelRatio, pos[1] * self.pixelRatio)
 
     def updateRendering(self):
         self.graph.CheckedShallowCopy(self.graphUnder)

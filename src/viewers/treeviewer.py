@@ -37,7 +37,7 @@ class TreeViewer(viewer.Viewer):
             self.dummyVertexExists = False
             self.colorArray.InsertValue(self.dummyVertex, self.dummyVertex)
             self.colors.insertColorOfVertex(self.lookupTable, self.dummyVertex, 0, 1)
-            logging.getLogger('file').info('Adding Node '+nid)
+            # logging.getLogger('file').info('Adding Node '+nid)
         if nid not in self.nid2Vid:
             vid = self.graphUnder.AddVertex()
             self.vertexNumber += 1
@@ -45,7 +45,7 @@ class TreeViewer(viewer.Viewer):
             self.nid2Vid[nid] = vid
             self.children[vid] = []
             self.colorArray.InsertValue(vid, vid)
-            logging.getLogger('file').info('Adding Node '+nid)
+            # logging.getLogger('file').info('Adding Node '+nid)
         else:
             print('Tree Viewer:',nid, 'has already been added')
             pass
@@ -61,7 +61,7 @@ class TreeViewer(viewer.Viewer):
             fromVid = self.nid2Vid[fromNid]
             toVid = self.nid2Vid[toNid]
             if (fromVid, toVid) not in self.edgeLabel:
-                logging.getLogger('file').info('Adding tree edge: ' + fromNid + '->' + toNid)
+                # logging.getLogger('file').info('Adding tree edge: ' + fromNid + '->' + toNid)
                 if fromVid not in self.vertexHeight:
                     print('From node', fromNid, 'was not in an edge')
                     sys.exit(1)

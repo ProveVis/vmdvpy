@@ -1,7 +1,6 @@
 import sys
-sys.path.append('..')
 import vmdv
-from affects import affect, affectImpl
+import affect
 from PyQt5.QtCore import QThread
 from PyQt5 import QtCore
 import abc
@@ -99,15 +98,15 @@ class Receiver(QThread):
                         elif t == 'remove_session':
                             self.v.sessions.pop(data['session_id'])
                         elif t == 'add_node':
-                            a = affectImpl.AddNodeAffect(data['node']['id'], data['node']['label'], data['node']['state'])
+                            a = affect.AddNodeAffect(data['node']['id'], data['node']['label'], data['node']['state'])
                             # self.v.putAffect(data['session_id'], a)
                             self.affectSignal.emit(data['session_id'], a)
                         elif t == 'add_edge':
                             a = None
                             if 'label' in data:
-                                a = affectImpl.AddEdgeAffect(data['from_id'], data['to_id'], data['label'])
+                                a = affect.AddEdgeAffect(data['from_id'], data['to_id'], data['label'])
                             else:
-                                a = affectImpl.AddEdgeAffect(
+                                a = affect.AddEdgeAffect(
                                     data['session_id'], data['from_id'], data['to_id'])
                             # self.v.putAffect(data['session_id'], a)
                             self.affectSignal.emit(data['session_id'], a)

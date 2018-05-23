@@ -4,8 +4,12 @@ from PyQt5.QtWidgets import QApplication, QWidget, QFrame, QMainWindow, QVBoxLay
 from PyQt5.QtGui import QCursor
 from PyQt5 import QtCore
 from vtk.qt.QVTKRenderWindowInteractor import QVTKRenderWindowInteractor
-from affects import affect
+import affect
 import abc
+
+
+def posEqual(pos1, pos2):
+    return pos1.x() == pos2.x() and pos1.y() ==  pos2.y()
 
 class Node:
     '''
@@ -17,9 +21,6 @@ class Node:
         self.props[key] = value
     def getProperty(self, key):
         return self.props[key]
-
-def posEqual(pos1, pos2):
-    return pos1.x() == pos2.x() and pos1.y() ==  pos2.y()
 
 class Viewer(QMainWindow):
     affectSignal = QtCore.pyqtSignal(str, affect.Affect)
@@ -199,3 +200,130 @@ class Viewer(QMainWindow):
         cidx = self.colors.colorIndex(cname)
         self.colorArray.SetValue(vid,cidx)
         self.graph.CheckedShallowCopy(self.graphUnder)
+
+
+class TreeViewer(Viewer):
+    def __init__(self, vmdv, sid, descr, attributes, colors):
+        Viewer.__init__(self, vmdv, sid, descr, attributes, colors)
+        Viewer.initViewerWindow(self, vtk.vtkTree(), 'Cone')
+        
+        # Data structures that represent a tree, in addition to the following ones
+        # self.vertexNumber = 0
+        # self.vertices = {}
+        # self.selectedVids = []
+        # self.nid2Vid = {}
+        # self.edgeLabel = {}
+        self.vertexHeight = {}
+        self.treeHeight = 0
+        self.children = {}
+        self.parent = {}
+
+    def addNode(self, node):
+        nid = node.getProperty('id')
+        if self.dummyVertexExists:
+            self.vertexNumber += 1
+            self.vertices[self.dummyVertex] = node
+            self.nid2Vid[nid] = self.dummyVertex
+            self.vertexHeight[self.dummyVertex] = 0
+            self.treeHeight = 1
+            self.children[self.dummyVertex] = []
+            self.dummyVertexExists = False
+            self.colorArray.InsertValue(self.dummyVertex, self.dummyVertex)
+            self.colors.insertColorOfVertex(self.lookupTable, self.dummyVertex, 0, 1)
+            # logging.getLogger('file').info('Adding Node '+nid)
+        if nid not in self.nid2Vid:
+            vid = self.graphUnder.AddVertex()
+            self.vertexNumber += 1
+            self.vertices[vid] = node
+            self.nid2Vid[nid] = vid
+            self.children[vid] = []
+            self.colorArray.InsertValue(vid, vid)
+            # logging.getLogger('file').info('Adding Node '+nid)
+        else:
+            print('Tree Viewer:',nid, 'has already been added')
+            pass
+
+    def addEdge(self, fromNid, toNid, label):
+        if fromNid not in self.nid2Vid:
+            print('From node', fromNid, 'has not been added')
+            return
+        elif toNid not in self.nid2Vid:
+            print('To node', toNid, 'has not been added')
+            return
+        else:
+            fromVid = self.nid2Vid[fromNid]
+            toVid = self.nid2Vid[toNid]
+            if (fromVid, toVid) not in self.edgeLabel:
+                # logging.getLogger('file').info('Adding tree edge: ' + fromNid + '->' + toNid)
+                if fromVid not in self.vertexHeight:
+                    print('From node', fromNid, 'was not in an edge')
+                    sys.exit(1)
+                self.vertexHeight[toVid] = self.vertexHeight[fromVid] + 1
+                if self.vertexHeight[toVid] + 1 > self.treeHeight:
+                    self.treeHeight = self.vertexHeight[toVid] + 1
+                self.children[fromVid].append(toVid)
+                self.parent[toVid] = fromVid
+                self.edgeLabel[(fromVid, toVid)] = label
+                self.graphUnder.AddEdge(fromVid, toVid)
+                self.colors.insertColorOfVertex(self.lookupTable, toVid, self.vertexHeight[toVid], self.treeHeight)
+                # self.updateRendering()
+
+
+class DiGraphViewer(Viewer):
+    def __init__(self, vmdv, sid, descr, attributes, colors):
+        Viewer.__init__(self, vmdv, sid, descr, attributes, colors)
+        layout = vtk.vtkForceDirectedLayoutStrategy()
+        layout.SetMaxNumberOfIterations(70)
+        layout.ThreeDimensionalLayoutOn ()
+        layout.AutomaticBoundsComputationOn()
+        Viewer.initViewerWindow(self, vtk.vtkDirectedGraph(), layout)
+        Viewer.setWindowTitle(self, 'DiGraph')
+       
+        # Data structures that represent a digraph, in addition to the following ones
+        # self.vertexNumber = 0
+        # self.vertices = {}
+        # self.selectedVids = []
+        # self.nid2Vid = {}
+        # self.edgeLabel = {}
+        self.post = {}
+        self.pre = {}
+    
+    def addNode(self, node):
+        nid = node.getProperty('id')
+        if self.dummyVertexExists:
+            self.vertexNumber += 1
+            self.vertices[self.dummyVertex] = node
+            self.nid2Vid[nid] = self.dummyVertex
+            self.post[self.dummyVertex] = []
+            self.pre[self.dummyVertex] = []
+            self.dummyVertexExists = False
+            self.colorArray.InsertValue(self.dummyVertex, 0)
+        if nid not in self.nid2Vid:
+            vid = self.graphUnder.AddVertex()
+            self.vertexNumber += 1
+            self.vertices[vid] = node
+            self.nid2Vid[nid] = vid
+            self.post[vid] = []
+            self.pre[vid] = []
+            self.colorArray.InsertValue(vid, 0)
+        else:
+            print('DiGraph Viewer:',nid, 'has already been added')
+            pass
+
+    def addEdge(self, fromNid, toNid, label):
+        if fromNid not in self.nid2Vid:
+            print('From node', fromNid, 'has not been added')
+            return
+        elif toNid not in self.nid2Vid:
+            print('To node', toNid, 'has not been added')
+            return
+        else:
+            fromVid = self.nid2Vid[fromNid]
+            toVid = self.nid2Vid[toNid]
+            if (fromVid, toVid) not in self.edgeLabel:
+                self.post[fromVid].append(toVid)
+                self.pre[toVid].append(fromVid)
+                self.edgeLabel[(fromVid, toVid)] = label
+                self.graphUnder.AddEdge(fromVid, toVid)
+                # self.graph.CheckedShallowCopy(self.graphUnder)
+                # self.view.ResetCamera()

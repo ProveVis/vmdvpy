@@ -1,8 +1,7 @@
 from PyQt5.QtWidgets import QAction
 import abc
 import sys
-sys.path.append('..')
-from affects import affectImpl
+import affect
 
 class Trigger:
     def __init__(self, viewer, label):
@@ -17,22 +16,22 @@ class HighlightChildrenTrigger(Trigger):
         Trigger.__init__(self, viewer, 'Highlight Children')
     # will return a list of affect objects
     def action(self):
-        return [affectImpl.HighlightChildrenAffect(self.viewer.selectedVids)]
+        return [affect.HighlightChildrenAffect(self.viewer.selectedVids)]
 
 class HighlightAncestorsTrigger(Trigger):
     def __init__(self, viewer):
         Trigger.__init__(self, viewer, 'Highlight Ancestors')
     def action(self):
-        return [affectImpl.HighlightAncestorsAffect(self.viewer.selectedVids)]
+        return [affect.HighlightAncestorsAffect(self.viewer.selectedVids)]
 
 class ClearColorTrigger(Trigger):
     def __init__(self, viewer):
         Trigger.__init__(self, viewer, 'Clear Color')
     def action(self):
-        return [affectImpl.ClearColorAffect()]
+        return [affect.ClearColorAffect()]
 
 class PrintColorDataTrigger(Trigger):
     def __init__(self, viewer):
         Trigger.__init__(self, viewer, 'Print Color Data')
     def action(self):
-        return [affectImpl.PrintColorDataAffect()]
+        return [affect.PrintColorDataAffect()]

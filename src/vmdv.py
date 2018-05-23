@@ -1,11 +1,11 @@
 import sys
-from services import messenger
+import messenger
 import collections
 import threading
 from PyQt5.QtWidgets import QApplication
 from PyQt5 import QtCore
-from viewers import utils, treeviewer, digraphviewer
-from operations import trigger
+import utils, viewer
+import trigger
 import socket
 import logging
 import os
@@ -54,22 +54,22 @@ class VMDV:
     def initSession(self, sid, descr, attris, graphType):
         print('showing viewer in thread:', threading.current_thread())
         if graphType == 'Tree':
-            viewer = treeviewer.TreeViewer(self, sid, descr, attris, utils.GradualColoring(utils.RGB(0,0,1), utils.RGB(0,1,0)))
-            viewer.addBackgroundMenuItem(trigger.ClearColorTrigger(viewer))
-            viewer.addForegroundMenuItem(trigger.HighlightChildrenTrigger(viewer))
-            viewer.addForegroundMenuItem(trigger.HighlightAncestorsTrigger(viewer))
-            viewer.addForegroundMenuItem(trigger.PrintColorDataTrigger(viewer))
-            viewer.addBackgroundMenuItem(trigger.PrintColorDataTrigger(viewer))
-            viewer.affectSignal.connect(self.handleAffect)
-            self.viewers[sid] = viewer
-            viewer.show()
+            gviewer = viewer.TreeViewer(self, sid, descr, attris, utils.GradualColoring(utils.RGB(0,0,1), utils.RGB(0,1,0)))
+            gviewer.addBackgroundMenuItem(trigger.ClearColorTrigger(gviewer))
+            gviewer.addForegroundMenuItem(trigger.HighlightChildrenTrigger(gviewer))
+            gviewer.addForegroundMenuItem(trigger.HighlightAncestorsTrigger(gviewer))
+            gviewer.addForegroundMenuItem(trigger.PrintColorDataTrigger(gviewer))
+            gviewer.addBackgroundMenuItem(trigger.PrintColorDataTrigger(gviewer))
+            gviewer.affectSignal.connect(self.handleAffect)
+            self.viewers[sid] = gviewer
+            gviewer.show()
             print('Showed a Tree:', sid)
         else:
-            viewer = digraphviewer.DiGraphViewer(self, sid, descr, attris, utils.FixedColoring())
-            viewer.addBackgroundMenuItem(trigger.ClearColorTrigger(viewer))
-            viewer.affectSignal.connect(self.handleAffect)
-            self.viewers[sid] = viewer
-            viewer.show()
+            tviewer = viewer.DiGraphViewer(self, sid, descr, attris, utils.FixedColoring())
+            tviewer.addBackgroundMenuItem(trigger.ClearColorTrigger(viewer))
+            tviewer.affectSignal.connect(self.handleAffect)
+            self.viewers[sid] = tviewer
+            tviewer.show()
             print('Showed a DiGraph', sid)
         
     def handleAffect(self, sid, a):

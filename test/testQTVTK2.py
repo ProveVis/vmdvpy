@@ -35,6 +35,7 @@ class MainWindow(QMainWindow):
         self.view.ColorVerticesOn()
         self.view.SetEdgeSelection(False)
         self.view.SetColorVertices(True)
+        self.view.SetGlyphType(vtk.vtkGraphToGlyphs.SPHERE)
 
         self.vertexColors = vtk.vtkIntArray()
         self.vertexColors.SetNumberOfComponents(1)
@@ -84,22 +85,18 @@ class MainWindow(QMainWindow):
         self.vids.append(v6)
         print(v6)
         self.graph.AddEdge(v5, v6)
-        self.tree.CheckedShallowCopy(self.graph)
 
-        v01 = self.graph.AddVertex()
-        v02 = self.graph.AddVertex()
-        v03 = self.graph.AddVertex()
-        v04 = self.graph.AddVertex()
-        v05 = self.graph.AddVertex()
-        v06 = self.graph.AddVertex()
-        v07 = self.graph.AddVertex()
-        self.vertexColors.InsertValue(v01,v01)
-        self.vertexColors.InsertValue(v02,v02)
-        self.vertexColors.InsertValue(v03,v03)
-        self.vertexColors.InsertValue(v04,v04)
-        self.vertexColors.InsertValue(v05,v05)
-        self.vertexColors.InsertValue(v06,v06)
-        self.vertexColors.InsertValue(v07,v07)
+        # add a pedigree array to vertex
+        self.vertIds = vtk.vtkIdTypeArray()
+        numVertices = self.graph.GetNumberOfVertices()
+        self.vertIds.SetNumberOfTuples(numVertices)
+
+        print('wtf',numVertices)
+        for i in range(0, numVertices):
+            self.vertIds.SetValue(i, i)
+
+        self.graph.GetVertexData().SetPedigreeIds(self.vertIds)
+        self.tree.CheckedShallowCopy(self.graph)
 
         # end graph to render
 

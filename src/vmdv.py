@@ -54,22 +54,24 @@ class VMDV:
     def initSession(self, sid, descr, attris, graphType):
         print('showing viewer in thread:', threading.current_thread())
         if graphType == 'Tree':
-            gviewer = viewer.TreeViewer(self, sid, descr, attris, utils.GradualColoring(utils.RGB(0,0,1), utils.RGB(0,1,0)))
-            gviewer.addBackgroundMenuItem(trigger.ClearColorTrigger(gviewer))
-            gviewer.addForegroundMenuItem(trigger.HighlightChildrenTrigger(gviewer))
-            gviewer.addForegroundMenuItem(trigger.HighlightAncestorsTrigger(gviewer))
-            gviewer.addForegroundMenuItem(trigger.PrintColorDataTrigger(gviewer))
-            gviewer.addBackgroundMenuItem(trigger.PrintColorDataTrigger(gviewer))
-            gviewer.affectSignal.connect(self.handleAffect)
-            self.viewers[sid] = gviewer
-            gviewer.show()
-            print('Showed a Tree:', sid)
-        else:
-            tviewer = viewer.DiGraphViewer(self, sid, descr, attris, utils.FixedColoring())
-            tviewer.addBackgroundMenuItem(trigger.ClearColorTrigger(viewer))
+            tviewer = viewer.TreeViewer(self, sid, descr, attris, utils.GradualColoring(utils.RGB(0,0,1), utils.RGB(0,1,0)))
+            tviewer.addBackgroundMenuItem(trigger.ClearColorTrigger(tviewer, fromVMDV=True))
+            tviewer.addForegroundMenuItem(trigger.HighlightNodesTrigger(tviewer))
+            tviewer.addForegroundMenuItem(trigger.HighlightChildrenTrigger(tviewer))
+            tviewer.addForegroundMenuItem(trigger.HighlightAncestorsTrigger(tviewer))
+            tviewer.addForegroundMenuItem(trigger.HighlightSubtreeTrigger(tviewer))
+            tviewer.addForegroundMenuItem(trigger.PrintColorDataTrigger(tviewer))
+            tviewer.addBackgroundMenuItem(trigger.PrintColorDataTrigger(tviewer))
             tviewer.affectSignal.connect(self.handleAffect)
             self.viewers[sid] = tviewer
             tviewer.show()
+            print('Showed a Tree:', sid)
+        else:
+            gviewer = viewer.DiGraphViewer(self, sid, descr, attris, utils.FixedColoring())
+            gviewer.addBackgroundMenuItem(trigger.ClearColorTrigger(viewer))
+            gviewer.affectSignal.connect(self.handleAffect)
+            self.viewers[sid] = gviewer
+            gviewer.show()
             print('Showed a DiGraph', sid)
         
     def handleAffect(self, sid, a):

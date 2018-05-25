@@ -6,6 +6,7 @@ import utils
 import messenger
 import trigger
 import abc
+from collections import deque
 
 class Affect:
     def __init__(self):
@@ -40,6 +41,15 @@ class AddEdgeAffect(Affect):
     def affect(self, viewer):
         viewer.addEdge(self.fromId, self.toId, self.label)
 
+class HighlightNodeAffect(Affect):
+    def __init__(self, nid):
+        self.nid = nid
+    def affect(self, gviewer):
+        vid = gviewer.nid2Vid[self.nid]
+        gviewer.colors.updateColorOfVertex(gviewer.lookupTable, vid, 'red')
+        gviewer.colors.updateLookupTable(gviewer.lookupTable)
+        gviewer.updateRendering()
+
 class HighlightChildrenAffect(Affect):
     def __init__(self, vids):
         self.vids = vids
@@ -54,7 +64,34 @@ class HighlightChildrenAffect(Affect):
             tviewer.colors.updateColorsOfVertices(tviewer.lookupTable, childrenVids, 'red')
             tviewer.colors.updateLookupTable(tviewer.lookupTable)
             tviewer.updateRendering()
-            
+            for vid in childrenVids:
+                nid = tviewer.vertices[vid].getProperty('id')
+                tviewer.vmdv.putMsg(messenger.HighlightNodeMessage(tviewer.sid, nid))
+
+
+class HighlightSubtreeAffect(Affect):
+    def __init__(self, vids):
+        self.vids = vids
+
+    def affect(self, tviewer):
+        if tviewer.__class__.__name__ == viewer.DiGraphViewer.__name__:
+            print('Cannot highlight subtree in DiGraphs')
+        elif tviewer.__class__.__name__ == viewer.TreeViewer.__name__:
+            hvids = set([])
+            tmpQ = deque([])
+            for vid in self.vids:
+                tmpQ.append(vid)
+                while len(tmpQ) != 0:
+                    tmpVid = tmpQ.popleft()
+                    hvids.add(tmpVid)
+                    for cvid in tviewer.children[tmpVid]:
+                        tmpQ.append(cvid)
+            tviewer.colors.updateColorsOfVertices(tviewer.lookupTable, list(hvids), 'red')
+            tviewer.colors.updateLookupTable(tviewer.lookupTable)
+            tviewer.updateRendering()
+            for vid in hvids:
+                nid = tviewer.vertices[vid].getProperty('id')
+                tviewer.vmdv.putMsg(messenger.HighlightNodeMessage(tviewer.sid, nid))
 
 class HighlightAncestorsAffect(Affect):
     def __init__(self, vids):
@@ -80,8 +117,11 @@ class HighlightAncestorsAffect(Affect):
 
 
 class ClearColorAffect(Affect):
+    def __init__(self, fromVMDV=False):
+        self.fromVMDV = fromVMDV
     def affect(self, viewer):
-        viewer.vmdv.putMsg(messenger.ClearColorMessage(viewer.sid))
+        if self.fromVMDV:
+            viewer.vmdv.putMsg(messenger.ClearColorMessage(viewer.sid))
         viewer.resetGraphColor()
 
 class PrintColorDataAffect(Affect):

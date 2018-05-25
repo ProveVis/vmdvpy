@@ -8,6 +8,7 @@ import json
 import socket
 import logging
 
+
 def matchJSONStr(toBeMatched):
     if toBeMatched.startswith('{\"type\":'):
         flag = 0
@@ -58,11 +59,11 @@ class Receiver(QThread):
                     msgThread.stop()
                     sys.exit(1)
                     break
-                
 
                 # logging.getLogger('file').info('Received JSON:'+recvdBytes.decode('utf-8'))
                 recvdStrs = []
-                m, r = matchJSONStr(unmatchedStr + (recvdBytes.decode('utf-8')))
+                m, r = matchJSONStr(
+                    unmatchedStr + (recvdBytes.decode('utf-8')))
                 while m != '':
                     recvdStrs.append(m)
                     if r == '':
@@ -70,9 +71,6 @@ class Receiver(QThread):
                     else:
                         m, r = matchJSONStr(r)
                 unmatchedStr = r
-
-
-                # recvdStrs = recvdBytes.decode('utf-8').split('\n')
                 for recvdStr in recvdStrs:
                     try:
                         data = json.loads(recvdStr)
@@ -83,18 +81,16 @@ class Receiver(QThread):
                                 attris = []
                                 if 'attributes' in data:
                                     attris = data['attributes']
-                                # self.v.putAffect('', affectImpl.InitSessionAffect(self.v, data['session_id'], data['session_descr'], attris, 'Tree'))
-                                # self.v.initSession(data['session_id'], data['session_descr'], attris, 'Tree')
-                                self.initSessionSignal.emit(data['session_id'], data['session_descr'], attris, 'Tree')
+                                self.initSessionSignal.emit(
+                                    data['session_id'], data['session_descr'], attris, 'Tree')
                             elif data['graph_type'] == 'DiGraph':
                                 attris = []
                                 if 'attributes' in data:
                                     attris = data['attributes']
-                                # self.v.putAffect('', affectImpl.InitSessionAffect(self.v, data['session_id'], data['session_descr'], attris, 'DiGraph'))    
-                                # self.v.initSession(data['session_id'], data['session_descr'], attris, 'DiGraph')
                                 self.initSessionSignal.emit(data['session_id'], data['session_descr'], attris, 'DiGraph')
                             else:
-                                print('Unknown graph type:', data['graph_type'])
+                                print('Unknown graph type:',
+                                      data['graph_type'])
                         elif t == 'remove_session':
                             self.v.sessions.pop(data['session_id'])
                         elif t == 'add_node':
@@ -106,17 +102,23 @@ class Receiver(QThread):
                             if 'label' in data:
                                 a = affect.AddEdgeAffect(data['from_id'], data['to_id'], data['label'])
                             else:
-                                a = affect.AddEdgeAffect(
-                                    data['session_id'], data['from_id'], data['to_id'])
+                                a = affect.AddEdgeAffect(data['session_id'], data['from_id'], data['to_id'])
                             # self.v.putAffect(data['session_id'], a)
                             self.affectSignal.emit(data['session_id'], a)
+                        elif t == 'highlight_node':
+                            sid = data['session_id']
+                            nid = data['node_id']
+                            self.affectSignal.emit(sid, affect.HighlightNodeAffect(nid))
+                        elif t == 'clear_color':
+                            sid = data['session_id']
+                            self.affectSignal.emit(sid, affect.ClearColorAffect())
                         elif t == 'feedback':
                             if data['status'] == 'OK':
-                                print('Session received feedback from the prover:',
-                                    data['session_id'], ',', data['status'])
+                                print('Session received feedback from the prover:', data['session_id'], ',', data['status'])
                             else:
-                                print('Session received feedback from the prover:',
-                                    data['session_id'], ',', data['status'], ',', data['error_msg'])
+                                print('Session received feedback from the prover:', data['session_id'], ',', data['status'], ',', data['error_msg'])
+                        else:
+                            print('Unknown type of message:', data['type'])
                     except json.decoder.JSONDecodeError:
                         if recvdStr != '':
                             print('json loads error:', recvdStr)
@@ -128,46 +130,50 @@ class Receiver(QThread):
         self.sock.close()
         self.terminate()
 
-# class AffectParser(QThread):
-#     def __init__(self, v, parent = None):
-#         super(AffectParser, self).__init__(parent)
-#         self.v = v
-
-#     affectSignal = QtCore.pyqtSignal(str, affect.Affect)
-
-#     def run(self):
-#         print('Affect parser thread start...')
-#         while True:
-#             (sid, a) = self.v.fetchAffect()
-#             self.affectSignal.emit(sid, a)
-
-
-
 class Message:
     @abc.abstractmethod
-    def toJson(self):
+    def toStr(self):
         pass
+
+
 class ClearColorMessage(Message):
     def __init__(self, sid):
         self.sid = sid
+
     def toStr(self):
-        return (json.dumps({'type':'clear_color', 'session_id': self.sid}))+'\n'
+        return (json.dumps({'type': 'clear_color', 'session_id': self.sid}))+'\n'
+
+
+class HighlightNodeMessage(Message):
+    def __init__(self, sid, nid):
+        self.sid = sid
+        self.nid = nid
+
+    def toStr(self):
+        data = {
+            'type': 'highlight_node',
+            'session_id': self.sid,
+            'node_id': self.nid
+        }
+        return (json.dumps(data))+'\n'
 
 
 class Sender(QThread):
-    def __init__(self, v, sock, parent = None):
+    def __init__(self, v, sock, parent=None):
         QThread.__init__(self, parent)
         self.v = v
         self.sock = sock
+        self.sockFile = self.sock.makefile(mode='w')
 
     def run(self):
         print('Sender thread start...')
         while True:
             m = self.v.fetchMsg()
-            self.sock.sendall(m.toStr().encode('utf-8'))
+            self.sockFile.write(m.toStr())
+            # self.sock.sendall(m.toStr().encode('utf-8'))
+            self.sockFile.flush()
 
     def stop(self):
         # self.sock.stop()
+        self.sockFile.close()
         self.terminate()
-        
-            

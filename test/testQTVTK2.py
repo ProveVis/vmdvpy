@@ -89,6 +89,7 @@ class MainWindow(QMainWindow):
         # add a pedigree array to vertex
         self.vertIds = vtk.vtkIdTypeArray()
         numVertices = self.graph.GetNumberOfVertices()
+        # print("number of vertices:", numVertices)
         self.vertIds.SetNumberOfTuples(numVertices)
 
         print('wtf',numVertices)
@@ -149,13 +150,17 @@ class MainWindow(QMainWindow):
         def selection(obj, e):
             # print('selection triggered')
             selected = []
+            selectedSet = set([])
             sel = obj.GetCurrentSelection()
+            node0 = sel.GetNode(0)
+            print("selection type:", node0.GetFieldType())
             selvs = sel.GetNode(0).GetSelectionList()
-            # print('selected', selvs.GetNumberOfTuples(),'nodes')
+            print('selected', selvs.GetNumberOfTuples(),'nodes')
             for idx in range(selvs.GetNumberOfTuples()):
-                selected.append(selvs.GetValue(idx))
-            self.selected = selected
-            print('selected vids:', self.selected)
+                selectedSet.add(selvs.GetValue(idx))
+                # selected.append(selvs.GetValue(idx))
+            self.selected = list(selectedSet)
+            print('selected vids:', selectedSet)
             # print('selected nids:', self.selectedNids)
 
         self.view.GetRepresentation(0).GetAnnotationLink().AddObserver("AnnotationChangedEvent", selection)

@@ -63,6 +63,8 @@ class Viewer(QMainWindow):
         self.view.SetInteractionModeTo3D()
         self.view.SetLayoutStrategy(layoutStrategy)
 
+        self.view.SetGlyphType(vtk.vtkGraphToGlyphs.SPHERE)
+
         # build lookup table and the vtkIntArray object
         self.colorArray = vtk.vtkIntArray()
         self.colorArray.SetNumberOfComponents(1)
@@ -90,6 +92,18 @@ class Viewer(QMainWindow):
         self.dummyVertex = self.graphUnder.AddVertex()
         self.dummyVertexExists = True
 
+        # add a pedigree array to vertex
+        self.vertIds = vtk.vtkIdTypeArray()
+        numVertices = self.graphUnder.GetNumberOfVertices()
+        # print("number of vertices:", numVertices)
+        self.vertIds.SetNumberOfTuples(numVertices)
+
+        # print('wtf',numVertices)
+        for i in range(0, numVertices):
+            self.vertIds.SetValue(i, i)
+
+        self.graphUnder.GetVertexData().SetPedigreeIds(self.vertIds)
+
         self.graph.CheckedShallowCopy(self.graphUnder)
         self.view.ResetCamera()
         self.view.Render()
@@ -109,19 +123,19 @@ class Viewer(QMainWindow):
 
         def selection(obj, e):
             # print('selection triggered')
-            selected = []
+            selected = set([])
             sel = obj.GetCurrentSelection()
             selvs = sel.GetNode(0).GetSelectionList()
             print('selected', selvs.GetNumberOfTuples(),'nodes')
             for idx in range(selvs.GetNumberOfTuples()):
-                selected.append(selvs.GetValue(idx))
+                selected.add(selvs.GetValue(idx))
                 # print('node', selvs.GetValue(idx))
             # self.selectedNids = [self.vi for x in selected]
             # list(map(lambda x: self.vertex2Nid[x],selected))
             print('selected vids:', selected)
             # print('selected Nodes:', self.selectedNids)
             # print('selected nids:', self.selectedNids)
-            self.selectedVids = selected
+            self.selectedVids = list(selected)
 
 
         self.view.GetRepresentation(0).GetAnnotationLink().AddObserver("AnnotationChangedEvent", selection)
@@ -231,6 +245,16 @@ class TreeViewer(Viewer):
             self.colorArray.InsertValue(self.dummyVertex, self.dummyVertex)
             self.colors.insertColorOfVertex(self.lookupTable, self.dummyVertex, 0, 1)
             # logging.getLogger('file').info('Adding Node '+nid)
+
+            numVertices = self.graphUnder.GetNumberOfVertices()
+            # print("number of vertices:", numVertices)
+            self.vertIds.SetNumberOfTuples(numVertices)
+
+            # print('wtf',numVertices)
+            for i in range(0, numVertices):
+                self.vertIds.SetValue(i, i)
+
+            self.graphUnder.GetVertexData().SetPedigreeIds(self.vertIds)
         if nid not in self.nid2Vid:
             vid = self.graphUnder.AddVertex()
             self.vertexNumber += 1
@@ -239,8 +263,18 @@ class TreeViewer(Viewer):
             self.children[vid] = []
             self.colorArray.InsertValue(vid, vid)
             # logging.getLogger('file').info('Adding Node '+nid)
+
+            numVertices = self.graphUnder.GetNumberOfVertices()
+            # print("number of vertices:", numVertices)
+            self.vertIds.SetNumberOfTuples(numVertices)
+
+            # print('wtf',numVertices)
+            for i in range(0, numVertices):
+                self.vertIds.SetValue(i, i)
+
+            self.graphUnder.GetVertexData().SetPedigreeIds(self.vertIds)
         else:
-            print('Tree Viewer:',nid, 'has already been added')
+            # print('Tree Viewer:',nid, 'has already been added')
             pass
 
     def addEdge(self, fromNid, toNid, label):
@@ -298,6 +332,16 @@ class DiGraphViewer(Viewer):
             self.pre[self.dummyVertex] = []
             self.dummyVertexExists = False
             self.colorArray.InsertValue(self.dummyVertex, 0)
+
+            numVertices = self.graphUnder.GetNumberOfVertices()
+            # print("number of vertices:", numVertices)
+            self.vertIds.SetNumberOfTuples(numVertices)
+
+            # print('wtf',numVertices)
+            for i in range(0, numVertices):
+                self.vertIds.SetValue(i, i)
+
+            self.graphUnder.GetVertexData().SetPedigreeIds(self.vertIds)
         if nid not in self.nid2Vid:
             vid = self.graphUnder.AddVertex()
             self.vertexNumber += 1
@@ -306,8 +350,18 @@ class DiGraphViewer(Viewer):
             self.post[vid] = []
             self.pre[vid] = []
             self.colorArray.InsertValue(vid, 0)
+
+            numVertices = self.graphUnder.GetNumberOfVertices()
+            # print("number of vertices:", numVertices)
+            self.vertIds.SetNumberOfTuples(numVertices)
+
+            # print('wtf',numVertices)
+            for i in range(0, numVertices):
+                self.vertIds.SetValue(i, i)
+
+            self.graphUnder.GetVertexData().SetPedigreeIds(self.vertIds)
         else:
-            print('DiGraph Viewer:',nid, 'has already been added')
+            # print('DiGraph Viewer:',nid, 'has already been added')
             pass
 
     def addEdge(self, fromNid, toNid, label):

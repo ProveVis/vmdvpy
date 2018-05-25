@@ -11,6 +11,13 @@ class Trigger:
     def action(self):
         pass
 
+class HighlightNodesTrigger(Trigger):
+    def __init__(self, gviewer):
+        Trigger.__init__(self, gviewer, 'Highlight Selected')
+    def action(self):
+        selectedNids = [self.viewer.vertices[x].getProperty('id') for x in self.viewer.selectedVids]
+        return [affect.HighlightNodeAffect(x) for x in selectedNids]
+
 class HighlightChildrenTrigger(Trigger):
     def __init__(self, viewer):
         Trigger.__init__(self, viewer, 'Highlight Children')
@@ -24,11 +31,18 @@ class HighlightAncestorsTrigger(Trigger):
     def action(self):
         return [affect.HighlightAncestorsAffect(self.viewer.selectedVids)]
 
-class ClearColorTrigger(Trigger):
+class HighlightSubtreeTrigger(Trigger):
     def __init__(self, viewer):
-        Trigger.__init__(self, viewer, 'Clear Color')
+        Trigger.__init__(self, viewer, 'Highlight Subtree')
     def action(self):
-        return [affect.ClearColorAffect()]
+        return [affect.HighlightSubtreeAffect(self.viewer.selectedVids)]
+
+class ClearColorTrigger(Trigger):
+    def __init__(self, viewer, fromVMDV=False):
+        Trigger.__init__(self, viewer, 'Clear Color')
+        self.fromVMDV = fromVMDV
+    def action(self):
+        return [affect.ClearColorAffect(self.fromVMDV)]
 
 class PrintColorDataTrigger(Trigger):
     def __init__(self, viewer):

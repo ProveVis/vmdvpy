@@ -49,7 +49,7 @@ class MainWindow(QMainWindow):
         self.view.SetInteractionModeTo3D()
         self.view.SetLayoutStrategyToCone()
 
-        # self.view.SetGlyphType(vtk.vtkGraphToGlyphs.SPHERE)
+        self.view.SetGlyphType(vtk.vtkGraphToGlyphs.SPHERE)
 
         self.colorArray = vtk.vtkIntArray()
         self.colorArray.SetNumberOfComponents(1)
@@ -75,6 +75,19 @@ class MainWindow(QMainWindow):
 
 
         vid = self.graph.AddVertex()
+
+        # add a pedigree array to vertex
+        self.vertIds = vtk.vtkIdTypeArray()
+        numVertices = self.graph.GetNumberOfVertices()
+        # print("number of vertices:", numVertices)
+        self.vertIds.SetNumberOfTuples(numVertices)
+
+        print('wtf',numVertices)
+        for i in range(0, numVertices):
+            self.vertIds.SetValue(i, i)
+
+        self.graph.GetVertexData().SetPedigreeIds(self.vertIds)
+
         self.colorArray.InsertValue(vid, vid)
         self.vertexNumber = self.vertexNumber + 1
         self.vertexHeight[vid] = 0
@@ -112,14 +125,14 @@ class MainWindow(QMainWindow):
 
         def selection(obj, e):
             # print('selection triggered')
-            selected = []
+            selected = set([])
             sel = obj.GetCurrentSelection()
             selvs = sel.GetNode(0).GetSelectionList()
             # print('selected', selvs.GetNumberOfTuples(),'nodes')
             for idx in range(selvs.GetNumberOfTuples()):
-                selected.append(selvs.GetValue(idx))
+                selected.add(selvs.GetValue(idx))
                 # print('node', selvs.GetValue(idx))
-            self.selected = selected
+            self.selected = list(selected)
             print('selected vids:', selected)
             # print('selected nids:', self.selectedNids)
 
@@ -154,6 +167,20 @@ class MainWindow(QMainWindow):
         selected = self.selected
         if len(selected) != 0:
             vid = self.graph.AddVertex()
+
+            # add a pedigree array to vertex
+            # self.vertIds = vtk.vtkIdTypeArray()
+            numVertices = self.graph.GetNumberOfVertices()
+            # print("number of vertices:", numVertices)
+            self.vertIds.SetNumberOfTuples(numVertices)
+
+            print('wtf',numVertices)
+            for i in range(0, numVertices):
+                self.vertIds.SetValue(i, i)
+
+            self.graph.GetVertexData().SetPedigreeIds(self.vertIds)
+
+
             self.children[vid] = []
             self.colorArray.InsertValue(vid, vid)
             self.vertexNumber = self.vertexNumber + 1

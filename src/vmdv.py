@@ -20,23 +20,21 @@ class VMDV:
 
         self.viewers = {}
         self.jsonThread = None
+
+        self.requestId = 0
+        # Each pair in pendingRequests has the form (k: str, v: (str, dict))
+        self.pendingRequests = {}
+
+    def newRequestId(self):
+        newId = str(self.requestId)
+        self.requestId += 1
+        return newId
         
-
-    # def putJSON(self, data):
-    #     self.jsonQueue.append(data)
-    #     self.jsonSem.release()
-
-    # def fetchJSON(self):
-    #     self.jsonSem.acquire()
-    #     return self.jsonQueue.popleft()
-
     def putAffect(self, sid, a):
-        # global affectQueue
         self.affectQueue.append((sid, a))
         self.affectSem.release()
 
     def fetchAffect(self):
-        # print('fetching affect object')
         self.affectSem.acquire()
         return self.affectQueue.popleft()
 
@@ -52,7 +50,7 @@ class VMDV:
         return self.viewers[sid]
 
     def initSession(self, sid, descr, attris, graphType):
-        print('showing viewer in thread:', threading.current_thread())
+        # print('showing viewer in thread:', threading.current_thread())
         if graphType == 'Tree':
             tviewer = viewer.TreeViewer(self, sid, descr, attris, utils.GradualColoring(utils.RGB(0,0,1), utils.RGB(0,1,0)))
             tviewer.addBackgroundMenuItem(trigger.ClearColorTrigger(tviewer, fromVMDV=True))
@@ -75,21 +73,24 @@ class VMDV:
             print('Showed a DiGraph', sid)
         
     def handleAffect(self, sid, a):
-        # print('handling affect')
         if sid == '':
             a.affect()
         else:    
             viewer = self.viewers[sid]
             viewer.handleAffect(a)
 
-    def closeViewer(self, sid):
-        viewer = self.viewers.pop(sid)
-        if len(self.viewers) == 0:
-            self.jsonThread.stop()
-        viewer.close()
+    def closeAllViewers(self):
+        # viewer = self.viewers.pop(sid)
+        # if len(self.viewers) == 0:
+        #     self.jsonThread.stop()
+        # viewer.close()
+        self.viewers.clear()
+        self.jsonThread.stop()
+
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
+    
     # os.system('rm -f log/globalLog.txt')
     # fileLogger = logging.getLogger('file')
     # fileLogger.addHandler(logging.FileHandler('log/globalLog.txt'))
@@ -97,12 +98,10 @@ if __name__ == '__main__':
     cliLogger = logging.getLogger('cli')
     cliLogger.addHandler(logging.StreamHandler(sys.stdout))
     v = VMDV()
-    # affectThread = messenger.AffectParser(v)
-    # affectThread.affectSignal.connect(v.handleAffect)
-    # affectThread.start()
     jsonThread = messenger.Receiver(v)
     jsonThread.initSessionSignal.connect(v.initSession)
     jsonThread.affectSignal.connect(v.handleAffect)
     jsonThread.start()
 
+    app.aboutToQuit.connect(v.closeAllViewers)
     sys.exit(app.exec_())

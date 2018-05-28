@@ -135,14 +135,12 @@ class Message:
     def toStr(self):
         pass
 
-
 class ClearColorMessage(Message):
     def __init__(self, sid):
         self.sid = sid
 
     def toStr(self):
         return (json.dumps({'type': 'clear_color', 'session_id': self.sid}))+'\n'
-
 
 class HighlightNodeMessage(Message):
     def __init__(self, sid, nid):
@@ -157,6 +155,36 @@ class HighlightNodeMessage(Message):
         }
         return (json.dumps(data))+'\n'
 
+class RequestMessage(Message):
+    def __init__(self, sid, rname, rid, args):
+        self.sid = sid
+        self.rname = rname
+        self.rid = rid
+        self.args = args
+
+    def toStr(self):
+        data = {
+            'type': 'request',
+            'session_id': self.sid,
+            'request_id': self.rid,
+            'request_name': self.rname,
+            'args': self.args
+        }
+        return (json.dumps(data))+'\n'
+
+class ResponseMessage(Message):
+    def __init__(self, sid, rid, result):
+        self.sid = sid
+        self.rid = rid
+        self.result = result
+    def toStr(self):
+        data = {
+            'type': 'response',
+            'session_id': self.sid,
+            'request_id': self.rid,
+            'result': self.result
+        }
+        return (json.dumps(data))+'\n'
 
 class Sender(QThread):
     def __init__(self, v, sock, parent=None):

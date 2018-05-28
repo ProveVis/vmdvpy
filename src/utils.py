@@ -19,18 +19,10 @@ class Coloring:
         self.allColors = []
 
     def getColorByName(self, cname):
-        for i in range(len(self.reservedColor)):
-            nc, c = self.reservedColor[i]
-            if nc == cname:
-                return c
-        return None
-
-    def colorIndex(self, cname):
-        for i in range(len(self.reservedColor)):
-            nc = self.reservedColor[i]
-            if nc[0] == cname:
-                return i
-        return 0
+        if cname in self.reservedColor:
+            return self.reservedColor[cname]
+        else:
+            return None
 
 class GradualColoring(Coloring):
     def __init__(self, startingRgb, endingRgb):
@@ -153,7 +145,7 @@ class GradualColoring(Coloring):
     def resetColorOfVertex(self, lookupTable, resetVid):
         self.resetColorTuple(resetVid)
         # self.updateLookupTable(lookupTable)
-    def resetColorsOfAllVertices(self, lookupTable):
+    def resetColorsOfAllVertices(self, lookupTable, colorArray):
         self.resetAllColorTuples()
         # self.updateLookupTable(lookupTable)
     def insertColorOfVertex(self, lookupTable, newVid, newIndex, newGrades):
@@ -174,7 +166,7 @@ class GradualColoring(Coloring):
 class FixedColoring(Coloring):
     def __init__(self):
         Coloring.__init__(self)
-        self.allColors = [('blue', RGB(0,0,1))]
+        self.allColors = [('blue', RGB(0,0,1)), ('red', RGB(1,0,0))]
 
     def colorIndex(self, cname):
         for i in range(len(self.allColors)):
@@ -185,8 +177,10 @@ class FixedColoring(Coloring):
     def updateLookupTable(self, lookupTable):
         nr = len(self.allColors)
         lookupTable.SetNumberOfTableValues(nr)
+        # print('FixedColoring.allColors:', self.allColors)
         for i in range(nr):
-            (nc,c) = self.allColors[i]
+            nc = self.allColors[i]
+            c = nc[1]
             lookupTable.SetTableValue(i,c.r,c.g,c.b) 
 
     def updateVertexColor(self, colorArray, vid, cid):
@@ -198,13 +192,19 @@ class FixedColoring(Coloring):
             color = self.reservedColor[cname]
             cindex = 0
             try:
-                cindex = self.allColors.index(color)
+                cindex = self.allColors.index((cname, color))
             except ValueError:
-                self.allColors.append(color)
+                self.allColors.append((cname, color))
                 cindex = len(self.allColors) - 1
             # self.updateLookupTable(lookupTable)
             self.updateVertexColor(colorArray, vid, cindex)
         else:
             print('Cannot set color of vertex', vid, ': color', cname, 'does not exist')
-    def resetColorsOfAllVertices(self, lookupTable):
+        self.updateLookupTable(lookupTable)
+        self.updateVertexColor(colorArray, vid, cindex)
+
+    def resetColorsOfAllVertices(self, lookupTable, colorArray):
+        nt = colorArray.GetNumberOfTuples()
+        for i in range(nt):
+            colorArray.SetValue(i, 0)
         self.updateLookupTable(lookupTable)

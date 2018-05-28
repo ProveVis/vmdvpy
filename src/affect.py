@@ -46,9 +46,14 @@ class HighlightNodeAffect(Affect):
         self.nid = nid
     def affect(self, gviewer):
         vid = gviewer.nid2Vid[self.nid]
-        gviewer.colors.updateColorOfVertex(gviewer.lookupTable, vid, 'red')
-        gviewer.colors.updateLookupTable(gviewer.lookupTable)
-        gviewer.updateRendering()
+        if gviewer.__class__.__name__ == viewer.TreeViewer.__name__:
+            gviewer.colors.updateColorOfVertex(gviewer.lookupTable, vid, 'red')
+            gviewer.colors.updateLookupTable(gviewer.lookupTable)
+            gviewer.updateRendering()
+            gviewer.vmdv.putMsg(messenger.HighlightNodeMessage(gviewer.sid, self.nid))
+        elif gviewer.__class__.__name__ == viewer.DiGraphViewer.__name__:
+            gviewer.colors.setVertexColorByName(gviewer.lookupTable, gviewer.colorArray, vid, 'red')
+            gviewer.updateRendering()
 
 class HighlightChildrenAffect(Affect):
     def __init__(self, vids):
@@ -67,7 +72,6 @@ class HighlightChildrenAffect(Affect):
             for vid in childrenVids:
                 nid = tviewer.vertices[vid].getProperty('id')
                 tviewer.vmdv.putMsg(messenger.HighlightNodeMessage(tviewer.sid, nid))
-
 
 class HighlightSubtreeAffect(Affect):
     def __init__(self, vids):
@@ -114,7 +118,9 @@ class HighlightAncestorsAffect(Affect):
             tviewer.colors.updateColorsOfVertices(tviewer.lookupTable, ancestorsVids, 'red')
             tviewer.colors.updateLookupTable(tviewer.lookupTable)
             tviewer.updateRendering()
-
+            for vid in ancestorsVids:
+                nid = tviewer.vertices[vid].getProperty('id')
+                tviewer.vmdv.putMsg(messenger.HighlightNodeMessage(tviewer.sid, nid))
 
 class ClearColorAffect(Affect):
     def __init__(self, fromVMDV=False):

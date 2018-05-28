@@ -126,13 +126,13 @@ class Viewer(QMainWindow):
             selected = set([])
             sel = obj.GetCurrentSelection()
             selvs = sel.GetNode(0).GetSelectionList()
-            print('selected', selvs.GetNumberOfTuples(),'nodes')
+            # print('selected', selvs.GetNumberOfTuples(),'nodes')
             for idx in range(selvs.GetNumberOfTuples()):
                 selected.add(selvs.GetValue(idx))
                 # print('node', selvs.GetValue(idx))
             # self.selectedNids = [self.vi for x in selected]
             # list(map(lambda x: self.vertex2Nid[x],selected))
-            print('selected vids:', selected)
+            # print('selected vids:', selected)
             # print('selected Nodes:', self.selectedNids)
             # print('selected nids:', self.selectedNids)
             self.selectedVids = list(selected)
@@ -207,7 +207,7 @@ class Viewer(QMainWindow):
 
     def resetGraphColor(self):
         self.graph.CheckedShallowCopy(self.graphUnder)
-        self.colors.resetColorsOfAllVertices(self.lookupTable)
+        self.colors.resetColorsOfAllVertices(self.lookupTable, self.colorArray)
         self.colors.updateLookupTable(self.lookupTable)
         self.updateRendering()
     def setVertexColorByName(self, vid, cname):

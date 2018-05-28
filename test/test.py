@@ -1,5 +1,7 @@
 
 import abc
+import sys
+sys.path.append('../src')
 import graph
 
 class Test:

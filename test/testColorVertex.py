@@ -52,22 +52,11 @@ class PTVisualizer:
         self.graph.AddEdge(v1,v3)
         self.graph.AddEdge(v2,v4)
 
-        # self.view.SetGlyphType(vtk.vtkGraphToGlyphs.SPHERE)
-
-        
-
         self.vertexColors = vtk.vtkIntArray()
         self.vertexColors.SetNumberOfComponents(1)
         self.vertexColors.SetName("color")
         self.lookup = vtk.vtkLookupTable()
         self.lookup.Build()
-
-        # self.vertexColors.InsertValue(v1,0)
-        # self.vertexColors.InsertValue(v2,1)
-        # self.vertexColors.InsertValue(v3,2)
-        # self.vertexColors.InsertValue(v4,3)
-
-        # self.view.SetLayoutStrategyToPassThrough();
 
         self.graph.GetVertexData().AddArray(self.vertexColors)
         self.view.SetVertexColorArrayName("color")

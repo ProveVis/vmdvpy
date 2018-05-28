@@ -236,7 +236,8 @@ class MainWindow(QMainWindow):
                 tmpChildren = self.children[tmpVid]
                 self.children[tmpVid] = [self.changeVid(x, topVid, vid) for x in tmpChildren]
             self.vertexNumber = self.vertexNumber - 1
-            self.colorArray.SetValue(vid, vid)
+            if vid < self.vertexNumber:
+                self.colorArray.SetValue(vid, vid)
 
     def removeNode(self):
         selected = self.selected

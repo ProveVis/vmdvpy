@@ -138,3 +138,12 @@ class PrintColorDataAffect(Affect):
         print('\nColorTable:', viewer.lookupTable.GetNumberOfTableValues())
         for j in range(viewer.lookupTable.GetNumberOfTableValues()):
             print('(', j, viewer.lookupTable.GetTableValue(j), ')', end=';\n')
+
+class ParseResponseAffect(Affect):
+    def __init__(self, rname, rargs, result):
+        self.rname = rname
+        self.rargs = rargs
+        self.result = result
+
+    def affect(self, gviewer):
+        

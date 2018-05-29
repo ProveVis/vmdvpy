@@ -8,7 +8,6 @@ import json
 import socket
 import logging
 
-
 def matchJSONStr(toBeMatched):
     if toBeMatched.startswith('{\"type\":'):
         flag = 0
@@ -112,6 +111,21 @@ class Receiver(QThread):
                         elif t == 'clear_color':
                             sid = data['session_id']
                             self.affectSignal.emit(sid, affect.ClearColorAffect())
+                        elif t == 'request':
+                            print('VMDV received a request message')
+                        elif t == 'response':
+                            sid = data['session_id']
+                            rid = data['request_id']
+                            result = data['result']
+
+                            pr = self.v.pendingRequests
+                            if rid not in pr:
+                                print('There is no pending request', rid)
+                            else:
+                                rname, rargs = pr[rid]
+
+                            self.affectSignal.emit(sid, affect.ParseResponseAffect(rname, rargs, result))
+                            self.v.reponseCache[(rname, rargs)] = result
                         elif t == 'feedback':
                             if data['status'] == 'OK':
                                 print('Session received feedback from the prover:', data['session_id'], ',', data['status'])

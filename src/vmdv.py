@@ -24,6 +24,8 @@ class VMDV:
         self.requestId = 0
         # Each pair in pendingRequests has the form (k: str, v: (str, dict))
         self.pendingRequests = {}
+        # Each pair in responseCache has the form (k: (str, dict), v: dict)
+        self.reponseCache = {}
 
     def newRequestId(self):
         newId = str(self.requestId)

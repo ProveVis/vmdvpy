@@ -2,6 +2,7 @@ from PyQt5.QtWidgets import QAction
 import abc
 import sys
 import affect
+import messenger
 
 class Trigger:
     def __init__(self, viewer, label):
@@ -49,3 +50,12 @@ class PrintColorDataTrigger(Trigger):
         Trigger.__init__(self, viewer, 'Print Color Data')
     def action(self):
         return [affect.PrintColorDataAffect()]
+
+class ZoneAircraftNumberTrigger(Trigger):
+    def __init__(self, viewer, zone):
+        Trigger.__init__(self, viewer, 'Highlight By Zone ('+zone+')')
+        self.zone = zone
+
+    def action(self):
+        self.viewer.vmdv.putMsg(messenger.RequestMessage(self.viewer.sid, 'zone_aircraft_number', self.viewer.vmdv.newRequestId(), {'zone': self.zone}))
+        return []

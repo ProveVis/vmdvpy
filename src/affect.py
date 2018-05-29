@@ -146,4 +146,20 @@ class ParseResponseAffect(Affect):
         self.result = result
 
     def affect(self, gviewer):
+        if self.rname == 'zone_aircraft_number':
+            for si in self.result:
+                n = int(si)
+                if n == 0:
+                    gviewer.colors.setVerticesColorByName(gviewer.lookupTable, gviewer.colorArray, self.result[si], 'c0')
+                elif n == 1:
+                    gviewer.colors.setVerticesColorByName(gviewer.lookupTable, gviewer.colorArray, self.result[si], 'c1')
+                elif n == 2:
+                    gviewer.colors.setVerticesColorByName(gviewer.lookupTable, gviewer.colorArray, self.result[si], 'c2')
+                elif n == 3:
+                    gviewer.colors.setVerticesColorByName(gviewer.lookupTable, gviewer.colorArray, self.result[si], 'c3')
+                elif n == 4:
+                    gviewer.colors.setVerticesColorByName(gviewer.lookupTable, gviewer.colorArray, self.result[si], 'c4')
+                else:
+                    print('More than 4 aircraft in a zone')
+                
         

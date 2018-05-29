@@ -167,6 +167,16 @@ class FixedColoring(Coloring):
     def __init__(self):
         Coloring.__init__(self)
         self.allColors = [('blue', RGB(0,0,1)), ('red', RGB(1,0,0))]
+        self.reservedColor = {
+            'red':      RGB(1.0, 0, 0), 
+            'green':    RGB(0, 1.0, 0.0), 
+            'blue':     RGB(0.0, 0.0, 1.0),
+            'c0':       RGB(1, 100/255, 0),
+            'c1':       RGB(1, 80/255, 0),
+            'c2':       RGB(1, 60/255, 0),
+            'c3':       RGB(1, 40/255, 0),
+            'c4':       RGB(1, 20/255, 0)
+        }
 
     def colorIndex(self, cname):
         for i in range(len(self.allColors)):
@@ -196,15 +206,34 @@ class FixedColoring(Coloring):
             except ValueError:
                 self.allColors.append((cname, color))
                 cindex = len(self.allColors) - 1
-            # self.updateLookupTable(lookupTable)
+            self.updateLookupTable(lookupTable)
             self.updateVertexColor(colorArray, vid, cindex)
         else:
             print('Cannot set color of vertex', vid, ': color', cname, 'does not exist')
-        self.updateLookupTable(lookupTable)
-        self.updateVertexColor(colorArray, vid, cindex)
+        # self.updateLookupTable(lookupTable)
+        # self.updateVertexColor(colorArray, vid, cindex)
+
+    def setVerticesColorByName(self, lookupTable, colorArray, vids, cname):
+        if cname in self.reservedColor:
+            color = self.reservedColor[cname]
+            cindex = 0
+            try:
+                cindex = self.allColors.index((cname, color))
+            except ValueError:
+                self.allColors.append((cname, color))
+                cindex = len(self.allColors) - 1
+            self.updateLookupTable(lookupTable)
+            for vid in vids:
+                colorArray.SetValue(vid, cindex)
+            # self.updateVertexColor(colorArray, vid, cindex)
+        else:
+            print('Cannot set color of vertex', vid, ': color', cname, 'does not exist')
+        # self.updateLookupTable(lookupTable)
+        # self.updateVertexColor(colorArray, vid, cindex)
 
     def resetColorsOfAllVertices(self, lookupTable, colorArray):
         nt = colorArray.GetNumberOfTuples()
         for i in range(nt):
             colorArray.SetValue(i, 0)
+        self.allColors = [('blue', RGB(0,0,1)), ('red', RGB(1,0,0))]
         self.updateLookupTable(lookupTable)

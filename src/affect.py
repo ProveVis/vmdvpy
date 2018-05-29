@@ -149,16 +149,19 @@ class ParseResponseAffect(Affect):
         if self.rname == 'zone_aircraft_number':
             for si in self.result:
                 n = int(si)
+                nids = self.result[si].split(',')
+                nids.remove('')
+                vids = [gviewer.nid2Vid[x] for x in nids]
                 if n == 0:
-                    gviewer.colors.setVerticesColorByName(gviewer.lookupTable, gviewer.colorArray, self.result[si], 'c0')
+                    gviewer.colors.setVerticesColorByName(gviewer.lookupTable, gviewer.colorArray, vids, 'c0')
                 elif n == 1:
-                    gviewer.colors.setVerticesColorByName(gviewer.lookupTable, gviewer.colorArray, self.result[si], 'c1')
+                    gviewer.colors.setVerticesColorByName(gviewer.lookupTable, gviewer.colorArray, vids, 'c1')
                 elif n == 2:
-                    gviewer.colors.setVerticesColorByName(gviewer.lookupTable, gviewer.colorArray, self.result[si], 'c2')
+                    gviewer.colors.setVerticesColorByName(gviewer.lookupTable, gviewer.colorArray, vids, 'c2')
                 elif n == 3:
-                    gviewer.colors.setVerticesColorByName(gviewer.lookupTable, gviewer.colorArray, self.result[si], 'c3')
+                    gviewer.colors.setVerticesColorByName(gviewer.lookupTable, gviewer.colorArray, vids, 'c3')
                 elif n == 4:
-                    gviewer.colors.setVerticesColorByName(gviewer.lookupTable, gviewer.colorArray, self.result[si], 'c4')
+                    gviewer.colors.setVerticesColorByName(gviewer.lookupTable, gviewer.colorArray, vids, 'c4')
                 else:
                     print('More than 4 aircraft in a zone')
                 

@@ -57,5 +57,9 @@ class ZoneAircraftNumberTrigger(Trigger):
         self.zone = zone
 
     def action(self):
-        self.viewer.vmdv.putMsg(messenger.RequestMessage(self.viewer.sid, 'zone_aircraft_number', self.viewer.vmdv.newRequestId(), {'zone': self.zone}))
+        rid = self.viewer.vmdv.newRequestId()
+        rname = 'zone_aircraft_number'
+        rargs = {'zone': self.zone}
+        self.viewer.vmdv.putMsg(messenger.RequestMessage(self.viewer.sid, rname, rid, rargs))
+        self.viewer.vmdv.addPendingRequest(rid, rname, rargs)
         return []

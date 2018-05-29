@@ -123,9 +123,9 @@ class Receiver(QThread):
                                 print('There is no pending request', rid)
                             else:
                                 rname, rargs = pr[rid]
-
-                            self.affectSignal.emit(sid, affect.ParseResponseAffect(rname, rargs, result))
-                            self.v.reponseCache[(rname, rargs)] = result
+                                pr.pop(rid)
+                                self.affectSignal.emit(sid, affect.ParseResponseAffect(rname, rargs, result))
+                                self.v.reponseCache[(rname, rargs['zone'])] = result
                         elif t == 'feedback':
                             if data['status'] == 'OK':
                                 print('Session received feedback from the prover:', data['session_id'], ',', data['status'])

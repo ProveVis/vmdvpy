@@ -24,13 +24,16 @@ class VMDV:
         self.requestId = 0
         # Each pair in pendingRequests has the form (k: str, v: (str, dict))
         self.pendingRequests = {}
-        # Each pair in responseCache has the form (k: (str, dict), v: dict)
+
+        # Each pair in responseCache has the form (k: (str, str), v: dict)
         self.reponseCache = {}
 
     def newRequestId(self):
         newId = str(self.requestId)
         self.requestId += 1
         return newId
+    def addPendingRequest(self, rid, rname, rargs):
+        self.pendingRequests[rid] = (rname, rargs)
         
     def putAffect(self, sid, a):
         self.affectQueue.append((sid, a))

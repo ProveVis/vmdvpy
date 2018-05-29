@@ -150,7 +150,7 @@ class ParseResponseAffect(Affect):
             for si in self.result:
                 n = int(si)
                 nids = self.result[si].split(',')
-                nids.remove('')
+                # nids.remove('')
                 vids = [gviewer.nid2Vid[x] for x in nids]
                 if n == 0:
                     gviewer.colors.setVerticesColorByName(gviewer.lookupTable, gviewer.colorArray, vids, 'c0')
@@ -164,5 +164,7 @@ class ParseResponseAffect(Affect):
                     gviewer.colors.setVerticesColorByName(gviewer.lookupTable, gviewer.colorArray, vids, 'c4')
                 else:
                     print('More than 4 aircraft in a zone')
+                gviewer.updateRendering()
+                print('Response Node color set')
                 
         

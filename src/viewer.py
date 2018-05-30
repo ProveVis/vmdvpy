@@ -310,6 +310,7 @@ class DiGraphViewer(Viewer):
         layout.SetMaxNumberOfIterations(70)
         layout.ThreeDimensionalLayoutOn ()
         layout.AutomaticBoundsComputationOn()
+        layout.SetInitialTemperature(20)
         Viewer.initViewerWindow(self, vtk.vtkDirectedGraph(), layout)
         Viewer.setWindowTitle(self, 'DiGraph')
        

@@ -166,16 +166,16 @@ class GradualColoring(Coloring):
 class FixedColoring(Coloring):
     def __init__(self):
         Coloring.__init__(self)
-        self.allColors = [('blue', RGB(0,0,1)), ('red', RGB(1,0,0))]
+        self.allColors = [('blue', RGB(0,0,1))]
         self.reservedColor = {
             'red':      RGB(1.0, 0, 0), 
             'green':    RGB(0, 1.0, 0.0), 
             'blue':     RGB(0.0, 0.0, 1.0),
             'c0':       RGB(1, 100/255, 0),
-            'c1':       RGB(1, 80/255, 0),
-            'c2':       RGB(1, 60/255, 0),
-            'c3':       RGB(1, 40/255, 0),
-            'c4':       RGB(1, 20/255, 0)
+            'c1':       RGB(1, 70/255, 0),
+            'c2':       RGB(1, 40/255, 0),
+            'c3':       RGB(1, 10/255, 0),
+            'c4':       RGB(1, 0, 0)
         }
 
     def colorIndex(self, cname):
@@ -235,5 +235,5 @@ class FixedColoring(Coloring):
         nt = colorArray.GetNumberOfTuples()
         for i in range(nt):
             colorArray.SetValue(i, 0)
-        self.allColors = [('blue', RGB(0,0,1)), ('red', RGB(1,0,0))]
+        self.allColors = [('blue', RGB(0,0,1))]
         self.updateLookupTable(lookupTable)

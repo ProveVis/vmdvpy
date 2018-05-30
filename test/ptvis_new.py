@@ -61,6 +61,9 @@ class PTVisualizer:
         # self.view.SetLayoutStrategy('Force Directed')
         self.layout.ThreeDimensionalLayoutOn ()
         self.layout.AutomaticBoundsComputationOn()
+        # self.layout.SetCoolDownRate(0.5*self.layout.GetCoolDownRate())
+        print(self.layout.GetInitialTemperature())
+        self.layout.SetInitialTemperature(15)
         self.view.SetLayoutStrategy(self.layout)
         
         

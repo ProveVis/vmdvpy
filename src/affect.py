@@ -41,6 +41,13 @@ class AddEdgeAffect(Affect):
     def affect(self, viewer):
         viewer.addEdge(self.fromId, self.toId, self.label)
 
+class ShowNodeLabelAffect(Affect):
+    def __init__(self, vids):
+        self.vids = vids
+    def affect(self, gviewer):
+        label = gviewer.vertices[self.vids[0]].getProperty('label')
+        gviewer.showNodeText(label)
+
 class HighlightNodeAffect(Affect):
     def __init__(self, nid):
         self.nid = nid
@@ -129,6 +136,7 @@ class ClearColorAffect(Affect):
         if self.fromVMDV:
             viewer.vmdv.putMsg(messenger.ClearColorMessage(viewer.sid))
         viewer.resetGraphColor()
+        viewer.showNodeText('')
 
 class PrintColorDataAffect(Affect):
     def affect(self, viewer):

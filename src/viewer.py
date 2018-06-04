@@ -62,8 +62,26 @@ class Viewer(QMainWindow):
         self.view.AddRepresentationFromInput(self.graph)
         self.view.SetInteractionModeTo3D()
         self.view.SetLayoutStrategy(layoutStrategy)
-
         self.view.SetGlyphType(vtk.vtkGraphToGlyphs.SPHERE)
+
+        # showing the text label of nodes
+        self.text_actor = vtk.vtkTextActor()
+        self.text_actor.GetTextProperty().SetColor((0, 0, 1))
+        self.text_actor.SetTextScaleModeToProp()
+        self.text_widget = vtk.vtk.vtk.vtkTextWidget()
+        # Create the TextActor
+        text_representation = vtk.vtkTextRepresentation()
+        text_representation.GetPositionCoordinate().SetValue(0.6, 0.0)
+        text_representation.GetPosition2Coordinate().SetValue(0.4, 1.0)
+        # text_representation.SetTextActor(text_actor)
+
+        self.text_widget.CreateDefaultRepresentation()
+        self.text_widget.SetRepresentation(text_representation)
+        self.text_widget.SetInteractor(self.view.GetInteractor())
+        self.text_widget.SetTextActor(self.text_actor)
+        self.text_widget.SelectableOff()
+        self.text_widget.On()
+
 
         # build lookup table and the vtkIntArray object
         self.colorArray = vtk.vtkIntArray()
@@ -147,6 +165,9 @@ class Viewer(QMainWindow):
         self.view.GetInteractor().AddObserver(vtk.vtkCommand.MouseMoveEvent, self.MouseMoved, 100)
         self.view.GetInteractor().AddObserver(vtk.vtkCommand.LeftButtonPressEvent, self.LeftButtonPressed, 100)
         self.view.GetInteractor().AddObserver(vtk.vtkCommand.LeftButtonReleaseEvent, self.LeftButtonReleased, 100)
+    
+    def showNodeText(self, s):
+        self.text_actor.SetInput(s)
 
     def LeftButtonPressed(self, obj, event):
         self.isLeftButtonPressed = True

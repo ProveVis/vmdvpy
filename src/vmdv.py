@@ -59,12 +59,13 @@ class VMDV:
         if graphType == 'Tree':
             tviewer = viewer.TreeViewer(self, sid, descr, attris, utils.GradualColoring(utils.RGB(0,0,1), utils.RGB(0,1,0)))
             tviewer.addBackgroundMenuItem(trigger.ClearColorTrigger(tviewer, fromVMDV=True))
+            tviewer.addForegroundMenuItem(trigger.ShowNodeLabelTrigger(tviewer))
             tviewer.addForegroundMenuItem(trigger.HighlightNodesTrigger(tviewer))
             tviewer.addForegroundMenuItem(trigger.HighlightChildrenTrigger(tviewer))
             tviewer.addForegroundMenuItem(trigger.HighlightAncestorsTrigger(tviewer))
             tviewer.addForegroundMenuItem(trigger.HighlightSubtreeTrigger(tviewer))
-            tviewer.addForegroundMenuItem(trigger.PrintColorDataTrigger(tviewer))
-            tviewer.addBackgroundMenuItem(trigger.PrintColorDataTrigger(tviewer))
+            # tviewer.addForegroundMenuItem(trigger.PrintColorDataTrigger(tviewer))
+            # tviewer.addBackgroundMenuItem(trigger.PrintColorDataTrigger(tviewer))
             tviewer.affectSignal.connect(self.handleAffect)
             self.viewers[sid] = tviewer
             tviewer.show()
@@ -72,6 +73,7 @@ class VMDV:
         else:
             gviewer = viewer.DiGraphViewer(self, sid, descr, attris, utils.FixedColoring())
             gviewer.addBackgroundMenuItem(trigger.ClearColorTrigger(gviewer))
+            gviewer.addForegroundMenuItem(trigger.ShowNodeLabelTrigger(gviewer))
             gviewer.addBackgroundMenuItem(trigger.ZoneAircraftNumberTrigger(gviewer, 'holding3_right'))
             gviewer.addBackgroundMenuItem(trigger.ZoneAircraftNumberTrigger(gviewer, 'holding3_left'))
             gviewer.addBackgroundMenuItem(trigger.ZoneAircraftNumberTrigger(gviewer, 'holding2_right'))

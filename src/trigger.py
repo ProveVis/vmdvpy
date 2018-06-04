@@ -12,6 +12,12 @@ class Trigger:
     def action(self):
         pass
 
+class ShowNodeLabelTrigger(Trigger):
+    def __init__(self, gviewer):
+        Trigger.__init__(self, gviewer, 'Show Node Label')
+    def action(self):
+        return [affect.ShowNodeLabelAffect(self.viewer.selectedVids)]
+
 class HighlightNodesTrigger(Trigger):
     def __init__(self, gviewer):
         Trigger.__init__(self, gviewer, 'Highlight Selected')

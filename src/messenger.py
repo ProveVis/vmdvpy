@@ -8,6 +8,89 @@ import json
 import socket
 import logging
 
+
+class FileReader(QThread):
+    def __init__(self, v, filename, parent=None):
+        super(FileReader, self).__init__(parent)
+        self.v = v
+        self.filename = filename
+
+
+    initSessionSignal = QtCore.pyqtSignal(str, str, list, str)
+    affectSignal = QtCore.pyqtSignal(str, affect.Affect)
+
+    def run(self):
+        f = open(self.filename, 'r')
+        while True:
+            line = f.readline()
+            data = None
+            try:
+                data = json.loads(line)
+            except json.decoder.JSONDecodeError:
+                print('cannot decode this into a json:', line)
+                break
+            t = data['type']
+            # print('Received a json object:', t)
+            if t == 'create_session':
+                if data['graph_type'] == 'Tree':
+                    attris = []
+                    if 'attributes' in data:
+                        attris = data['attributes']
+                    self.initSessionSignal.emit(
+                        data['session_id'], data['session_descr'], attris, 'Tree')
+                elif data['graph_type'] == 'DiGraph':
+                    attris = []
+                    if 'attributes' in data:
+                        attris = data['attributes']
+                    self.initSessionSignal.emit(data['session_id'], data['session_descr'], attris, 'DiGraph')
+                else:
+                    print('Unknown graph type:',
+                            data['graph_type'])
+            elif t == 'remove_session':
+                self.v.sessions.pop(data['session_id'])
+            elif t == 'add_node':
+                a = affect.AddNodeAffect(data['node']['id'], data['node']['label'], data['node']['state'])
+                # self.v.putAffect(data['session_id'], a)
+                self.affectSignal.emit(data['session_id'], a)
+            elif t == 'add_edge':
+                a = None
+                if 'label' in data:
+                    a = affect.AddEdgeAffect(data['from_id'], data['to_id'], data['label'])
+                else:
+                    a = affect.AddEdgeAffect(data['session_id'], data['from_id'], data['to_id'])
+                # self.v.putAffect(data['session_id'], a)
+                self.affectSignal.emit(data['session_id'], a)
+            elif t == 'highlight_node':
+                sid = data['session_id']
+                nid = data['node_id']
+                self.affectSignal.emit(sid, affect.HighlightNodeAffect(nid))
+            elif t == 'clear_color':
+                sid = data['session_id']
+                self.affectSignal.emit(sid, affect.ClearColorAffect())
+            elif t == 'request':
+                print('VMDV received a request message')
+            elif t == 'response':
+                sid = data['session_id']
+                rid = data['request_id']
+                result = data['result']
+
+                pr = self.v.pendingRequests
+                if rid not in pr:
+                    print('There is no pending request', rid)
+                else:
+                    rname, rargs = pr[rid]
+                    pr.pop(rid)
+                    self.affectSignal.emit(sid, affect.ParseResponseAffect(rname, rargs, result))
+                    self.v.reponseCache[(rname, rargs['zone'])] = result
+            elif t == 'feedback':
+                if data['status'] == 'OK':
+                    print('Session received feedback from the prover:', data['session_id'], ',', data['status'])
+                else:
+                    print('Session received feedback from the prover:', data['session_id'], ',', data['status'], ',', data['error_msg'])
+            else:
+                print('Unknown type of message:', data['type'])
+
+
 def matchJSONStr(toBeMatched):
     if toBeMatched.startswith('{\"type\":'):
         flag = 0

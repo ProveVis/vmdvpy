@@ -102,8 +102,8 @@ class Viewer(QMainWindow):
         self.view.SetEdgeSelection(False)
         theme = vtk.vtkViewTheme.CreateOceanTheme()
         theme.FastDelete()
-        theme.SetLineWidth(1)
-        theme.SetPointSize(10)
+        theme.SetLineWidth(2)
+        theme.SetPointSize(20)
         theme.SetPointLookupTable(self.lookupTable)
         self.view.ApplyViewTheme(theme)
 

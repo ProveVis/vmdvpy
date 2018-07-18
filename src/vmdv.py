@@ -107,7 +107,8 @@ class VMDV:
         #     self.jsonThread.stop()
         # viewer.close()
         self.viewers.clear()
-        self.jsonThread.stop()
+        if self.jsonThread != None:
+            self.jsonThread.stop()
 
 
 if __name__ == '__main__':
@@ -120,10 +121,17 @@ if __name__ == '__main__':
     cliLogger = logging.getLogger('cli')
     cliLogger.addHandler(logging.StreamHandler(sys.stdout))
     v = VMDV()
-    jsonThread = messenger.Receiver(v)
-    jsonThread.initSessionSignal.connect(v.initSession)
-    jsonThread.affectSignal.connect(v.handleAffect)
-    jsonThread.start()
+
+    if len(sys.argv) > 1:
+        fileReader = messenger.FileReader(v, sys.argv[1])
+        fileReader.initSessionSignal.connect(v.initSession)
+        fileReader.affectSignal.connect(v.handleAffect)
+        fileReader.start()
+    else:
+        jsonThread = messenger.Receiver(v)
+        jsonThread.initSessionSignal.connect(v.initSession)
+        jsonThread.affectSignal.connect(v.handleAffect)
+        jsonThread.start()
 
     app.aboutToQuit.connect(v.closeAllViewers)
     sys.exit(app.exec_())

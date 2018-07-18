@@ -1,5 +1,6 @@
 import json
 import vtk
+import utils
 
 
 def parseLabel(label):
@@ -50,19 +51,39 @@ class PTVisualizer:
         self.text_actor.SetTextScaleModeToProp()
 
         self.view.AddRepresentationFromInput(self.tree)
-        # view.SetGlyphType(vtk.vtkGraphToGlyphs.SPHERE)
+        self.view.SetGlyphType(vtk.vtkGraphToGlyphs.SPHERE)
 
         self.view.SetInteractionModeTo3D()
         self.view.SetLayoutStrategyToCone()
 
+        
+
+        self.vertexColors = vtk.vtkIntArray()
+        self.vertexColors.SetNumberOfComponents(1)
+        self.vertexColors.SetName("color")
+        self.lookup = vtk.vtkLookupTable()
+        self.lookup.Build()
+        self.vertexColors.InsertValue(0,0)
+        self.graph.GetVertexData().AddArray(self.vertexColors)
+        self.view.SetVertexColorArrayName("color")
+        # self.lookup.SetNumberOfTableValues(1)
+        # self.lookup.SetTableValue(0,0.0,1.0,0.0)   
+
         self.view.SetColorVertices(True)
         self.view.SetEdgeSelection(False)
 
+        self.vertexHeight = {}
+        self.vertexHeight[0] = 0
+        self.treeHeight = 1
+        self.colors = utils.GradualColoring(utils.RGB(0,0,1), utils.RGB(0,1,0))
+
         theme = vtk.vtkViewTheme.CreateOceanTheme()
-        # theme.SetLineWidth(4)
-        # theme.SetPointSize(32)
-        self.view.ApplyViewTheme(theme)
+        theme.SetLineWidth(2)
+        theme.SetPointSize(20)
+        
         theme.FastDelete()
+        theme.SetPointLookupTable(self.lookup)
+        self.view.ApplyViewTheme(theme)
 
         rep = self.view.GetRepresentation(0)
         link = rep.GetAnnotationLink()
@@ -107,6 +128,8 @@ class PTVisualizer:
             # all
             if key == 'Return':
                 self.step(False)
+            if key == 'p':
+                self.printColorData()
             print(key)
             print(self.view.GetVertexColorArrayName())
 
@@ -119,6 +142,15 @@ class PTVisualizer:
     def info(self, vertex):
         node_id = self.vert_node_map[vertex]
         self.text_actor.SetInput(parseNode(self.node_data[node_id]))
+
+    def printColorData(self):
+        print('ColorArray:', self.vertexColors.GetNumberOfTuples())
+        for i in range(self.vertexColors.GetNumberOfTuples()):
+            print('(',i,',', self.vertexColors.GetValue(i) ,')', end=';')
+        print('\nColorTable:', self.lookup.GetNumberOfTableValues())
+        for j in range(self.lookup.GetNumberOfTableValues()):
+            print('(', j, self.lookup.GetTableValue(j), ')', end=';\n')
+        print('\nvertexHeight:\n', self.vertexHeight)
 
     # process a single line, return True if a edge is added
     def step(self, flag=True):
@@ -142,22 +174,45 @@ class PTVisualizer:
 
                     if from_id not in self.node_vert_map:
                         vert_id = self.graph.AddVertex()
+                        self.vertexColors.InsertValue(vert_id,vert_id)
                         self.node_vert_map[from_id] = vert_id
                         self.vert_node_map[vert_id] = from_id
                     if to_id not in self.node_vert_map:
                         vert_id = self.graph.AddVertex()
+                        self.vertexColors.InsertValue(vert_id,vert_id)
                         self.node_vert_map[to_id] = vert_id
                         self.vert_node_map[vert_id] = to_id
 
-                    self.graph.AddEdge(self.node_vert_map[from_id], self.node_vert_map[to_id])
                     print ('added edge',from_id,'-->',to_id)
+
+                    self.graph.AddEdge(self.node_vert_map[from_id], self.node_vert_map[to_id])
+
+                    self.vertexHeight[self.node_vert_map[to_id]] = self.vertexHeight[self.node_vert_map[from_id]] + 1
+                    if self.vertexHeight[self.node_vert_map[to_id]] + 1 > self.treeHeight:
+                        self.treeHeight = self.vertexHeight[self.node_vert_map[to_id]] + 1
+
+                    self.colors.insertColorOfVertex(self.lookup, self.node_vert_map[to_id], self.vertexHeight[self.node_vert_map[to_id]], self.treeHeight) 
+
+                    
+
+                            # add a pedigree array to vertex
+                    self.vertIds = vtk.vtkIdTypeArray()
+                    numVertices = self.graph.GetNumberOfVertices()
+                    # print("number of vertices:", numVertices)
+                    self.vertIds.SetNumberOfTuples(numVertices)
+
+                    print('wtf',numVertices)
+                    for i in range(0, numVertices):
+                        self.vertIds.SetValue(i, i)
+
+                    self.graph.GetVertexData().SetPedigreeIds(self.vertIds)
 
                     if flag:
                         #self.info(self.node_vert_map[to_id])
                         break
 
-            except:
-                print('failed to parse line')
+            except Exception as e:
+                print('failed to parse line:', e)
                 break
 
         self.tree.CheckedShallowCopy(self.graph)

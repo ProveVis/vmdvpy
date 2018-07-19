@@ -1,7 +1,7 @@
 import vtk
 from PyQt5 import QtGui
 from PyQt5.QtWidgets import QApplication, QWidget, QFrame, QMainWindow, QVBoxLayout, QAction, QMenu
-from PyQt5.QtGui import QCursor
+from PyQt5.QtGui import QCursor, QPalette, QColor
 from PyQt5 import QtCore
 from vtk.qt.QVTKRenderWindowInteractor import QVTKRenderWindowInteractor
 import affect
@@ -32,9 +32,18 @@ class Viewer(QMainWindow):
         self.vtkWidget = QVTKRenderWindowInteractor(self.frame)
         self.vl.addWidget(self.vtkWidget)
         self.ren = vtk.vtkRenderer()
+        # self.ren.SetBackground(0,0,1)
         self.vtkWidget.GetRenderWindow().AddRenderer(self.ren)
+
+        # self.vtkWidget.setAutoFillBackground(True)
+        # pal = QPalette()
+        # pal.setColor(QPalette.Background, QColor(1,1,1))
+        # self.vtkWidget.setPalette(pal)
+        
+        
         self.frame.setLayout(self.vl)
         self.setCentralWidget(self.frame)
+        
         self.foregroundMenu = QMenu()
         self.backgroundMenu = QMenu()
         self.setContextMenuPolicy(QtCore.Qt.CustomContextMenu)
@@ -154,6 +163,10 @@ class Viewer(QMainWindow):
             # print('selected Nodes:', self.selectedNids)
             # print('selected nids:', self.selectedNids)
             self.selectedVids = list(selected)
+            if len(self.selectedVids) > 0:
+                self.text_actor.SetInput(self.vertices[self.selectedVids[0]].getProperty('label'))
+            else:
+                self.text_actor.SetInput('')
 
 
         self.view.GetRepresentation(0).GetAnnotationLink().AddObserver("AnnotationChangedEvent", selection)
@@ -252,6 +265,8 @@ class TreeViewer(Viewer):
         self.treeHeight = 0
         self.children = {}
         self.parent = {}
+        self.setWindowTitle('Proof Tree')
+        
 
     def addNode(self, node):
         nid = node.getProperty('id')

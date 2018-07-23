@@ -141,6 +141,7 @@ Both proof systems or vmdv can send **commands** to each other and, for each **c
     "type": "response",
     "session_id": string,
     "request_id": string,
+    "request_name": string,
     "result": {...}
   }
   ```

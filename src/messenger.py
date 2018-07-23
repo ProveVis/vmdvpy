@@ -141,6 +141,8 @@ class Receiver(QThread):
                     msgThread.stop()
                     sys.exit(1)
                     break
+                
+                print(recvdBytes)
 
                 # logging.getLogger('file').info('Received JSON:'+recvdBytes.decode('utf-8'))
                 recvdStrs = []
@@ -197,6 +199,7 @@ class Receiver(QThread):
                         elif t == 'request':
                             print('VMDV received a request message')
                         elif t == 'response':
+                            print('vmdv received response', data['request_name'])
                             sid = data['session_id']
                             rid = data['request_id']
                             result = data['result']
@@ -207,8 +210,14 @@ class Receiver(QThread):
                             else:
                                 rname, rargs = pr[rid]
                                 pr.pop(rid)
-                                self.affectSignal.emit(sid, affect.ParseResponseAffect(rname, rargs, result))
-                                self.v.reponseCache[(rname, rargs['zone'])] = result
+                                if rname == 'zone_aircraft_number':
+                                    self.affectSignal.emit(sid, affect.ParseResponseAffect(rname, rargs, result))
+                                    self.v.responseCache[(rname, rargs['zone'])] = result
+                                elif rname == 'sub_formula':
+                                    self.affectSignal.emit(sid, affect.SubFormulaAffect(rname, rargs, result))
+                                    self.v.responseCache[(rname, rargs['nid'])] = result
+                                else:
+                                    print('unknown response', rname)
                         elif t == 'feedback':
                             if data['status'] == 'OK':
                                 print('Session received feedback from the prover:', data['session_id'], ',', data['status'])

@@ -26,7 +26,7 @@ class VMDV:
         self.pendingRequests = {}
 
         # Each pair in responseCache has the form (k: (str, str), v: dict)
-        self.reponseCache = {}
+        self.responseCache = {}
 
     def newRequestId(self):
         newId = str(self.requestId)
@@ -64,6 +64,7 @@ class VMDV:
             tviewer.addForegroundMenuItem(trigger.HighlightChildrenTrigger(tviewer))
             tviewer.addForegroundMenuItem(trigger.HighlightAncestorsTrigger(tviewer))
             tviewer.addForegroundMenuItem(trigger.HighlightSubtreeTrigger(tviewer))
+            tviewer.addForegroundMenuItem(trigger.SubFormulaTrigger(tviewer))
             # tviewer.addForegroundMenuItem(trigger.PrintColorDataTrigger(tviewer))
             # tviewer.addBackgroundMenuItem(trigger.PrintColorDataTrigger(tviewer))
             tviewer.affectSignal.connect(self.handleAffect)

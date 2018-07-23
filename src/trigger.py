@@ -69,3 +69,19 @@ class ZoneAircraftNumberTrigger(Trigger):
         self.viewer.vmdv.putMsg(messenger.RequestMessage(self.viewer.sid, rname, rid, rargs))
         self.viewer.vmdv.addPendingRequest(rid, rname, rargs)
         return []
+
+class SubFormulaTrigger(Trigger):
+    def __init__(self, viewer):
+        Trigger.__init__(self, viewer, 'Highlight Sub-formulae')
+        self.viewer = viewer
+
+    def action(self):
+        vids = self.viewer.selectedVids
+        nids = [self.viewer.vertices[x].getProperty('id') for x in vids]
+        for nid in nids:
+            rid = self.viewer.vmdv.newRequestId()
+            rname = 'sub_formula'
+            rargs = {'nid':nid}
+            self.viewer.vmdv.putMsg(messenger.RequestMessage(self.viewer.sid, rname, rid, rargs))
+            self.viewer.vmdv.addPendingRequest(rid, rname, rargs)
+        return []

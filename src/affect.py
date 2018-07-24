@@ -192,15 +192,17 @@ class SubFormulaAffect(Affect):
             tviewer.colors.updateLookupTable(tviewer.lookupTable)
         tviewer.updateRendering()
 
-
-        # vid = gviewer.nid2Vid[self.nid]
-        # if gviewer.__class__.__name__ == viewer.TreeViewer.__name__:
-        #     gviewer.colors.updateColorOfVertex(gviewer.lookupTable, vid, 'red')
-        #     gviewer.colors.updateLookupTable(gviewer.lookupTable)
-        #     gviewer.updateRendering()
-        #     gviewer.vmdv.putMsg(messenger.HighlightNodeMessage(gviewer.sid, self.nid))
-        # elif gviewer.__class__.__name__ == viewer.DiGraphViewer.__name__:
-        #     gviewer.colors.setVertexColorByName(gviewer.lookupTable, gviewer.colorArray, vid, 'red')
-        #     gviewer.updateRendering()
-                
-        
+class ShowRuleAffect(Affect):
+    def __init__(self, rname, rargs, result):
+        self.rname = rname
+        self.rargs = rargs
+        self.result = result
+    def affect(self, viewer):
+        nidstr = self.result['nids']
+        nids = nidstr.split(',')
+        vids = [viewer.nid2Vid[x] for x in nids]
+        for vid in vids:
+            print('highlighting vid', vid)
+            viewer.colors.updateColorOfVertex(viewer.lookupTable, vid, 'red')
+            viewer.colors.updateLookupTable(viewer.lookupTable)
+        viewer.updateRendering()

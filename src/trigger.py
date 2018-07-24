@@ -85,3 +85,17 @@ class SubFormulaTrigger(Trigger):
             self.viewer.vmdv.putMsg(messenger.RequestMessage(self.viewer.sid, rname, rid, rargs))
             self.viewer.vmdv.addPendingRequest(rid, rname, rargs)
         return []
+
+class ShowRuleTrigger(Trigger):
+    def __init__(self, viewer, rule):
+        Trigger.__init__(self, viewer, 'Show Rule '+rule)
+        self.viewer = viewer
+        self.rule = rule
+
+    def action(self):
+        rid = self.viewer.vmdv.newRequestId()
+        rname = 'show_rule'
+        rargs = {'rule':self.rule}
+        self.viewer.vmdv.putMsg(messenger.RequestMessage(self.viewer.sid, rname, rid, rargs))
+        self.viewer.vmdv.addPendingRequest(rid, rname, rargs)
+        return []

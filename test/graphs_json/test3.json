@@ -1,9 +1,9 @@
 {"type": "create_session", "session_id": "test_sid", "session_descr": "test_session_descr", "graph_type": "Tree"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "0", "label": "EU(x,y,TRUE,holdLeft[0](y ),{eat[0] false;fork[1] false;eat[2] false;phis[0] 0;eat[1] false;phis[1] 0;fork[2] false;fork[0] false;phis[2] 0;}) /\\ EU(x,y,TRUE,holdLeft[1](y ),{eat[0] false;fork[1] false;eat[2] false;phis[0] 0;eat[1] false;phis[1] 0;fork[2] false;fork[0] false;phis[2] 0;}) /\\ EU(x,y,TRUE,holdLeft[2](y ),{eat[0] false;fork[1] false;eat[2] false;phis[0] 0;eat[1] false;phis[1] 0;fork[2] false;fork[0] false;phis[2] 0;})", "state": "Proved"}}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "1", "label": "EU(x,y,TRUE,holdLeft[2](y ),{eat[0] false;fork[1] false;eat[2] false;phis[0] 0;eat[1] false;phis[1] 0;fork[2] false;fork[0] false;phis[2] 0;})", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "0", "to_id": "1", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "0", "to_id": "1", "label": "/\\-R"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "2", "label": "EU(x,y,TRUE,holdLeft[0](y ),{eat[0] false;fork[1] false;eat[2] false;phis[0] 0;eat[1] false;phis[1] 0;fork[2] false;fork[0] false;phis[2] 0;}) /\\ EU(x,y,TRUE,holdLeft[1](y ),{eat[0] false;fork[1] false;eat[2] false;phis[0] 0;eat[1] false;phis[1] 0;fork[2] false;fork[0] false;phis[2] 0;})", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "0", "to_id": "2", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "0", "to_id": "2", "label": "/\\-R"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "3", "label": "EU(x,y,TRUE,holdLeft[2](y ),{eat[0] false;fork[1] false;eat[2] false;phis[0] 0;eat[1] false;phis[1] 0;fork[2] true;fork[0] false;phis[2] 1;})", "state": "Proved"}}
 {"type": "add_edge", "session_id": "test_sid", "from_id": "1", "to_id": "3", "label": ""}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "4", "label": "TRUE", "state": "Proved"}}
@@ -15,11 +15,11 @@
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "140", "label": "TRUE", "state": "Proved"}}
 {"type": "add_edge", "session_id": "test_sid", "from_id": "1", "to_id": "140", "label": ""}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "6", "label": "EU(x,y,TRUE,holdLeft[2](y ),{eat[0] false;fork[1] false;eat[2] false;phis[0] 0;eat[1] false;phis[1] 0;fork[2] false;fork[0] false;phis[2] 0;})", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "2", "to_id": "6", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "2", "to_id": "6", "label": "/\\-R"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "7", "label": "TRUE", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "2", "to_id": "7", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "2", "to_id": "7", "label": "/\\-R"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "8", "label": "EU(x,y,TRUE,holdLeft[2](y ),{eat[0] false;fork[1] false;eat[2] false;phis[0] 0;eat[1] false;phis[1] 0;fork[2] false;fork[0] false;phis[2] 0;})", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "2", "to_id": "8", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "2", "to_id": "8", "label": "/\\-R"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "130", "label": "EU(x,y,TRUE,holdLeft[0](y ),{eat[0] false;fork[1] false;eat[2] false;phis[0] 0;eat[1] false;phis[1] 0;fork[2] true;fork[0] true;phis[2] 2;})", "state": "Proved"}}
 {"type": "add_edge", "session_id": "test_sid", "from_id": "3", "to_id": "130", "label": ""}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "131", "label": "EU(x,y,TRUE,holdLeft[1](y ),{eat[0] false;fork[1] false;eat[2] false;phis[0] 0;eat[1] false;phis[1] 0;fork[2] true;fork[0] false;phis[2] 1;})", "state": "Proved"}}
@@ -47,9 +47,9 @@
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "158", "label": "holdLeft[2]({eat[0] false;fork[1] false;eat[2] false;phis[0] 0;eat[1] false;phis[1] 0;fork[2] false;fork[0] false;phis[2] 0;} )", "state": "Proved"}}
 {"type": "add_edge", "session_id": "test_sid", "from_id": "140", "to_id": "158", "label": ""}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "141", "label": "TRUE", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "6", "to_id": "141", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "6", "to_id": "141", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "142", "label": "EU(x,y,TRUE,holdLeft[2](y ),{eat[0] false;fork[1] false;eat[2] false;phis[0] 0;eat[1] false;phis[1] 0;fork[2] true;fork[0] false;phis[2] 1;})", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "6", "to_id": "142", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "6", "to_id": "142", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "133", "label": "holdLeft[2]({eat[0] false;fork[1] false;eat[2] false;phis[0] 0;eat[1] false;phis[1] 0;fork[2] false;fork[0] false;phis[2] 0;} )", "state": "Proved"}}
 {"type": "add_edge", "session_id": "test_sid", "from_id": "7", "to_id": "133", "label": ""}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "159", "label": "EU(x,y,TRUE,holdLeft[1](y ),{eat[0] false;fork[1] false;eat[2] false;phis[0] 0;eat[1] false;phis[1] 0;fork[2] true;fork[0] false;phis[2] 1;})", "state": "Proved"}}
@@ -65,9 +65,9 @@
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "90", "label": "EU(x,y,TRUE,holdLeft[2](y ),{eat[0] false;fork[1] false;eat[2] false;phis[0] 0;eat[1] false;phis[1] 0;fork[2] true;fork[0] false;phis[2] 1;})", "state": "Proved"}}
 {"type": "add_edge", "session_id": "test_sid", "from_id": "8", "to_id": "90", "label": ""}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "143", "label": "EU(x,y,TRUE,holdLeft[1](y ),{eat[0] false;fork[1] false;eat[2] false;phis[0] 0;eat[1] false;phis[1] 0;fork[2] true;fork[0] true;phis[2] 2;})", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "130", "to_id": "143", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "130", "to_id": "143", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "144", "label": "EU(x,y,TRUE,holdLeft[0](y ),{eat[0] false;fork[1] false;eat[2] true;phis[0] 0;eat[1] false;phis[1] 0;fork[2] true;fork[0] true;phis[2] 3;})", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "130", "to_id": "144", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "130", "to_id": "144", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "145", "label": "holdLeft[2]({eat[0] false;fork[1] false;eat[2] false;phis[0] 0;eat[1] false;phis[1] 0;fork[2] true;fork[0] false;phis[2] 1;} )", "state": "Proved"}}
 {"type": "add_edge", "session_id": "test_sid", "from_id": "131", "to_id": "145", "label": ""}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "152", "label": "holdLeft[2]({eat[0] false;fork[1] false;eat[2] false;phis[0] 0;eat[1] false;phis[1] 0;fork[2] true;fork[0] false;phis[2] 1;} )", "state": "Proved"}}
@@ -75,29 +75,29 @@
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "153", "label": "EU(x,y,TRUE,holdLeft[1](y ),{eat[0] false;fork[1] false;eat[2] false;phis[0] 0;eat[1] false;phis[1] 0;fork[2] true;fork[0] true;phis[2] 2;})", "state": "Proved"}}
 {"type": "add_edge", "session_id": "test_sid", "from_id": "131", "to_id": "153", "label": ""}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "146", "label": "holdLeft[2]({eat[0] false;fork[1] false;eat[2] false;phis[0] 0;eat[1] false;phis[1] 0;fork[2] true;fork[0] false;phis[2] 1;} )", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "134", "to_id": "146", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "134", "to_id": "146", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "147", "label": "EU(x,y,TRUE,holdLeft[1](y ),{eat[0] false;fork[1] false;eat[2] false;phis[0] 0;eat[1] false;phis[1] 0;fork[2] true;fork[0] true;phis[2] 2;})", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "134", "to_id": "147", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "134", "to_id": "147", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "150", "label": "EU(x,y,TRUE,holdLeft[1](y ),{eat[0] false;fork[1] false;eat[2] false;phis[0] 0;eat[1] false;phis[1] 0;fork[2] true;fork[0] true;phis[2] 2;})", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "136", "to_id": "150", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "136", "to_id": "150", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "151", "label": "EU(x,y,TRUE,holdLeft[0](y ),{eat[0] false;fork[1] false;eat[2] true;phis[0] 0;eat[1] false;phis[1] 0;fork[2] true;fork[0] true;phis[2] 3;})", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "136", "to_id": "151", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "136", "to_id": "151", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "148", "label": "holdLeft[2]({eat[0] false;fork[1] false;eat[2] false;phis[0] 0;eat[1] false;phis[1] 0;fork[2] true;fork[0] false;phis[2] 1;} )", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "137", "to_id": "148", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "137", "to_id": "148", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "149", "label": "EU(x,y,TRUE,holdLeft[1](y ),{eat[0] false;fork[1] false;eat[2] false;phis[0] 0;eat[1] false;phis[1] 0;fork[2] true;fork[0] true;phis[2] 2;})", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "137", "to_id": "149", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "137", "to_id": "149", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "186", "label": "EU(x,y,TRUE,holdLeft[1](y ),{eat[0] false;fork[1] false;eat[2] false;phis[0] 0;eat[1] false;phis[1] 0;fork[2] true;fork[0] true;phis[2] 2;})", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "161", "to_id": "186", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "161", "to_id": "186", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "165", "label": "EU(x,y,TRUE,holdLeft[0](y ),{eat[0] false;fork[1] false;eat[2] true;phis[0] 0;eat[1] false;phis[1] 0;fork[2] true;fork[0] true;phis[2] 3;})", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "161", "to_id": "165", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "161", "to_id": "165", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "182", "label": "holdLeft[2]({eat[0] false;fork[1] false;eat[2] false;phis[0] 0;eat[1] false;phis[1] 0;fork[2] true;fork[0] false;phis[2] 1;} )", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "162", "to_id": "182", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "162", "to_id": "182", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "183", "label": "EU(x,y,TRUE,holdLeft[1](y ),{eat[0] false;fork[1] false;eat[2] false;phis[0] 0;eat[1] false;phis[1] 0;fork[2] true;fork[0] true;phis[2] 2;})", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "162", "to_id": "183", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "162", "to_id": "183", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "184", "label": "holdLeft[2]({eat[0] false;fork[1] false;eat[2] false;phis[0] 0;eat[1] false;phis[1] 0;fork[2] true;fork[0] false;phis[2] 1;} )", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "157", "to_id": "184", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "157", "to_id": "184", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "185", "label": "EU(x,y,TRUE,holdLeft[1](y ),{eat[0] false;fork[1] false;eat[2] false;phis[0] 0;eat[1] false;phis[1] 0;fork[2] true;fork[0] true;phis[2] 2;})", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "157", "to_id": "185", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "157", "to_id": "185", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "154", "label": "EU(x,y,TRUE,holdLeft[0](y ),{eat[0] false;fork[1] false;eat[2] false;phis[0] 0;eat[1] false;phis[1] 0;fork[2] true;fork[0] true;phis[2] 2;})", "state": "Proved"}}
 {"type": "add_edge", "session_id": "test_sid", "from_id": "142", "to_id": "154", "label": ""}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "155", "label": "EU(x,y,TRUE,holdLeft[1](y ),{eat[0] false;fork[1] false;eat[2] false;phis[0] 0;eat[1] false;phis[1] 0;fork[2] true;fork[0] false;phis[2] 1;})", "state": "Proved"}}
@@ -105,9 +105,9 @@
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "156", "label": "holdLeft[2]({eat[0] false;fork[1] false;eat[2] false;phis[0] 0;eat[1] false;phis[1] 0;fork[2] true;fork[0] false;phis[2] 1;} )", "state": "Proved"}}
 {"type": "add_edge", "session_id": "test_sid", "from_id": "142", "to_id": "156", "label": ""}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "187", "label": "holdLeft[2]({eat[0] false;fork[1] false;eat[2] false;phis[0] 0;eat[1] false;phis[1] 0;fork[2] true;fork[0] false;phis[2] 1;} )", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "159", "to_id": "187", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "159", "to_id": "187", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "188", "label": "EU(x,y,TRUE,holdLeft[1](y ),{eat[0] false;fork[1] false;eat[2] false;phis[0] 0;eat[1] false;phis[1] 0;fork[2] true;fork[0] true;phis[2] 2;})", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "159", "to_id": "188", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "159", "to_id": "188", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "11", "label": "EU(x,y,TRUE,holdLeft[0](y ),{eat[0] false;fork[1] false;eat[2] false;phis[0] 0;eat[1] false;phis[1] 0;fork[2] true;fork[0] true;phis[2] 2;})", "state": "Proved"}}
 {"type": "add_edge", "session_id": "test_sid", "from_id": "10", "to_id": "11", "label": ""}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "12", "label": "EU(x,y,TRUE,holdLeft[1](y ),{eat[0] false;fork[1] false;eat[2] false;phis[0] 0;eat[1] false;phis[1] 0;fork[2] true;fork[0] false;phis[2] 1;})", "state": "Proved"}}
@@ -133,532 +133,532 @@
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "222", "label": "EU(x,y,TRUE,holdLeft[1](y ),{eat[0] false;fork[1] false;eat[2] true;phis[0] 0;eat[1] false;phis[1] 0;fork[2] true;fork[0] true;phis[2] 3;})", "state": "Proved"}}
 {"type": "add_edge", "session_id": "test_sid", "from_id": "143", "to_id": "222", "label": ""}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "174", "label": "EU(x,y,TRUE,holdLeft[0](y ),{eat[0] false;fork[1] false;eat[2] false;phis[0] 0;eat[1] false;phis[1] 0;fork[2] true;fork[0] false;phis[2] 4;})", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "144", "to_id": "174", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "144", "to_id": "174", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "175", "label": "EU(x,y,TRUE,holdLeft[1](y ),{eat[0] false;fork[1] false;eat[2] true;phis[0] 0;eat[1] false;phis[1] 0;fork[2] true;fork[0] true;phis[2] 3;})", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "144", "to_id": "175", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "144", "to_id": "175", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "217", "label": "TRUE", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "153", "to_id": "217", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "153", "to_id": "217", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "218", "label": "EU(x,y,TRUE,holdLeft[1](y ),{eat[0] false;fork[1] false;eat[2] true;phis[0] 0;eat[1] false;phis[1] 0;fork[2] true;fork[0] true;phis[2] 3;})", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "153", "to_id": "218", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "153", "to_id": "218", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "168", "label": "TRUE", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "147", "to_id": "168", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "147", "to_id": "168", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "169", "label": "EU(x,y,TRUE,holdLeft[1](y ),{eat[0] false;fork[1] false;eat[2] true;phis[0] 0;eat[1] false;phis[1] 0;fork[2] true;fork[0] true;phis[2] 3;})", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "147", "to_id": "169", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "147", "to_id": "169", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "170", "label": "TRUE", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "150", "to_id": "170", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "150", "to_id": "170", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "171", "label": "EU(x,y,TRUE,holdLeft[1](y ),{eat[0] false;fork[1] false;eat[2] true;phis[0] 0;eat[1] false;phis[1] 0;fork[2] true;fork[0] true;phis[2] 3;})", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "150", "to_id": "171", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "150", "to_id": "171", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "202", "label": "EU(x,y,TRUE,holdLeft[0](y ),{eat[0] false;fork[1] false;eat[2] false;phis[0] 0;eat[1] false;phis[1] 0;fork[2] true;fork[0] false;phis[2] 4;})", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "151", "to_id": "202", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "151", "to_id": "202", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "197", "label": "EU(x,y,TRUE,holdLeft[1](y ),{eat[0] false;fork[1] false;eat[2] true;phis[0] 0;eat[1] false;phis[1] 0;fork[2] true;fork[0] true;phis[2] 3;})", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "151", "to_id": "197", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "151", "to_id": "197", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "172", "label": "TRUE", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "149", "to_id": "172", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "149", "to_id": "172", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "173", "label": "EU(x,y,TRUE,holdLeft[1](y ),{eat[0] false;fork[1] false;eat[2] true;phis[0] 0;eat[1] false;phis[1] 0;fork[2] true;fork[0] true;phis[2] 3;})", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "149", "to_id": "173", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "149", "to_id": "173", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "209", "label": "TRUE", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "186", "to_id": "209", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "186", "to_id": "209", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "210", "label": "EU(x,y,TRUE,holdLeft[1](y ),{eat[0] false;fork[1] false;eat[2] true;phis[0] 0;eat[1] false;phis[1] 0;fork[2] true;fork[0] true;phis[2] 3;})", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "186", "to_id": "210", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "186", "to_id": "210", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "166", "label": "EU(x,y,TRUE,holdLeft[0](y ),{eat[0] false;fork[1] false;eat[2] false;phis[0] 0;eat[1] false;phis[1] 0;fork[2] true;fork[0] false;phis[2] 4;})", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "165", "to_id": "166", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "165", "to_id": "166", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "167", "label": "EU(x,y,TRUE,holdLeft[1](y ),{eat[0] false;fork[1] false;eat[2] true;phis[0] 0;eat[1] false;phis[1] 0;fork[2] true;fork[0] true;phis[2] 3;})", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "165", "to_id": "167", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "165", "to_id": "167", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "211", "label": "TRUE", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "183", "to_id": "211", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "183", "to_id": "211", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "212", "label": "EU(x,y,TRUE,holdLeft[1](y ),{eat[0] false;fork[1] false;eat[2] true;phis[0] 0;eat[1] false;phis[1] 0;fork[2] true;fork[0] true;phis[2] 3;})", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "183", "to_id": "212", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "183", "to_id": "212", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "213", "label": "TRUE", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "185", "to_id": "213", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "185", "to_id": "213", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "214", "label": "EU(x,y,TRUE,holdLeft[1](y ),{eat[0] false;fork[1] false;eat[2] true;phis[0] 0;eat[1] false;phis[1] 0;fork[2] true;fork[0] true;phis[2] 3;})", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "185", "to_id": "214", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "185", "to_id": "214", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "176", "label": "EU(x,y,TRUE,holdLeft[1](y ),{eat[0] false;fork[1] false;eat[2] false;phis[0] 0;eat[1] false;phis[1] 0;fork[2] true;fork[0] true;phis[2] 2;})", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "154", "to_id": "176", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "154", "to_id": "176", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "179", "label": "EU(x,y,TRUE,holdLeft[0](y ),{eat[0] false;fork[1] false;eat[2] true;phis[0] 0;eat[1] false;phis[1] 0;fork[2] true;fork[0] true;phis[2] 3;})", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "154", "to_id": "179", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "154", "to_id": "179", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "180", "label": "holdLeft[2]({eat[0] false;fork[1] false;eat[2] false;phis[0] 0;eat[1] false;phis[1] 0;fork[2] true;fork[0] false;phis[2] 1;} )", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "155", "to_id": "180", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "155", "to_id": "180", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "181", "label": "EU(x,y,TRUE,holdLeft[1](y ),{eat[0] false;fork[1] false;eat[2] false;phis[0] 0;eat[1] false;phis[1] 0;fork[2] true;fork[0] true;phis[2] 2;})", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "155", "to_id": "181", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "155", "to_id": "181", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "215", "label": "TRUE", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "188", "to_id": "215", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "188", "to_id": "215", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "216", "label": "EU(x,y,TRUE,holdLeft[1](y ),{eat[0] false;fork[1] false;eat[2] true;phis[0] 0;eat[1] false;phis[1] 0;fork[2] true;fork[0] true;phis[2] 3;})", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "188", "to_id": "216", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "188", "to_id": "216", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "14", "label": "EU(x,y,TRUE,holdLeft[1](y ),{eat[0] false;fork[1] false;eat[2] false;phis[0] 0;eat[1] false;phis[1] 0;fork[2] true;fork[0] true;phis[2] 2;})", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "11", "to_id": "14", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "11", "to_id": "14", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "15", "label": "EU(x,y,TRUE,holdLeft[0](y ),{eat[0] false;fork[1] false;eat[2] true;phis[0] 0;eat[1] false;phis[1] 0;fork[2] true;fork[0] true;phis[2] 3;})", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "11", "to_id": "15", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "11", "to_id": "15", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "16", "label": "holdLeft[2]({eat[0] false;fork[1] false;eat[2] false;phis[0] 0;eat[1] false;phis[1] 0;fork[2] true;fork[0] false;phis[2] 1;} )", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "12", "to_id": "16", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "12", "to_id": "16", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "17", "label": "EU(x,y,TRUE,holdLeft[1](y ),{eat[0] false;fork[1] false;eat[2] false;phis[0] 0;eat[1] false;phis[1] 0;fork[2] true;fork[0] true;phis[2] 2;})", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "12", "to_id": "17", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "12", "to_id": "17", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "54", "label": "EU(x,y,TRUE,holdLeft[1](y ),{eat[0] false;fork[1] false;eat[2] false;phis[0] 0;eat[1] false;phis[1] 0;fork[2] true;fork[0] true;phis[2] 2;})", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "51", "to_id": "54", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "51", "to_id": "54", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "55", "label": "EU(x,y,TRUE,holdLeft[0](y ),{eat[0] false;fork[1] false;eat[2] true;phis[0] 0;eat[1] false;phis[1] 0;fork[2] true;fork[0] true;phis[2] 3;})", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "51", "to_id": "55", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "51", "to_id": "55", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "56", "label": "holdLeft[2]({eat[0] false;fork[1] false;eat[2] false;phis[0] 0;eat[1] false;phis[1] 0;fork[2] true;fork[0] false;phis[2] 1;} )", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "52", "to_id": "56", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "52", "to_id": "56", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "57", "label": "EU(x,y,TRUE,holdLeft[1](y ),{eat[0] false;fork[1] false;eat[2] false;phis[0] 0;eat[1] false;phis[1] 0;fork[2] true;fork[0] true;phis[2] 2;})", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "52", "to_id": "57", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "52", "to_id": "57", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "94", "label": "EU(x,y,TRUE,holdLeft[1](y ),{eat[0] false;fork[1] false;eat[2] false;phis[0] 0;eat[1] false;phis[1] 0;fork[2] true;fork[0] true;phis[2] 2;})", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "91", "to_id": "94", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "91", "to_id": "94", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "95", "label": "EU(x,y,TRUE,holdLeft[0](y ),{eat[0] false;fork[1] false;eat[2] true;phis[0] 0;eat[1] false;phis[1] 0;fork[2] true;fork[0] true;phis[2] 3;})", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "91", "to_id": "95", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "91", "to_id": "95", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "96", "label": "holdLeft[2]({eat[0] false;fork[1] false;eat[2] false;phis[0] 0;eat[1] false;phis[1] 0;fork[2] true;fork[0] false;phis[2] 1;} )", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "92", "to_id": "96", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "92", "to_id": "96", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "97", "label": "EU(x,y,TRUE,holdLeft[1](y ),{eat[0] false;fork[1] false;eat[2] false;phis[0] 0;eat[1] false;phis[1] 0;fork[2] true;fork[0] true;phis[2] 2;})", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "92", "to_id": "97", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "92", "to_id": "97", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "265", "label": "TRUE", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "222", "to_id": "265", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "222", "to_id": "265", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "266", "label": "EU(x,y,TRUE,holdLeft[1](y ),{eat[0] false;fork[1] false;eat[2] false;phis[0] 0;eat[1] false;phis[1] 0;fork[2] true;fork[0] false;phis[2] 4;})", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "222", "to_id": "266", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "222", "to_id": "266", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "191", "label": "EU(x,y,TRUE,holdLeft[1](y ),{eat[0] false;fork[1] false;eat[2] false;phis[0] 0;eat[1] false;phis[1] 0;fork[2] true;fork[0] false;phis[2] 4;})", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "174", "to_id": "191", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "174", "to_id": "191", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "192", "label": "EU(x,y,TRUE,holdLeft[0](y ),{eat[0] false;fork[1] true;eat[2] false;phis[0] 0;eat[1] false;phis[1] 1;fork[2] true;fork[0] false;phis[2] 4;})", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "174", "to_id": "192", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "174", "to_id": "192", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "205", "label": "TRUE", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "175", "to_id": "205", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "175", "to_id": "205", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "206", "label": "EU(x,y,TRUE,holdLeft[1](y ),{eat[0] false;fork[1] false;eat[2] false;phis[0] 0;eat[1] false;phis[1] 0;fork[2] true;fork[0] false;phis[2] 4;})", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "175", "to_id": "206", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "175", "to_id": "206", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "263", "label": "TRUE", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "218", "to_id": "263", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "218", "to_id": "263", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "264", "label": "EU(x,y,TRUE,holdLeft[1](y ),{eat[0] false;fork[1] false;eat[2] false;phis[0] 0;eat[1] false;phis[1] 0;fork[2] true;fork[0] false;phis[2] 4;})", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "218", "to_id": "264", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "218", "to_id": "264", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "193", "label": "TRUE", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "169", "to_id": "193", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "169", "to_id": "193", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "194", "label": "EU(x,y,TRUE,holdLeft[1](y ),{eat[0] false;fork[1] false;eat[2] false;phis[0] 0;eat[1] false;phis[1] 0;fork[2] true;fork[0] false;phis[2] 4;})", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "169", "to_id": "194", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "169", "to_id": "194", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "195", "label": "TRUE", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "171", "to_id": "195", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "171", "to_id": "195", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "196", "label": "EU(x,y,TRUE,holdLeft[1](y ),{eat[0] false;fork[1] false;eat[2] false;phis[0] 0;eat[1] false;phis[1] 0;fork[2] true;fork[0] false;phis[2] 4;})", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "171", "to_id": "196", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "171", "to_id": "196", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "203", "label": "EU(x,y,TRUE,holdLeft[1](y ),{eat[0] false;fork[1] false;eat[2] false;phis[0] 0;eat[1] false;phis[1] 0;fork[2] true;fork[0] false;phis[2] 4;})", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "202", "to_id": "203", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "202", "to_id": "203", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "204", "label": "EU(x,y,TRUE,holdLeft[0](y ),{eat[0] false;fork[1] true;eat[2] false;phis[0] 0;eat[1] false;phis[1] 1;fork[2] true;fork[0] false;phis[2] 4;})", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "202", "to_id": "204", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "202", "to_id": "204", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "198", "label": "TRUE", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "197", "to_id": "198", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "197", "to_id": "198", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "199", "label": "EU(x,y,TRUE,holdLeft[1](y ),{eat[0] false;fork[1] false;eat[2] false;phis[0] 0;eat[1] false;phis[1] 0;fork[2] true;fork[0] false;phis[2] 4;})", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "197", "to_id": "199", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "197", "to_id": "199", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "200", "label": "TRUE", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "173", "to_id": "200", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "173", "to_id": "200", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "201", "label": "EU(x,y,TRUE,holdLeft[1](y ),{eat[0] false;fork[1] false;eat[2] false;phis[0] 0;eat[1] false;phis[1] 0;fork[2] true;fork[0] false;phis[2] 4;})", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "173", "to_id": "201", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "173", "to_id": "201", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "251", "label": "TRUE", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "210", "to_id": "251", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "210", "to_id": "251", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "252", "label": "EU(x,y,TRUE,holdLeft[1](y ),{eat[0] false;fork[1] false;eat[2] false;phis[0] 0;eat[1] false;phis[1] 0;fork[2] true;fork[0] false;phis[2] 4;})", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "210", "to_id": "252", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "210", "to_id": "252", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "261", "label": "EU(x,y,TRUE,holdLeft[1](y ),{eat[0] false;fork[1] false;eat[2] false;phis[0] 0;eat[1] false;phis[1] 0;fork[2] true;fork[0] false;phis[2] 4;})", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "166", "to_id": "261", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "166", "to_id": "261", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "262", "label": "EU(x,y,TRUE,holdLeft[0](y ),{eat[0] false;fork[1] true;eat[2] false;phis[0] 0;eat[1] false;phis[1] 1;fork[2] true;fork[0] false;phis[2] 4;})", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "166", "to_id": "262", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "166", "to_id": "262", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "253", "label": "TRUE", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "167", "to_id": "253", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "167", "to_id": "253", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "254", "label": "EU(x,y,TRUE,holdLeft[1](y ),{eat[0] false;fork[1] false;eat[2] false;phis[0] 0;eat[1] false;phis[1] 0;fork[2] true;fork[0] false;phis[2] 4;})", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "167", "to_id": "254", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "167", "to_id": "254", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "255", "label": "TRUE", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "212", "to_id": "255", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "212", "to_id": "255", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "256", "label": "EU(x,y,TRUE,holdLeft[1](y ),{eat[0] false;fork[1] false;eat[2] false;phis[0] 0;eat[1] false;phis[1] 0;fork[2] true;fork[0] false;phis[2] 4;})", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "212", "to_id": "256", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "212", "to_id": "256", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "257", "label": "TRUE", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "214", "to_id": "257", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "214", "to_id": "257", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "258", "label": "EU(x,y,TRUE,holdLeft[1](y ),{eat[0] false;fork[1] false;eat[2] false;phis[0] 0;eat[1] false;phis[1] 0;fork[2] true;fork[0] false;phis[2] 4;})", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "214", "to_id": "258", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "214", "to_id": "258", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "177", "label": "TRUE", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "176", "to_id": "177", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "176", "to_id": "177", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "178", "label": "EU(x,y,TRUE,holdLeft[1](y ),{eat[0] false;fork[1] false;eat[2] true;phis[0] 0;eat[1] false;phis[1] 0;fork[2] true;fork[0] true;phis[2] 3;})", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "176", "to_id": "178", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "176", "to_id": "178", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "219", "label": "EU(x,y,TRUE,holdLeft[0](y ),{eat[0] false;fork[1] false;eat[2] false;phis[0] 0;eat[1] false;phis[1] 0;fork[2] true;fork[0] false;phis[2] 4;})", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "179", "to_id": "219", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "179", "to_id": "219", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "220", "label": "EU(x,y,TRUE,holdLeft[1](y ),{eat[0] false;fork[1] false;eat[2] true;phis[0] 0;eat[1] false;phis[1] 0;fork[2] true;fork[0] true;phis[2] 3;})", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "179", "to_id": "220", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "179", "to_id": "220", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "189", "label": "TRUE", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "181", "to_id": "189", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "181", "to_id": "189", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "190", "label": "EU(x,y,TRUE,holdLeft[1](y ),{eat[0] false;fork[1] false;eat[2] true;phis[0] 0;eat[1] false;phis[1] 0;fork[2] true;fork[0] true;phis[2] 3;})", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "181", "to_id": "190", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "181", "to_id": "190", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "259", "label": "TRUE", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "216", "to_id": "259", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "216", "to_id": "259", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "260", "label": "EU(x,y,TRUE,holdLeft[1](y ),{eat[0] false;fork[1] false;eat[2] false;phis[0] 0;eat[1] false;phis[1] 0;fork[2] true;fork[0] false;phis[2] 4;})", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "216", "to_id": "260", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "216", "to_id": "260", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "18", "label": "TRUE", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "14", "to_id": "18", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "14", "to_id": "18", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "19", "label": "EU(x,y,TRUE,holdLeft[1](y ),{eat[0] false;fork[1] false;eat[2] true;phis[0] 0;eat[1] false;phis[1] 0;fork[2] true;fork[0] true;phis[2] 3;})", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "14", "to_id": "19", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "14", "to_id": "19", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "20", "label": "EU(x,y,TRUE,holdLeft[0](y ),{eat[0] false;fork[1] false;eat[2] false;phis[0] 0;eat[1] false;phis[1] 0;fork[2] true;fork[0] false;phis[2] 4;})", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "15", "to_id": "20", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "15", "to_id": "20", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "21", "label": "EU(x,y,TRUE,holdLeft[1](y ),{eat[0] false;fork[1] false;eat[2] true;phis[0] 0;eat[1] false;phis[1] 0;fork[2] true;fork[0] true;phis[2] 3;})", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "15", "to_id": "21", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "15", "to_id": "21", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "22", "label": "TRUE", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "17", "to_id": "22", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "17", "to_id": "22", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "23", "label": "EU(x,y,TRUE,holdLeft[1](y ),{eat[0] false;fork[1] false;eat[2] true;phis[0] 0;eat[1] false;phis[1] 0;fork[2] true;fork[0] true;phis[2] 3;})", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "17", "to_id": "23", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "17", "to_id": "23", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "58", "label": "TRUE", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "54", "to_id": "58", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "54", "to_id": "58", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "59", "label": "EU(x,y,TRUE,holdLeft[1](y ),{eat[0] false;fork[1] false;eat[2] true;phis[0] 0;eat[1] false;phis[1] 0;fork[2] true;fork[0] true;phis[2] 3;})", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "54", "to_id": "59", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "54", "to_id": "59", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "60", "label": "EU(x,y,TRUE,holdLeft[0](y ),{eat[0] false;fork[1] false;eat[2] false;phis[0] 0;eat[1] false;phis[1] 0;fork[2] true;fork[0] false;phis[2] 4;})", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "55", "to_id": "60", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "55", "to_id": "60", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "61", "label": "EU(x,y,TRUE,holdLeft[1](y ),{eat[0] false;fork[1] false;eat[2] true;phis[0] 0;eat[1] false;phis[1] 0;fork[2] true;fork[0] true;phis[2] 3;})", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "55", "to_id": "61", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "55", "to_id": "61", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "62", "label": "TRUE", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "57", "to_id": "62", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "57", "to_id": "62", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "63", "label": "EU(x,y,TRUE,holdLeft[1](y ),{eat[0] false;fork[1] false;eat[2] true;phis[0] 0;eat[1] false;phis[1] 0;fork[2] true;fork[0] true;phis[2] 3;})", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "57", "to_id": "63", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "57", "to_id": "63", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "98", "label": "TRUE", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "94", "to_id": "98", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "94", "to_id": "98", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "99", "label": "EU(x,y,TRUE,holdLeft[1](y ),{eat[0] false;fork[1] false;eat[2] true;phis[0] 0;eat[1] false;phis[1] 0;fork[2] true;fork[0] true;phis[2] 3;})", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "94", "to_id": "99", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "94", "to_id": "99", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "100", "label": "EU(x,y,TRUE,holdLeft[0](y ),{eat[0] false;fork[1] false;eat[2] false;phis[0] 0;eat[1] false;phis[1] 0;fork[2] true;fork[0] false;phis[2] 4;})", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "95", "to_id": "100", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "95", "to_id": "100", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "101", "label": "EU(x,y,TRUE,holdLeft[1](y ),{eat[0] false;fork[1] false;eat[2] true;phis[0] 0;eat[1] false;phis[1] 0;fork[2] true;fork[0] true;phis[2] 3;})", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "95", "to_id": "101", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "95", "to_id": "101", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "102", "label": "TRUE", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "97", "to_id": "102", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "97", "to_id": "102", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "103", "label": "EU(x,y,TRUE,holdLeft[1](y ),{eat[0] false;fork[1] false;eat[2] true;phis[0] 0;eat[1] false;phis[1] 0;fork[2] true;fork[0] true;phis[2] 3;})", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "97", "to_id": "103", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "97", "to_id": "103", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "303", "label": "TRUE", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "266", "to_id": "303", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "266", "to_id": "303", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "304", "label": "EU(x,y,TRUE,holdLeft[1](y ),{eat[0] false;fork[1] true;eat[2] false;phis[0] 0;eat[1] false;phis[1] 1;fork[2] true;fork[0] false;phis[2] 4;})", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "266", "to_id": "304", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "266", "to_id": "304", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "225", "label": "TRUE", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "191", "to_id": "225", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "191", "to_id": "225", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "226", "label": "EU(x,y,TRUE,holdLeft[1](y ),{eat[0] false;fork[1] true;eat[2] false;phis[0] 0;eat[1] false;phis[1] 1;fork[2] true;fork[0] false;phis[2] 4;})", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "191", "to_id": "226", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "191", "to_id": "226", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "229", "label": "EU(x,y,TRUE,holdLeft[1](y ),{eat[0] false;fork[1] true;eat[2] false;phis[0] 0;eat[1] false;phis[1] 1;fork[2] true;fork[0] false;phis[2] 4;})", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "192", "to_id": "229", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "192", "to_id": "229", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "230", "label": "EU(x,y,TRUE,holdLeft[0](y ),{eat[0] false;fork[1] true;eat[2] false;phis[0] 0;eat[1] false;phis[1] 1;fork[2] false;fork[0] false;phis[2] 0;})", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "192", "to_id": "230", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "192", "to_id": "230", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "246", "label": "TRUE", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "206", "to_id": "246", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "206", "to_id": "246", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "247", "label": "EU(x,y,TRUE,holdLeft[1](y ),{eat[0] false;fork[1] true;eat[2] false;phis[0] 0;eat[1] false;phis[1] 1;fork[2] true;fork[0] false;phis[2] 4;})", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "206", "to_id": "247", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "206", "to_id": "247", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "301", "label": "TRUE", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "264", "to_id": "301", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "264", "to_id": "301", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "302", "label": "EU(x,y,TRUE,holdLeft[1](y ),{eat[0] false;fork[1] true;eat[2] false;phis[0] 0;eat[1] false;phis[1] 1;fork[2] true;fork[0] false;phis[2] 4;})", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "264", "to_id": "302", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "264", "to_id": "302", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "227", "label": "TRUE", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "194", "to_id": "227", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "194", "to_id": "227", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "228", "label": "EU(x,y,TRUE,holdLeft[1](y ),{eat[0] false;fork[1] true;eat[2] false;phis[0] 0;eat[1] false;phis[1] 1;fork[2] true;fork[0] false;phis[2] 4;})", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "194", "to_id": "228", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "194", "to_id": "228", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "231", "label": "TRUE", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "196", "to_id": "231", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "196", "to_id": "231", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "232", "label": "EU(x,y,TRUE,holdLeft[1](y ),{eat[0] false;fork[1] true;eat[2] false;phis[0] 0;eat[1] false;phis[1] 1;fork[2] true;fork[0] false;phis[2] 4;})", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "196", "to_id": "232", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "196", "to_id": "232", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "233", "label": "TRUE", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "203", "to_id": "233", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "203", "to_id": "233", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "234", "label": "EU(x,y,TRUE,holdLeft[1](y ),{eat[0] false;fork[1] true;eat[2] false;phis[0] 0;eat[1] false;phis[1] 1;fork[2] true;fork[0] false;phis[2] 4;})", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "203", "to_id": "234", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "203", "to_id": "234", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "241", "label": "EU(x,y,TRUE,holdLeft[1](y ),{eat[0] false;fork[1] true;eat[2] false;phis[0] 0;eat[1] false;phis[1] 1;fork[2] true;fork[0] false;phis[2] 4;})", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "204", "to_id": "241", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "204", "to_id": "241", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "242", "label": "EU(x,y,TRUE,holdLeft[0](y ),{eat[0] false;fork[1] true;eat[2] false;phis[0] 0;eat[1] false;phis[1] 1;fork[2] false;fork[0] false;phis[2] 0;})", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "204", "to_id": "242", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "204", "to_id": "242", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "235", "label": "TRUE", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "199", "to_id": "235", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "199", "to_id": "235", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "236", "label": "EU(x,y,TRUE,holdLeft[1](y ),{eat[0] false;fork[1] true;eat[2] false;phis[0] 0;eat[1] false;phis[1] 1;fork[2] true;fork[0] false;phis[2] 4;})", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "199", "to_id": "236", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "199", "to_id": "236", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "237", "label": "TRUE", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "201", "to_id": "237", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "201", "to_id": "237", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "238", "label": "EU(x,y,TRUE,holdLeft[1](y ),{eat[0] false;fork[1] true;eat[2] false;phis[0] 0;eat[1] false;phis[1] 1;fork[2] true;fork[0] false;phis[2] 4;})", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "201", "to_id": "238", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "201", "to_id": "238", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "287", "label": "TRUE", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "252", "to_id": "287", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "252", "to_id": "287", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "288", "label": "EU(x,y,TRUE,holdLeft[1](y ),{eat[0] false;fork[1] true;eat[2] false;phis[0] 0;eat[1] false;phis[1] 1;fork[2] true;fork[0] false;phis[2] 4;})", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "252", "to_id": "288", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "252", "to_id": "288", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "289", "label": "TRUE", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "261", "to_id": "289", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "261", "to_id": "289", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "290", "label": "EU(x,y,TRUE,holdLeft[1](y ),{eat[0] false;fork[1] true;eat[2] false;phis[0] 0;eat[1] false;phis[1] 1;fork[2] true;fork[0] false;phis[2] 4;})", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "261", "to_id": "290", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "261", "to_id": "290", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "299", "label": "EU(x,y,TRUE,holdLeft[1](y ),{eat[0] false;fork[1] true;eat[2] false;phis[0] 0;eat[1] false;phis[1] 1;fork[2] true;fork[0] false;phis[2] 4;})", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "262", "to_id": "299", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "262", "to_id": "299", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "300", "label": "EU(x,y,TRUE,holdLeft[0](y ),{eat[0] false;fork[1] true;eat[2] false;phis[0] 0;eat[1] false;phis[1] 1;fork[2] false;fork[0] false;phis[2] 0;})", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "262", "to_id": "300", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "262", "to_id": "300", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "291", "label": "TRUE", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "254", "to_id": "291", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "254", "to_id": "291", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "292", "label": "EU(x,y,TRUE,holdLeft[1](y ),{eat[0] false;fork[1] true;eat[2] false;phis[0] 0;eat[1] false;phis[1] 1;fork[2] true;fork[0] false;phis[2] 4;})", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "254", "to_id": "292", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "254", "to_id": "292", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "293", "label": "TRUE", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "256", "to_id": "293", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "256", "to_id": "293", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "294", "label": "EU(x,y,TRUE,holdLeft[1](y ),{eat[0] false;fork[1] true;eat[2] false;phis[0] 0;eat[1] false;phis[1] 1;fork[2] true;fork[0] false;phis[2] 4;})", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "256", "to_id": "294", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "256", "to_id": "294", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "295", "label": "TRUE", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "258", "to_id": "295", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "258", "to_id": "295", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "296", "label": "EU(x,y,TRUE,holdLeft[1](y ),{eat[0] false;fork[1] true;eat[2] false;phis[0] 0;eat[1] false;phis[1] 1;fork[2] true;fork[0] false;phis[2] 4;})", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "258", "to_id": "296", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "258", "to_id": "296", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "207", "label": "TRUE", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "178", "to_id": "207", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "178", "to_id": "207", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "208", "label": "EU(x,y,TRUE,holdLeft[1](y ),{eat[0] false;fork[1] false;eat[2] false;phis[0] 0;eat[1] false;phis[1] 0;fork[2] true;fork[0] false;phis[2] 4;})", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "178", "to_id": "208", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "178", "to_id": "208", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "243", "label": "EU(x,y,TRUE,holdLeft[1](y ),{eat[0] false;fork[1] false;eat[2] false;phis[0] 0;eat[1] false;phis[1] 0;fork[2] true;fork[0] false;phis[2] 4;})", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "219", "to_id": "243", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "219", "to_id": "243", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "250", "label": "EU(x,y,TRUE,holdLeft[0](y ),{eat[0] false;fork[1] true;eat[2] false;phis[0] 0;eat[1] false;phis[1] 1;fork[2] true;fork[0] false;phis[2] 4;})", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "219", "to_id": "250", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "219", "to_id": "250", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "223", "label": "TRUE", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "220", "to_id": "223", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "220", "to_id": "223", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "224", "label": "EU(x,y,TRUE,holdLeft[1](y ),{eat[0] false;fork[1] false;eat[2] false;phis[0] 0;eat[1] false;phis[1] 0;fork[2] true;fork[0] false;phis[2] 4;})", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "220", "to_id": "224", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "220", "to_id": "224", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "248", "label": "TRUE", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "190", "to_id": "248", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "190", "to_id": "248", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "249", "label": "EU(x,y,TRUE,holdLeft[1](y ),{eat[0] false;fork[1] false;eat[2] false;phis[0] 0;eat[1] false;phis[1] 0;fork[2] true;fork[0] false;phis[2] 4;})", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "190", "to_id": "249", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "190", "to_id": "249", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "297", "label": "TRUE", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "260", "to_id": "297", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "260", "to_id": "297", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "298", "label": "EU(x,y,TRUE,holdLeft[1](y ),{eat[0] false;fork[1] true;eat[2] false;phis[0] 0;eat[1] false;phis[1] 1;fork[2] true;fork[0] false;phis[2] 4;})", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "260", "to_id": "298", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "260", "to_id": "298", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "24", "label": "TRUE", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "19", "to_id": "24", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "19", "to_id": "24", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "25", "label": "EU(x,y,TRUE,holdLeft[1](y ),{eat[0] false;fork[1] false;eat[2] false;phis[0] 0;eat[1] false;phis[1] 0;fork[2] true;fork[0] false;phis[2] 4;})", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "19", "to_id": "25", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "19", "to_id": "25", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "26", "label": "EU(x,y,TRUE,holdLeft[1](y ),{eat[0] false;fork[1] false;eat[2] false;phis[0] 0;eat[1] false;phis[1] 0;fork[2] true;fork[0] false;phis[2] 4;})", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "20", "to_id": "26", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "20", "to_id": "26", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "27", "label": "EU(x,y,TRUE,holdLeft[0](y ),{eat[0] false;fork[1] true;eat[2] false;phis[0] 0;eat[1] false;phis[1] 1;fork[2] true;fork[0] false;phis[2] 4;})", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "20", "to_id": "27", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "20", "to_id": "27", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "28", "label": "TRUE", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "21", "to_id": "28", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "21", "to_id": "28", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "29", "label": "EU(x,y,TRUE,holdLeft[1](y ),{eat[0] false;fork[1] false;eat[2] false;phis[0] 0;eat[1] false;phis[1] 0;fork[2] true;fork[0] false;phis[2] 4;})", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "21", "to_id": "29", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "21", "to_id": "29", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "30", "label": "TRUE", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "23", "to_id": "30", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "23", "to_id": "30", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "31", "label": "EU(x,y,TRUE,holdLeft[1](y ),{eat[0] false;fork[1] false;eat[2] false;phis[0] 0;eat[1] false;phis[1] 0;fork[2] true;fork[0] false;phis[2] 4;})", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "23", "to_id": "31", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "23", "to_id": "31", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "64", "label": "TRUE", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "59", "to_id": "64", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "59", "to_id": "64", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "65", "label": "EU(x,y,TRUE,holdLeft[1](y ),{eat[0] false;fork[1] false;eat[2] false;phis[0] 0;eat[1] false;phis[1] 0;fork[2] true;fork[0] false;phis[2] 4;})", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "59", "to_id": "65", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "59", "to_id": "65", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "66", "label": "EU(x,y,TRUE,holdLeft[1](y ),{eat[0] false;fork[1] false;eat[2] false;phis[0] 0;eat[1] false;phis[1] 0;fork[2] true;fork[0] false;phis[2] 4;})", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "60", "to_id": "66", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "60", "to_id": "66", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "67", "label": "EU(x,y,TRUE,holdLeft[0](y ),{eat[0] false;fork[1] true;eat[2] false;phis[0] 0;eat[1] false;phis[1] 1;fork[2] true;fork[0] false;phis[2] 4;})", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "60", "to_id": "67", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "60", "to_id": "67", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "68", "label": "TRUE", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "61", "to_id": "68", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "61", "to_id": "68", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "69", "label": "EU(x,y,TRUE,holdLeft[1](y ),{eat[0] false;fork[1] false;eat[2] false;phis[0] 0;eat[1] false;phis[1] 0;fork[2] true;fork[0] false;phis[2] 4;})", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "61", "to_id": "69", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "61", "to_id": "69", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "70", "label": "TRUE", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "63", "to_id": "70", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "63", "to_id": "70", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "71", "label": "EU(x,y,TRUE,holdLeft[1](y ),{eat[0] false;fork[1] false;eat[2] false;phis[0] 0;eat[1] false;phis[1] 0;fork[2] true;fork[0] false;phis[2] 4;})", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "63", "to_id": "71", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "63", "to_id": "71", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "104", "label": "TRUE", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "99", "to_id": "104", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "99", "to_id": "104", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "105", "label": "EU(x,y,TRUE,holdLeft[1](y ),{eat[0] false;fork[1] false;eat[2] false;phis[0] 0;eat[1] false;phis[1] 0;fork[2] true;fork[0] false;phis[2] 4;})", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "99", "to_id": "105", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "99", "to_id": "105", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "106", "label": "EU(x,y,TRUE,holdLeft[1](y ),{eat[0] false;fork[1] false;eat[2] false;phis[0] 0;eat[1] false;phis[1] 0;fork[2] true;fork[0] false;phis[2] 4;})", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "100", "to_id": "106", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "100", "to_id": "106", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "107", "label": "EU(x,y,TRUE,holdLeft[0](y ),{eat[0] false;fork[1] true;eat[2] false;phis[0] 0;eat[1] false;phis[1] 1;fork[2] true;fork[0] false;phis[2] 4;})", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "100", "to_id": "107", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "100", "to_id": "107", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "108", "label": "TRUE", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "101", "to_id": "108", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "101", "to_id": "108", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "109", "label": "EU(x,y,TRUE,holdLeft[1](y ),{eat[0] false;fork[1] false;eat[2] false;phis[0] 0;eat[1] false;phis[1] 0;fork[2] true;fork[0] false;phis[2] 4;})", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "101", "to_id": "109", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "101", "to_id": "109", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "110", "label": "TRUE", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "103", "to_id": "110", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "103", "to_id": "110", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "111", "label": "EU(x,y,TRUE,holdLeft[1](y ),{eat[0] false;fork[1] false;eat[2] false;phis[0] 0;eat[1] false;phis[1] 0;fork[2] true;fork[0] false;phis[2] 4;})", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "103", "to_id": "111", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "103", "to_id": "111", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "319", "label": "holdLeft[1]({eat[0] false;fork[1] true;eat[2] false;phis[0] 0;eat[1] false;phis[1] 1;fork[2] true;fork[0] false;phis[2] 4;} )", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "304", "to_id": "319", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "304", "to_id": "319", "label": "EU-R1"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "321", "label": "holdLeft[1]({eat[0] false;fork[1] true;eat[2] false;phis[0] 0;eat[1] false;phis[1] 1;fork[2] true;fork[0] false;phis[2] 4;} )", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "226", "to_id": "321", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "226", "to_id": "321", "label": "EU-R1"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "320", "label": "holdLeft[1]({eat[0] false;fork[1] true;eat[2] false;phis[0] 0;eat[1] false;phis[1] 1;fork[2] true;fork[0] false;phis[2] 4;} )", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "229", "to_id": "320", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "229", "to_id": "320", "label": "EU-R1"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "322", "label": "TRUE", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "230", "to_id": "322", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "230", "to_id": "322", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "323", "label": "EU(x,y,TRUE,holdLeft[0](y ),{eat[0] false;fork[1] true;eat[2] false;phis[0] 0;eat[1] false;phis[1] 1;fork[2] true;fork[0] false;phis[2] 1;})", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "230", "to_id": "323", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "230", "to_id": "323", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "268", "label": "holdLeft[1]({eat[0] false;fork[1] true;eat[2] false;phis[0] 0;eat[1] false;phis[1] 1;fork[2] true;fork[0] false;phis[2] 4;} )", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "247", "to_id": "268", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "247", "to_id": "268", "label": "EU-R1"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "318", "label": "holdLeft[1]({eat[0] false;fork[1] true;eat[2] false;phis[0] 0;eat[1] false;phis[1] 1;fork[2] true;fork[0] false;phis[2] 4;} )", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "302", "to_id": "318", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "302", "to_id": "318", "label": "EU-R1"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "269", "label": "holdLeft[1]({eat[0] false;fork[1] true;eat[2] false;phis[0] 0;eat[1] false;phis[1] 1;fork[2] true;fork[0] false;phis[2] 4;} )", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "228", "to_id": "269", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "228", "to_id": "269", "label": "EU-R1"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "270", "label": "holdLeft[1]({eat[0] false;fork[1] true;eat[2] false;phis[0] 0;eat[1] false;phis[1] 1;fork[2] true;fork[0] false;phis[2] 4;} )", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "232", "to_id": "270", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "232", "to_id": "270", "label": "EU-R1"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "274", "label": "holdLeft[1]({eat[0] false;fork[1] true;eat[2] false;phis[0] 0;eat[1] false;phis[1] 1;fork[2] true;fork[0] false;phis[2] 4;} )", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "234", "to_id": "274", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "234", "to_id": "274", "label": "EU-R1"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "275", "label": "holdLeft[1]({eat[0] false;fork[1] true;eat[2] false;phis[0] 0;eat[1] false;phis[1] 1;fork[2] true;fork[0] false;phis[2] 4;} )", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "241", "to_id": "275", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "241", "to_id": "275", "label": "EU-R1"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "280", "label": "TRUE", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "242", "to_id": "280", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "242", "to_id": "280", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "281", "label": "EU(x,y,TRUE,holdLeft[0](y ),{eat[0] false;fork[1] true;eat[2] false;phis[0] 0;eat[1] false;phis[1] 1;fork[2] true;fork[0] false;phis[2] 1;})", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "242", "to_id": "281", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "242", "to_id": "281", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "276", "label": "holdLeft[1]({eat[0] false;fork[1] true;eat[2] false;phis[0] 0;eat[1] false;phis[1] 1;fork[2] true;fork[0] false;phis[2] 4;} )", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "236", "to_id": "276", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "236", "to_id": "276", "label": "EU-R1"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "277", "label": "holdLeft[1]({eat[0] false;fork[1] true;eat[2] false;phis[0] 0;eat[1] false;phis[1] 1;fork[2] true;fork[0] false;phis[2] 4;} )", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "238", "to_id": "277", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "238", "to_id": "277", "label": "EU-R1"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "305", "label": "holdLeft[1]({eat[0] false;fork[1] true;eat[2] false;phis[0] 0;eat[1] false;phis[1] 1;fork[2] true;fork[0] false;phis[2] 4;} )", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "288", "to_id": "305", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "288", "to_id": "305", "label": "EU-R1"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "310", "label": "holdLeft[1]({eat[0] false;fork[1] true;eat[2] false;phis[0] 0;eat[1] false;phis[1] 1;fork[2] true;fork[0] false;phis[2] 4;} )", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "290", "to_id": "310", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "290", "to_id": "310", "label": "EU-R1"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "311", "label": "holdLeft[1]({eat[0] false;fork[1] true;eat[2] false;phis[0] 0;eat[1] false;phis[1] 1;fork[2] true;fork[0] false;phis[2] 4;} )", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "299", "to_id": "311", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "299", "to_id": "311", "label": "EU-R1"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "313", "label": "TRUE", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "300", "to_id": "313", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "300", "to_id": "313", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "314", "label": "EU(x,y,TRUE,holdLeft[0](y ),{eat[0] false;fork[1] true;eat[2] false;phis[0] 0;eat[1] false;phis[1] 1;fork[2] true;fork[0] false;phis[2] 1;})", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "300", "to_id": "314", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "300", "to_id": "314", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "312", "label": "holdLeft[1]({eat[0] false;fork[1] true;eat[2] false;phis[0] 0;eat[1] false;phis[1] 1;fork[2] true;fork[0] false;phis[2] 4;} )", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "292", "to_id": "312", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "292", "to_id": "312", "label": "EU-R1"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "315", "label": "holdLeft[1]({eat[0] false;fork[1] true;eat[2] false;phis[0] 0;eat[1] false;phis[1] 1;fork[2] true;fork[0] false;phis[2] 4;} )", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "294", "to_id": "315", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "294", "to_id": "315", "label": "EU-R1"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "316", "label": "holdLeft[1]({eat[0] false;fork[1] true;eat[2] false;phis[0] 0;eat[1] false;phis[1] 1;fork[2] true;fork[0] false;phis[2] 4;} )", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "296", "to_id": "316", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "296", "to_id": "316", "label": "EU-R1"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "239", "label": "TRUE", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "208", "to_id": "239", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "208", "to_id": "239", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "240", "label": "EU(x,y,TRUE,holdLeft[1](y ),{eat[0] false;fork[1] true;eat[2] false;phis[0] 0;eat[1] false;phis[1] 1;fork[2] true;fork[0] false;phis[2] 4;})", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "208", "to_id": "240", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "208", "to_id": "240", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "244", "label": "TRUE", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "243", "to_id": "244", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "243", "to_id": "244", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "245", "label": "EU(x,y,TRUE,holdLeft[1](y ),{eat[0] false;fork[1] true;eat[2] false;phis[0] 0;eat[1] false;phis[1] 1;fork[2] true;fork[0] false;phis[2] 4;})", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "243", "to_id": "245", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "243", "to_id": "245", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "282", "label": "EU(x,y,TRUE,holdLeft[1](y ),{eat[0] false;fork[1] true;eat[2] false;phis[0] 0;eat[1] false;phis[1] 1;fork[2] true;fork[0] false;phis[2] 4;})", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "250", "to_id": "282", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "250", "to_id": "282", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "271", "label": "EU(x,y,TRUE,holdLeft[0](y ),{eat[0] false;fork[1] true;eat[2] false;phis[0] 0;eat[1] false;phis[1] 1;fork[2] false;fork[0] false;phis[2] 0;})", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "250", "to_id": "271", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "250", "to_id": "271", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "267", "label": "TRUE", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "224", "to_id": "267", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "224", "to_id": "267", "label": "EU-R1"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "286", "label": "TRUE", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "249", "to_id": "286", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "249", "to_id": "286", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "284", "label": "EU(x,y,TRUE,holdLeft[1](y ),{eat[0] false;fork[1] true;eat[2] false;phis[0] 0;eat[1] false;phis[1] 1;fork[2] true;fork[0] false;phis[2] 4;})", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "249", "to_id": "284", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "249", "to_id": "284", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "317", "label": "holdLeft[1]({eat[0] false;fork[1] true;eat[2] false;phis[0] 0;eat[1] false;phis[1] 1;fork[2] true;fork[0] false;phis[2] 4;} )", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "298", "to_id": "317", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "298", "to_id": "317", "label": "EU-R1"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "32", "label": "TRUE", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "25", "to_id": "32", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "25", "to_id": "32", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "33", "label": "EU(x,y,TRUE,holdLeft[1](y ),{eat[0] false;fork[1] true;eat[2] false;phis[0] 0;eat[1] false;phis[1] 1;fork[2] true;fork[0] false;phis[2] 4;})", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "25", "to_id": "33", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "25", "to_id": "33", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "34", "label": "TRUE", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "26", "to_id": "34", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "26", "to_id": "34", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "35", "label": "EU(x,y,TRUE,holdLeft[1](y ),{eat[0] false;fork[1] true;eat[2] false;phis[0] 0;eat[1] false;phis[1] 1;fork[2] true;fork[0] false;phis[2] 4;})", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "26", "to_id": "35", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "26", "to_id": "35", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "36", "label": "EU(x,y,TRUE,holdLeft[1](y ),{eat[0] false;fork[1] true;eat[2] false;phis[0] 0;eat[1] false;phis[1] 1;fork[2] true;fork[0] false;phis[2] 4;})", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "27", "to_id": "36", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "27", "to_id": "36", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "37", "label": "EU(x,y,TRUE,holdLeft[0](y ),{eat[0] false;fork[1] true;eat[2] false;phis[0] 0;eat[1] false;phis[1] 1;fork[2] false;fork[0] false;phis[2] 0;})", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "27", "to_id": "37", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "27", "to_id": "37", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "38", "label": "TRUE", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "29", "to_id": "38", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "29", "to_id": "38", "label": "EU-R1"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "39", "label": "TRUE", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "31", "to_id": "39", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "31", "to_id": "39", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "40", "label": "EU(x,y,TRUE,holdLeft[1](y ),{eat[0] false;fork[1] true;eat[2] false;phis[0] 0;eat[1] false;phis[1] 1;fork[2] true;fork[0] false;phis[2] 4;})", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "31", "to_id": "40", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "31", "to_id": "40", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "72", "label": "TRUE", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "65", "to_id": "72", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "65", "to_id": "72", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "73", "label": "EU(x,y,TRUE,holdLeft[1](y ),{eat[0] false;fork[1] true;eat[2] false;phis[0] 0;eat[1] false;phis[1] 1;fork[2] true;fork[0] false;phis[2] 4;})", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "65", "to_id": "73", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "65", "to_id": "73", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "74", "label": "TRUE", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "66", "to_id": "74", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "66", "to_id": "74", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "75", "label": "EU(x,y,TRUE,holdLeft[1](y ),{eat[0] false;fork[1] true;eat[2] false;phis[0] 0;eat[1] false;phis[1] 1;fork[2] true;fork[0] false;phis[2] 4;})", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "66", "to_id": "75", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "66", "to_id": "75", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "76", "label": "EU(x,y,TRUE,holdLeft[1](y ),{eat[0] false;fork[1] true;eat[2] false;phis[0] 0;eat[1] false;phis[1] 1;fork[2] true;fork[0] false;phis[2] 4;})", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "67", "to_id": "76", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "67", "to_id": "76", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "77", "label": "EU(x,y,TRUE,holdLeft[0](y ),{eat[0] false;fork[1] true;eat[2] false;phis[0] 0;eat[1] false;phis[1] 1;fork[2] false;fork[0] false;phis[2] 0;})", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "67", "to_id": "77", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "67", "to_id": "77", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "78", "label": "TRUE", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "69", "to_id": "78", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "69", "to_id": "78", "label": "EU-R1"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "79", "label": "TRUE", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "71", "to_id": "79", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "71", "to_id": "79", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "80", "label": "EU(x,y,TRUE,holdLeft[1](y ),{eat[0] false;fork[1] true;eat[2] false;phis[0] 0;eat[1] false;phis[1] 1;fork[2] true;fork[0] false;phis[2] 4;})", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "71", "to_id": "80", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "71", "to_id": "80", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "112", "label": "TRUE", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "105", "to_id": "112", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "105", "to_id": "112", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "113", "label": "EU(x,y,TRUE,holdLeft[1](y ),{eat[0] false;fork[1] true;eat[2] false;phis[0] 0;eat[1] false;phis[1] 1;fork[2] true;fork[0] false;phis[2] 4;})", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "105", "to_id": "113", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "105", "to_id": "113", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "114", "label": "TRUE", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "106", "to_id": "114", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "106", "to_id": "114", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "115", "label": "EU(x,y,TRUE,holdLeft[1](y ),{eat[0] false;fork[1] true;eat[2] false;phis[0] 0;eat[1] false;phis[1] 1;fork[2] true;fork[0] false;phis[2] 4;})", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "106", "to_id": "115", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "106", "to_id": "115", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "116", "label": "EU(x,y,TRUE,holdLeft[1](y ),{eat[0] false;fork[1] true;eat[2] false;phis[0] 0;eat[1] false;phis[1] 1;fork[2] true;fork[0] false;phis[2] 4;})", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "107", "to_id": "116", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "107", "to_id": "116", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "117", "label": "EU(x,y,TRUE,holdLeft[0](y ),{eat[0] false;fork[1] true;eat[2] false;phis[0] 0;eat[1] false;phis[1] 1;fork[2] false;fork[0] false;phis[2] 0;})", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "107", "to_id": "117", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "107", "to_id": "117", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "118", "label": "TRUE", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "109", "to_id": "118", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "109", "to_id": "118", "label": "EU-R1"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "119", "label": "TRUE", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "111", "to_id": "119", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "111", "to_id": "119", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "120", "label": "EU(x,y,TRUE,holdLeft[1](y ),{eat[0] false;fork[1] true;eat[2] false;phis[0] 0;eat[1] false;phis[1] 1;fork[2] true;fork[0] false;phis[2] 4;})", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "111", "to_id": "120", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "111", "to_id": "120", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "324", "label": "EU(x,y,TRUE,holdLeft[0](y ),{eat[0] false;fork[1] true;eat[2] false;phis[0] 1;eat[1] false;phis[1] 1;fork[2] true;fork[0] true;phis[2] 1;})", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "323", "to_id": "324", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "323", "to_id": "324", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "329", "label": "TRUE", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "323", "to_id": "329", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "323", "to_id": "329", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "308", "label": "EU(x,y,TRUE,holdLeft[0](y ),{eat[0] false;fork[1] true;eat[2] false;phis[0] 1;eat[1] false;phis[1] 1;fork[2] true;fork[0] true;phis[2] 1;})", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "281", "to_id": "308", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "281", "to_id": "308", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "309", "label": "TRUE", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "281", "to_id": "309", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "281", "to_id": "309", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "327", "label": "EU(x,y,TRUE,holdLeft[0](y ),{eat[0] false;fork[1] true;eat[2] false;phis[0] 1;eat[1] false;phis[1] 1;fork[2] true;fork[0] true;phis[2] 1;})", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "314", "to_id": "327", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "314", "to_id": "327", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "328", "label": "TRUE", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "314", "to_id": "328", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "314", "to_id": "328", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "278", "label": "holdLeft[1]({eat[0] false;fork[1] true;eat[2] false;phis[0] 0;eat[1] false;phis[1] 1;fork[2] true;fork[0] false;phis[2] 4;} )", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "240", "to_id": "278", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "240", "to_id": "278", "label": "EU-R1"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "279", "label": "holdLeft[1]({eat[0] false;fork[1] true;eat[2] false;phis[0] 0;eat[1] false;phis[1] 1;fork[2] true;fork[0] false;phis[2] 4;} )", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "245", "to_id": "279", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "245", "to_id": "279", "label": "EU-R1"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "283", "label": "holdLeft[1]({eat[0] false;fork[1] true;eat[2] false;phis[0] 0;eat[1] false;phis[1] 1;fork[2] true;fork[0] false;phis[2] 4;} )", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "282", "to_id": "283", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "282", "to_id": "283", "label": "EU-R1"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "272", "label": "TRUE", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "271", "to_id": "272", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "271", "to_id": "272", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "273", "label": "EU(x,y,TRUE,holdLeft[0](y ),{eat[0] false;fork[1] true;eat[2] false;phis[0] 0;eat[1] false;phis[1] 1;fork[2] true;fork[0] false;phis[2] 1;})", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "271", "to_id": "273", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "271", "to_id": "273", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "285", "label": "holdLeft[1]({eat[0] false;fork[1] true;eat[2] false;phis[0] 0;eat[1] false;phis[1] 1;fork[2] true;fork[0] false;phis[2] 4;} )", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "284", "to_id": "285", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "284", "to_id": "285", "label": "EU-R1"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "41", "label": "holdLeft[1]({eat[0] false;fork[1] true;eat[2] false;phis[0] 0;eat[1] false;phis[1] 1;fork[2] true;fork[0] false;phis[2] 4;} )", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "33", "to_id": "41", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "33", "to_id": "41", "label": "EU-R1"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "42", "label": "holdLeft[1]({eat[0] false;fork[1] true;eat[2] false;phis[0] 0;eat[1] false;phis[1] 1;fork[2] true;fork[0] false;phis[2] 4;} )", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "35", "to_id": "42", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "35", "to_id": "42", "label": "EU-R1"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "43", "label": "holdLeft[1]({eat[0] false;fork[1] true;eat[2] false;phis[0] 0;eat[1] false;phis[1] 1;fork[2] true;fork[0] false;phis[2] 4;} )", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "36", "to_id": "43", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "36", "to_id": "43", "label": "EU-R1"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "44", "label": "TRUE", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "37", "to_id": "44", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "37", "to_id": "44", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "45", "label": "EU(x,y,TRUE,holdLeft[0](y ),{eat[0] false;fork[1] true;eat[2] false;phis[0] 0;eat[1] false;phis[1] 1;fork[2] true;fork[0] false;phis[2] 1;})", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "37", "to_id": "45", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "37", "to_id": "45", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "46", "label": "holdLeft[1]({eat[0] false;fork[1] true;eat[2] false;phis[0] 0;eat[1] false;phis[1] 1;fork[2] true;fork[0] false;phis[2] 4;} )", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "40", "to_id": "46", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "40", "to_id": "46", "label": "EU-R1"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "81", "label": "holdLeft[1]({eat[0] false;fork[1] true;eat[2] false;phis[0] 0;eat[1] false;phis[1] 1;fork[2] true;fork[0] false;phis[2] 4;} )", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "73", "to_id": "81", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "73", "to_id": "81", "label": "EU-R1"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "82", "label": "holdLeft[1]({eat[0] false;fork[1] true;eat[2] false;phis[0] 0;eat[1] false;phis[1] 1;fork[2] true;fork[0] false;phis[2] 4;} )", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "75", "to_id": "82", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "75", "to_id": "82", "label": "EU-R1"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "83", "label": "holdLeft[1]({eat[0] false;fork[1] true;eat[2] false;phis[0] 0;eat[1] false;phis[1] 1;fork[2] true;fork[0] false;phis[2] 4;} )", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "76", "to_id": "83", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "76", "to_id": "83", "label": "EU-R1"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "84", "label": "TRUE", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "77", "to_id": "84", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "77", "to_id": "84", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "85", "label": "EU(x,y,TRUE,holdLeft[0](y ),{eat[0] false;fork[1] true;eat[2] false;phis[0] 0;eat[1] false;phis[1] 1;fork[2] true;fork[0] false;phis[2] 1;})", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "77", "to_id": "85", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "77", "to_id": "85", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "86", "label": "holdLeft[1]({eat[0] false;fork[1] true;eat[2] false;phis[0] 0;eat[1] false;phis[1] 1;fork[2] true;fork[0] false;phis[2] 4;} )", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "80", "to_id": "86", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "80", "to_id": "86", "label": "EU-R1"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "121", "label": "holdLeft[1]({eat[0] false;fork[1] true;eat[2] false;phis[0] 0;eat[1] false;phis[1] 1;fork[2] true;fork[0] false;phis[2] 4;} )", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "113", "to_id": "121", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "113", "to_id": "121", "label": "EU-R1"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "122", "label": "holdLeft[1]({eat[0] false;fork[1] true;eat[2] false;phis[0] 0;eat[1] false;phis[1] 1;fork[2] true;fork[0] false;phis[2] 4;} )", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "115", "to_id": "122", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "115", "to_id": "122", "label": "EU-R1"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "123", "label": "holdLeft[1]({eat[0] false;fork[1] true;eat[2] false;phis[0] 0;eat[1] false;phis[1] 1;fork[2] true;fork[0] false;phis[2] 4;} )", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "116", "to_id": "123", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "116", "to_id": "123", "label": "EU-R1"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "124", "label": "TRUE", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "117", "to_id": "124", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "117", "to_id": "124", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "125", "label": "EU(x,y,TRUE,holdLeft[0](y ),{eat[0] false;fork[1] true;eat[2] false;phis[0] 0;eat[1] false;phis[1] 1;fork[2] true;fork[0] false;phis[2] 1;})", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "117", "to_id": "125", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "117", "to_id": "125", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "126", "label": "holdLeft[1]({eat[0] false;fork[1] true;eat[2] false;phis[0] 0;eat[1] false;phis[1] 1;fork[2] true;fork[0] false;phis[2] 4;} )", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "120", "to_id": "126", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "120", "to_id": "126", "label": "EU-R1"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "325", "label": "holdLeft[0]({eat[0] false;fork[1] true;eat[2] false;phis[0] 1;eat[1] false;phis[1] 1;fork[2] true;fork[0] true;phis[2] 1;} )", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "324", "to_id": "325", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "324", "to_id": "325", "label": "EU-R1"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "326", "label": "holdLeft[0]({eat[0] false;fork[1] true;eat[2] false;phis[0] 1;eat[1] false;phis[1] 1;fork[2] true;fork[0] true;phis[2] 1;} )", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "308", "to_id": "326", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "308", "to_id": "326", "label": "EU-R1"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "331", "label": "holdLeft[0]({eat[0] false;fork[1] true;eat[2] false;phis[0] 1;eat[1] false;phis[1] 1;fork[2] true;fork[0] true;phis[2] 1;} )", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "327", "to_id": "331", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "327", "to_id": "331", "label": "EU-R1"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "306", "label": "EU(x,y,TRUE,holdLeft[0](y ),{eat[0] false;fork[1] true;eat[2] false;phis[0] 1;eat[1] false;phis[1] 1;fork[2] true;fork[0] true;phis[2] 1;})", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "273", "to_id": "306", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "273", "to_id": "306", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "307", "label": "TRUE", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "273", "to_id": "307", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "273", "to_id": "307", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "47", "label": "EU(x,y,TRUE,holdLeft[0](y ),{eat[0] false;fork[1] true;eat[2] false;phis[0] 1;eat[1] false;phis[1] 1;fork[2] true;fork[0] true;phis[2] 1;})", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "45", "to_id": "47", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "45", "to_id": "47", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "48", "label": "TRUE", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "45", "to_id": "48", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "45", "to_id": "48", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "87", "label": "EU(x,y,TRUE,holdLeft[0](y ),{eat[0] false;fork[1] true;eat[2] false;phis[0] 1;eat[1] false;phis[1] 1;fork[2] true;fork[0] true;phis[2] 1;})", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "85", "to_id": "87", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "85", "to_id": "87", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "88", "label": "TRUE", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "85", "to_id": "88", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "85", "to_id": "88", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "127", "label": "EU(x,y,TRUE,holdLeft[0](y ),{eat[0] false;fork[1] true;eat[2] false;phis[0] 1;eat[1] false;phis[1] 1;fork[2] true;fork[0] true;phis[2] 1;})", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "125", "to_id": "127", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "125", "to_id": "127", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "128", "label": "TRUE", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "125", "to_id": "128", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "125", "to_id": "128", "label": "EU-R2"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "330", "label": "holdLeft[0]({eat[0] false;fork[1] true;eat[2] false;phis[0] 1;eat[1] false;phis[1] 1;fork[2] true;fork[0] true;phis[2] 1;} )", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "306", "to_id": "330", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "306", "to_id": "330", "label": "EU-R1"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "49", "label": "holdLeft[0]({eat[0] false;fork[1] true;eat[2] false;phis[0] 1;eat[1] false;phis[1] 1;fork[2] true;fork[0] true;phis[2] 1;} )", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "47", "to_id": "49", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "47", "to_id": "49", "label": "EU-R1"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "89", "label": "holdLeft[0]({eat[0] false;fork[1] true;eat[2] false;phis[0] 1;eat[1] false;phis[1] 1;fork[2] true;fork[0] true;phis[2] 1;} )", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "87", "to_id": "89", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "87", "to_id": "89", "label": "EU-R1"}
 {"type": "add_node", "session_id": "test_sid", "node": {"id": "129", "label": "holdLeft[0]({eat[0] false;fork[1] true;eat[2] false;phis[0] 1;eat[1] false;phis[1] 1;fork[2] true;fork[0] true;phis[2] 1;} )", "state": "Proved"}}
-{"type": "add_edge", "session_id": "test_sid", "from_id": "127", "to_id": "129", "label": ""}
+{"type": "add_edge", "session_id": "test_sid", "from_id": "127", "to_id": "129", "label": "EU-R1"}

@@ -216,6 +216,9 @@ class Receiver(QThread):
                                 elif rname == 'sub_formula':
                                     self.affectSignal.emit(sid, affect.SubFormulaAffect(rname, rargs, result))
                                     self.v.responseCache[(rname, rargs['nid'])] = result
+                                elif rname == 'show_rule':
+                                    self.affectSignal.emit(sid, affect.ShowRuleAffect(rname, rargs, result))
+                                    self.v.responseCache[(rname, rargs['rule'])] = result
                                 else:
                                     print('unknown response', rname)
                         elif t == 'feedback':

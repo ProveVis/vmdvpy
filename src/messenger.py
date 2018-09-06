@@ -221,6 +221,11 @@ class Receiver(QThread):
                                     self.v.responseCache[(rname, rargs['rule'])] = result
                                 else:
                                     print('unknown response', rname)
+                        elif t == 'set_proof_rule':
+                            sid = data['session_id']
+                            nid = data["node_id"]
+                            rule = data["rule"]
+                            self.affectSignal.emit(sid, affect.SetProofRuleAffect(nid, rule))
                         elif t == 'feedback':
                             if data['status'] == 'OK':
                                 print('Session received feedback from the prover:', data['session_id'], ',', data['status'])

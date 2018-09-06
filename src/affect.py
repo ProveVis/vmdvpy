@@ -206,3 +206,10 @@ class ShowRuleAffect(Affect):
             viewer.colors.updateColorOfVertex(viewer.lookupTable, vid, 'red')
             viewer.colors.updateLookupTable(viewer.lookupTable)
         viewer.updateRendering()
+class SetProofRuleAffect(Affect):
+    def __init__(self, nid, rule):
+        self.nid = nid
+        self.rule = rule
+    def affect(self, viewer):
+        vid = viewer.nid2Vid[self.nid]
+        viewer.rules[vid] = self.rule

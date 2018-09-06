@@ -43,6 +43,7 @@ class Viewer(QMainWindow):
         
         self.frame.setLayout(self.vl)
         self.setCentralWidget(self.frame)
+        self.statusBar().showMessage('')
         
         self.foregroundMenu = QMenu()
         self.backgroundMenu = QMenu()
@@ -254,6 +255,35 @@ class TreeViewer(Viewer):
     def __init__(self, vmdv, sid, descr, attributes, colors):
         Viewer.__init__(self, vmdv, sid, descr, attributes, colors)
         Viewer.initViewerWindow(self, vtk.vtkTree(), 'Cone')
+        def findProofRule(fromVid):
+            if fromVid in self.rules:
+                return self.rules[fromVid]
+            else:
+                return None
+            # for (fv, tv) in self.edgeLabel:
+            #     if fv == fromVid:
+            #         return self.edgeLabel[(fv, tv)]
+            # return None
+        def selection(obj, e):
+            selected = set([])
+            sel = obj.GetCurrentSelection()
+            selvs = sel.GetNode(0).GetSelectionList()
+            for idx in range(selvs.GetNumberOfTuples()):
+                selected.add(selvs.GetValue(idx))
+            self.selectedVids = list(selected)
+            if len(self.selectedVids) > 0:
+                sv = self.selectedVids[0]
+                rule = findProofRule(sv)
+                if rule != None:
+                    self.statusBar().showMessage(rule)
+                else:
+                    self.statusBar().showMessage('')
+            else:
+                self.statusBar().showMessage('')
+
+
+        self.view.GetRepresentation(0).GetAnnotationLink().AddObserver("AnnotationChangedEvent", selection)
+
         
         # Data structures that represent a tree, in addition to the following ones
         # self.vertexNumber = 0
@@ -265,6 +295,7 @@ class TreeViewer(Viewer):
         self.treeHeight = 0
         self.children = {}
         self.parent = {}
+        self.rules = {}
         self.setWindowTitle('Proof Tree')
         
 
@@ -333,10 +364,13 @@ class TreeViewer(Viewer):
                     self.treeHeight = self.vertexHeight[toVid] + 1
                 self.children[fromVid].append(toVid)
                 self.parent[toVid] = fromVid
-                self.edgeLabel[(fromVid, toVid)] = label
+                # self.edgeLabel[(fromVid, toVid)] = label
+                self.rules[fromVid] = label
                 self.graphUnder.AddEdge(fromVid, toVid)
                 self.colors.insertColorOfVertex(self.lookupTable, toVid, self.vertexHeight[toVid], self.treeHeight)
                 # self.updateRendering()
+
+    
 
 
 class DiGraphViewer(Viewer):

@@ -89,6 +89,7 @@ class Viewer(QMainWindow):
         self.text_widget.SetRepresentation(text_representation)
         self.text_widget.SetInteractor(self.view.GetInteractor())
         self.text_widget.SetTextActor(self.text_actor)
+        self.text_actor.GetTextProperty().SetJustificationToLeft()
         self.text_widget.SelectableOff()
         self.text_widget.On()
 

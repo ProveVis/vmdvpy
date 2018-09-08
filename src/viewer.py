@@ -20,7 +20,12 @@ class Node:
     def setProperty(self, key, value):
         self.props[key] = value
     def getProperty(self, key):
-        return self.props[key]
+        if key in self.props:
+            return self.props[key]
+        else:
+            return None
+    def hasProperty(self, key):
+        return (key in self.props)
 
 class Viewer(QMainWindow):
     affectSignal = QtCore.pyqtSignal(str, affect.Affect)
@@ -256,11 +261,11 @@ class TreeViewer(Viewer):
     def __init__(self, vmdv, sid, descr, attributes, colors):
         Viewer.__init__(self, vmdv, sid, descr, attributes, colors)
         Viewer.initViewerWindow(self, vtk.vtkTree(), 'Cone')
-        def findProofRule(fromVid):
-            if fromVid in self.rules:
-                return self.rules[fromVid]
-            else:
-                return None
+        # def findProofRule(fromVid):
+        #     if fromVid in self.rules:
+        #         return self.rules[fromVid]
+        #     else:
+        #         return None
             # for (fv, tv) in self.edgeLabel:
             #     if fv == fromVid:
             #         return self.edgeLabel[(fv, tv)]
@@ -274,9 +279,13 @@ class TreeViewer(Viewer):
             self.selectedVids = list(selected)
             if len(self.selectedVids) > 0:
                 sv = self.selectedVids[0]
-                rule = findProofRule(sv)
-                if rule != None:
-                    self.statusBar().showMessage(rule)
+                node = self.vertices[sv]
+                rule = None
+                if sv in self.rules:
+                    rule = self.rules[sv]
+                nid = node.getProperty('id')
+                if rule != None and nid != None:
+                    self.statusBar().showMessage("ID: "+nid+"\t"+"Tactic: "+rule)
                 else:
                     self.statusBar().showMessage('')
             else:
@@ -298,12 +307,112 @@ class TreeViewer(Viewer):
         self.parent = {}
         self.rules = {}
         self.setWindowTitle('Proof Tree')
-        
+
+    # vidMap has the form {ovid:nvid}, and the following function
+    # changes the occurences of ovid to that of nvid
+    def modifyVertexInfo(self, vidMap):
+        for ovid in vidMap:
+            nvid = vidMap[ovid]
+            if ovid in self.vertices:
+                self.vertices[nvid] = self.vertices[ovid]
+                self.vertices.pop(ovid)
+            for nid in self.nid2Vid:
+                if self.nid2Vid[nid] == ovid:
+                    self.nid2Vid[nid] = nvid
+            for (fvid, tvid) in self.edgeLabel:
+                if fvid == ovid:
+                    self.edgeLabel[(nvid, tvid)] = self.edgeLabel[(fvid, tvid)]
+                    self.edgeLabel.pop((fvid, tvid))
+                if tvid == ovid:
+                    self.edgeLabel[(fvid, nvid)] = self.edgeLabel[(fvid, tvid)]
+                    self.edgeLabel.pop((fvid, tvid))
+            if ovid in self.vertexHeight:
+                    self.vertexHeight[nvid] = self.vertexHeight[ovid]
+                    self.vertexHeight.pop(ovid)
+            for tmpVid in self.children:
+                ochildren = self.children[tmpVid]
+                if ovid in ochildren:
+                    ochildren.remove(ovid)
+                    ochildren.append(nvid)
+                if tmpVid == ovid:
+                    self.children[nvid] = self.children[ovid]
+                    self.children.pop(ovid)
+            for tmpVid in self.parent:
+                if self.parent[tmpVid] == ovid:
+                    self.parent[tmpVid] = nvid
+                if tmpVid == ovid:
+                    self.parent[nvid] = self.parent[tmpVid]
+                    self.parent.pop(ovid)
+            if ovid in self.rules:
+                self.rules[nvid] = self.rules[ovid]
+                self.rules.pop(ovid)
+
+    def updateTreeHeight(self):
+        max = 0
+        for vid in self.vertexHeight:
+            if self.vertexHeight[vid] > max:
+                max = self.vertexHeight[vid]
+        self.treeHeight = max + 1
+
+    def clearVertexInfo(self, vid):
+        self.vertices.pop(vid)
+        for nid in self.nid2Vid:
+            if self.nid2Vid[nid] == vid:
+                self.nid2Vid.pop(nid)
+        for (fvid, tvid) in self.edgeLabel:
+            if tvid == vid:
+                self.edgeLabel.pop((fvid, tvid))
+        self.vertexHeight.pop(vid)
+        self.updateTreeHeight()
+        self.children.pop(vid)
+        for tmpVid in self.children:
+            if vid in self.children[tmpVid]:
+                self.children[tmpVid].remove(vid)
+        self.parent.pop(vid)
+        self.rules.pop(vid)
+
+    def removeVertexFromGraphUnder(self, vid):
+        # self.vertexNumber -= 1
+        self.graphUnder.RemoveVertex(vid)
+        # add a pedigree array to vertex
+        self.vertIds = vtk.vtkIdTypeArray()
+        self.vertexNumber = self.graphUnder.GetNumberOfVertices()
+        # print("number of vertices:", numVertices)
+        self.colors.removeColorOfVertex(self.lookupTable, vid, self.treeHeight)
+        self.colors.resetColorOfVertex(self.lookupTable, vid)
+
+        self.vertIds.SetNumberOfTuples(self.vertexNumber)
+
+        # print('wtf', numVertices)
+        for i in range(0, self.vertexNumber):
+            self.vertIds.SetValue(i, i)
+
+        self.graph.GetVertexData().SetPedigreeIds(self.vertIds)
+        self.graph.CheckedShallowCopy(self.graphUnder)
+
+    def removeNode(self, nid):
+        vid = self.nid2Vid[nid]
+        if vid != 0:
+            while self.children.has_key(vid) and len(self.children[vid]) > 0:
+                # find a leaf of the subtree with root vid
+                leafVid = vid
+                while self.children.has_key(leafVid) and len(self.children[leafVid]) > 0:
+                    leafVid = self.children[leafVid][0]
+                vidMap = {(self.vertexNumber-1):leafVid}
+                self.clearVertexInfo(leafVid)
+                self.removeVertexFromGraphUnder(leafVid)
+                self.modifyVertexInfo(vidMap)
+
+            vidMap = {(self.vertexNumber-1):vid}
+            self.clearVertexInfo(vid)
+            self.removeVertexFromGraphUnder(vid)
+            self.modifyVertexInfo(vidMap)
+
 
     def addNode(self, node):
         nid = node.getProperty('id')
         if self.dummyVertexExists:
-            self.vertexNumber += 1
+            # self.vertexNumber += 1
             self.vertices[self.dummyVertex] = node
             self.nid2Vid[nid] = self.dummyVertex
             self.vertexHeight[self.dummyVertex] = 0
@@ -314,30 +423,30 @@ class TreeViewer(Viewer):
             self.colors.insertColorOfVertex(self.lookupTable, self.dummyVertex, 0, 1)
             # logging.getLogger('file').info('Adding Node '+nid)
 
-            numVertices = self.graphUnder.GetNumberOfVertices()
+            self.vertexNumber = self.graphUnder.GetNumberOfVertices()
             # print("number of vertices:", numVertices)
-            self.vertIds.SetNumberOfTuples(numVertices)
+            self.vertIds.SetNumberOfTuples(self.vertexNumber)
 
             # print('wtf',numVertices)
-            for i in range(0, numVertices):
+            for i in range(0, self.vertexNumber):
                 self.vertIds.SetValue(i, i)
 
             self.graphUnder.GetVertexData().SetPedigreeIds(self.vertIds)
         if nid not in self.nid2Vid:
             vid = self.graphUnder.AddVertex()
-            self.vertexNumber += 1
+            # self.vertexNumber += 1
             self.vertices[vid] = node
             self.nid2Vid[nid] = vid
             self.children[vid] = []
             self.colorArray.InsertValue(vid, vid)
             # logging.getLogger('file').info('Adding Node '+nid)
 
-            numVertices = self.graphUnder.GetNumberOfVertices()
+            self.vertexNumber = self.graphUnder.GetNumberOfVertices()
             # print("number of vertices:", numVertices)
-            self.vertIds.SetNumberOfTuples(numVertices)
+            self.vertIds.SetNumberOfTuples(self.vertexNumber)
 
             # print('wtf',numVertices)
-            for i in range(0, numVertices):
+            for i in range(0, self.vertexNumber):
                 self.vertIds.SetValue(i, i)
 
             self.graphUnder.GetVertexData().SetPedigreeIds(self.vertIds)

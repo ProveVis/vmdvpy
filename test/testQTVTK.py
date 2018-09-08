@@ -82,11 +82,11 @@ class MainWindow(QMainWindow):
         # print("number of vertices:", numVertices)
         self.vertIds.SetNumberOfTuples(numVertices)
 
-        print('wtf',numVertices)
-        for i in range(0, numVertices):
-            self.vertIds.SetValue(i, i)
-
-        self.graph.GetVertexData().SetPedigreeIds(self.vertIds)
+        # print('wtf',numVertices)
+        # for i in range(0, numVertices):
+        #     self.vertIds.SetValue(i, i)
+        #
+        # self.graph.GetVertexData().SetPedigreeIds(self.vertIds)
 
         self.colorArray.InsertValue(vid, vid)
         self.vertexNumber = self.vertexNumber + 1
@@ -119,6 +119,25 @@ class MainWindow(QMainWindow):
 
         # def keypress(interactor, event):
 
+        # add a pedigree array to vertex
+        self.vertIds = vtk.vtkIdTypeArray()
+        numVertices = self.graph.GetNumberOfVertices()
+        # print("number of vertices:", numVertices)
+        self.vertIds.SetNumberOfTuples(numVertices)
+
+        print('wtf', numVertices)
+        for i in range(0, numVertices):
+            self.vertIds.SetValue(i, i)
+
+        self.graph.GetVertexData().SetPedigreeIds(self.vertIds)
+        self.tree.CheckedShallowCopy(self.graph)
+        print('SetPedigreeIds finished.')
+
+        self.isLeftButtonPressed = False
+        self.pixelRatio = QApplication.desktop().devicePixelRatio()
+        self.view.GetInteractor().AddObserver(vtk.vtkCommand.MouseMoveEvent, self.MouseMoved, 100)
+        self.view.GetInteractor().AddObserver(vtk.vtkCommand.LeftButtonPressEvent, self.LeftButtonPressed, 100)
+        self.view.GetInteractor().AddObserver(vtk.vtkCommand.LeftButtonReleaseEvent, self.LeftButtonReleased, 100)
 
         self.view.GetInteractor().AddObserver(vtk.vtkCommand.RightButtonPressEvent, self.selfRightMousePress)
         self.view.GetInteractor().AddObserver(vtk.vtkCommand.RightButtonReleaseEvent, self.selfRightMouseRelease)
@@ -138,6 +157,21 @@ class MainWindow(QMainWindow):
 
 
         self.view.GetRepresentation(0).GetAnnotationLink().AddObserver("AnnotationChangedEvent", selection)
+
+    def LeftButtonPressed(self, obj, event):
+        self.isLeftButtonPressed = True
+        pos = obj.GetEventPosition()
+        obj.SetEventPosition(pos[0] * self.pixelRatio, pos[1] * self.pixelRatio)
+
+    def LeftButtonReleased(self, obj, event):
+        self.isLeftButtonPressed = False
+        pos = obj.GetEventPosition()
+        obj.SetEventPosition(pos[0] * self.pixelRatio, pos[1] * self.pixelRatio)
+
+    def MouseMoved(self, obj, event):
+        if self.isLeftButtonPressed:
+            pos = obj.GetEventPosition()
+            obj.SetEventPosition(pos[0] * self.pixelRatio, pos[1] * self.pixelRatio)
 
     def selfRightMousePress(self, obj, event):
         # print('setting rightClickStart')
@@ -199,6 +233,19 @@ class MainWindow(QMainWindow):
             # self.colors.updateLookupTable(self.colorTable)
             self.colors.insertColorOfVertex(self.colorTable, vid, self.vertexHeight[vid], self.treeHeight)
 
+            # add a pedigree array to vertex
+            self.vertIds = vtk.vtkIdTypeArray()
+            numVertices = self.graph.GetNumberOfVertices()
+            # print("number of vertices:", numVertices)
+            self.vertIds.SetNumberOfTuples(numVertices)
+
+            # print('wtf', numVertices)
+            # for i in range(0, numVertices):
+            #     self.vertIds.SetValue(i, i)
+            #
+            # self.graph.GetVertexData().SetPedigreeIds(self.vertIds)
+            # self.tree.CheckedShallowCopy(self.graph)
+
             self.tree.CheckedShallowCopy(self.graph)
             self.view.ResetCamera()
 
@@ -247,6 +294,19 @@ class MainWindow(QMainWindow):
             self.colors.removeColorOfVertex(self.colorTable, selected[0], self.treeHeight)
             self.colors.resetColorOfVertex(self.colorTable, selected[0])
             # self.colorArray.RemoveTuple(selected[0])
+            # add a pedigree array to vertex
+            self.vertIds = vtk.vtkIdTypeArray()
+            numVertices = self.graph.GetNumberOfVertices()
+            # print("number of vertices:", numVertices)
+            self.vertIds.SetNumberOfTuples(numVertices)
+
+            print('wtf', numVertices)
+            for i in range(0, numVertices):
+                self.vertIds.SetValue(i, i)
+
+            self.graph.GetVertexData().SetPedigreeIds(self.vertIds)
+            self.tree.CheckedShallowCopy(self.graph)
+
             self.tree.CheckedShallowCopy(self.graph)
 
     def clearColor(self):

@@ -16,18 +16,20 @@ class Affect:
         pass
 
 class AddNodeAffect(Affect):
-    def __init__(self, nid, label, state):
-        self.nid = nid
-        # self.sid = sid
-        self.label = label
-        self.state = state
+    def __init__(self, nodeProps):
+        self.nodeProps = nodeProps
+        # self.nid = nid
+        # self.label = label
+        # self.state = state
 
     def affect(self,viewer):
         # session = v.findSession(self.sid)
         node = graph.Node()
-        node.setProperty('id', self.nid)
-        node.setProperty('label', self.label)
-        node.setProperty('state', self.state)
+        for k in self.nodeProps:
+            node.setProperty(k, self.nodeProps[k])
+        # node.setProperty('id', self.nid)
+        # node.setProperty('label', self.label)
+        # node.setProperty('state', self.state)
         viewer.addNode(node)
         # print('Adding node', self.nid)
         # pass

@@ -49,7 +49,9 @@ class FileReader(QThread):
             elif t == 'remove_session':
                 self.v.sessions.pop(data['session_id'])
             elif t == 'add_node':
-                a = affect.AddNodeAffect(data['node']['id'], data['node']['label'], data['node']['state'])
+                nodeProps = data['node']
+                a = affect.AddNodeAffect(nodeProps)
+                # a = affect.AddNodeAffect(data['node']['id'], data['node']['label'], data['node']['state'])
                 # self.v.putAffect(data['session_id'], a)
                 self.affectSignal.emit(data['session_id'], a)
             elif t == 'add_edge':
@@ -178,7 +180,9 @@ class Receiver(QThread):
                         elif t == 'remove_session':
                             self.v.sessions.pop(data['session_id'])
                         elif t == 'add_node':
-                            a = affect.AddNodeAffect(data['node']['id'], data['node']['label'], data['node']['state'])
+                            nodeProps = data['node']
+                            a = affect.AddNodeAffect(nodeProps)
+                            # a = affect.AddNodeAffect(data['node']['id'], data['node']['label'], data['node']['state'])
                             # self.v.putAffect(data['session_id'], a)
                             self.affectSignal.emit(data['session_id'], a)
                         elif t == 'add_edge':

@@ -1,4 +1,5 @@
 import vtk
+import sys
 from PyQt5 import QtGui
 from PyQt5.QtWidgets import QApplication, QWidget, QFrame, QMainWindow, QVBoxLayout, QAction, QMenu
 from PyQt5.QtGui import QCursor, QPalette, QColor
@@ -385,7 +386,9 @@ class TreeViewer(Viewer):
 
         # print('wtf', numVertices)
         for i in range(0, self.vertexNumber):
+            self.colorArray.InsertValue(i, i)
             self.vertIds.SetValue(i, i)
+
 
         self.graph.GetVertexData().SetPedigreeIds(self.vertIds)
         self.graph.CheckedShallowCopy(self.graphUnder)
@@ -393,10 +396,10 @@ class TreeViewer(Viewer):
     def removeNode(self, nid):
         vid = self.nid2Vid[nid]
         if vid != 0:
-            while self.children.has_key(vid) and len(self.children[vid]) > 0:
+            while vid in self.children and len(self.children[vid]) > 0:
                 # find a leaf of the subtree with root vid
                 leafVid = vid
-                while self.children.has_key(leafVid) and len(self.children[leafVid]) > 0:
+                while leafVid in self.children and len(self.children[leafVid]) > 0:
                     leafVid = self.children[leafVid][0]
                 vidMap = {(self.vertexNumber-1):leafVid}
                 self.clearVertexInfo(leafVid)

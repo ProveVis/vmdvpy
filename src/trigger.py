@@ -99,3 +99,13 @@ class ShowRuleTrigger(Trigger):
         self.viewer.vmdv.putMsg(messenger.RequestMessage(self.viewer.sid, rname, rid, rargs))
         self.viewer.vmdv.addPendingRequest(rid, rname, rargs)
         return []
+
+class RemoveSubproofTrigger(Trigger):
+    def __init__(self, viewer):
+        Trigger.__init__(self,viewer, 'Remove Proof')
+        self.viewer = viewer
+    def action(self):
+        vid = self.viewer.selectedVids[0]
+        nid = self.viewer.vertices[vid].getProperty('id')
+        self.viewer.vmdv.putMsg(messenger.RemoveSubproofMessage(self.viewer.sid, nid))
+        return [affect.RemoveSubproofAffect(nid)]

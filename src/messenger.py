@@ -230,6 +230,10 @@ class Receiver(QThread):
                             nid = data["node_id"]
                             rule = data["rule"]
                             self.affectSignal.emit(sid, affect.SetProofRuleAffect(nid, rule))
+                        elif t == 'remove_subproof':
+                            sid = data['session_id']
+                            nid = data['node_id']
+                            self.affectSignal.emit(sid, affect.RemoveSubproofAffect(nid))
                         elif t == 'feedback':
                             if data['status'] == 'OK':
                                 print('Session received feedback from the prover:', data['session_id'], ',', data['status'])
@@ -272,6 +276,19 @@ class HighlightNodeMessage(Message):
             'node_id': self.nid
         }
         return (json.dumps(data))+'\n'
+
+class RemoveSubproofMessage(Message):
+    def __init__(self, sid, nid):
+        self.sid = sid
+        self.nid = nid
+    def toStr(self):
+        data = {
+            'type': 'remove_subproof',
+            'session_id': self.sid,
+            'node_id': self.nid
+        }
+        return (json.dumps(data))+'\n'
+
 
 class RequestMessage(Message):
     def __init__(self, sid, rname, rid, args):

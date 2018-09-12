@@ -320,13 +320,18 @@ class TreeViewer(Viewer):
             for nid in self.nid2Vid:
                 if self.nid2Vid[nid] == ovid:
                     self.nid2Vid[nid] = nvid
+            removedEdges = []
             for (fvid, tvid) in self.edgeLabel:
                 if fvid == ovid:
                     self.edgeLabel[(nvid, tvid)] = self.edgeLabel[(fvid, tvid)]
-                    self.edgeLabel.pop((fvid, tvid))
+                    removedEdges.append((fvid, tvid))
+                    # self.edgeLabel.pop((fvid, tvid))
                 if tvid == ovid:
                     self.edgeLabel[(fvid, nvid)] = self.edgeLabel[(fvid, tvid)]
-                    self.edgeLabel.pop((fvid, tvid))
+                    removedEdges.append((fvid, tvid))
+                    # self.edgeLabel.pop((fvid, tvid))
+            for (fvid, tvid) in removedEdges:
+                self.edgeLabel.pop((fvid, tvid))
             if ovid in self.vertexHeight:
                     self.vertexHeight[nvid] = self.vertexHeight[ovid]
                     self.vertexHeight.pop(ovid)
@@ -335,15 +340,15 @@ class TreeViewer(Viewer):
                 if ovid in ochildren:
                     ochildren.remove(ovid)
                     ochildren.append(nvid)
-                if tmpVid == ovid:
-                    self.children[nvid] = self.children[ovid]
-                    self.children.pop(ovid)
+            if ovid in self.children:
+                self.children[nvid] = self.children[ovid]
+                self.children.pop(ovid)
             for tmpVid in self.parent:
                 if self.parent[tmpVid] == ovid:
                     self.parent[tmpVid] = nvid
-                if tmpVid == ovid:
-                    self.parent[nvid] = self.parent[tmpVid]
-                    self.parent.pop(ovid)
+            if ovid in self.parent:
+                self.parent[nvid] = self.parent[tmpVid]
+                self.parent.pop(ovid)
             if ovid in self.rules:
                 self.rules[nvid] = self.rules[ovid]
                 self.rules.pop(ovid)
@@ -356,21 +361,27 @@ class TreeViewer(Viewer):
         self.treeHeight = max + 1
 
     def clearVertexInfo(self, vid):
-        self.vertices.pop(vid)
+        self.vertices.pop(vid,None)
+        removedNids = []
         for nid in self.nid2Vid:
             if self.nid2Vid[nid] == vid:
-                self.nid2Vid.pop(nid)
+                removedNids.append(nid)
+        for nid in removedNids:
+            self.nid2Vid.pop(nid)
+        removedEdges = []
         for (fvid, tvid) in self.edgeLabel:
             if tvid == vid:
-                self.edgeLabel.pop((fvid, tvid))
-        self.vertexHeight.pop(vid)
+                removedEdges.append((fvid, tvid))
+        for (fvid, tvid) in removedEdges:
+            self.edgeLabel.pop((fvid, tvid))
+        self.vertexHeight.pop(vid,None)
         self.updateTreeHeight()
-        self.children.pop(vid)
+        self.children.pop(vid,None)
         for tmpVid in self.children:
             if vid in self.children[tmpVid]:
                 self.children[tmpVid].remove(vid)
-        self.parent.pop(vid)
-        self.rules.pop(vid)
+        self.parent.pop(vid,None)
+        self.rules.pop(vid, None)
 
     def removeVertexFromGraphUnder(self, vid):
         # self.vertexNumber -= 1
@@ -394,6 +405,10 @@ class TreeViewer(Viewer):
         self.graph.CheckedShallowCopy(self.graphUnder)
 
     def removeNode(self, nid):
+        print("removing subproof of node", nid)
+        print("all nodes", self.nid2Vid)
+        if nid not in self.nid2Vid:
+            return
         vid = self.nid2Vid[nid]
         if vid != 0:
             while vid in self.children and len(self.children[vid]) > 0:
@@ -405,11 +420,11 @@ class TreeViewer(Viewer):
                 self.clearVertexInfo(leafVid)
                 self.removeVertexFromGraphUnder(leafVid)
                 self.modifyVertexInfo(vidMap)
-
-            vidMap = {(self.vertexNumber-1):vid}
-            self.clearVertexInfo(vid)
-            self.removeVertexFromGraphUnder(vid)
-            self.modifyVertexInfo(vidMap)
+        self.rules.pop(vid,None)
+            # vidMap = {(self.vertexNumber-1):vid}
+            # self.clearVertexInfo(vid)
+            # self.removeVertexFromGraphUnder(vid)
+            # self.modifyVertexInfo(vidMap)
 
 
     def addNode(self, node):

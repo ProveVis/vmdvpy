@@ -234,6 +234,11 @@ class Receiver(QThread):
                             sid = data['session_id']
                             nid = data['node_id']
                             self.affectSignal.emit(sid, affect.RemoveSubproofAffect(nid))
+                        elif t == 'change_node_state':
+                            sid = data['session_id']
+                            nid = data['node_id']
+                            new_state = data['new_state']
+                            self.affectSignal.emit(sid, affect.ChangeNodePropAffect(nid, 'state', new_state))
                         elif t == 'feedback':
                             if data['status'] == 'OK':
                                 print('Session received feedback from the prover:', data['session_id'], ',', data['status'])

@@ -222,3 +222,12 @@ class RemoveSubproofAffect(Affect):
         self.nid = nid
     def affect(self,viewer):
         viewer.removeNode(self.nid)
+
+class ChangeNodePropAffect(Affect):
+    def __init__(self, nid, key, value):
+        self.nid = nid
+        self.key = key
+        self.value = value
+    def affect(self,viewer):
+        vid = viewer.nid2Vid[self.nid]
+        viewer.vertices[vid].setProperty(self.key, self.value)

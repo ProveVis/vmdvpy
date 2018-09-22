@@ -11,7 +11,8 @@ class Coloring:
         self.reservedColor = {
             'red':      RGB(1.0, 0, 0), 
             'green':    RGB(0, 1.0, 0.0), 
-            'blue':     RGB(0.0, 0.0, 1.0)
+            'blue':     RGB(0.0, 0.0, 1.0),
+            'yellow':   RGB(1, 153/255, 18/255)
         }
         # Each element in allColors has the form (int, int, RGB), 
         # where the first int specifies specifies the vid, the second int specifies the index, 
@@ -72,10 +73,16 @@ class GradualColoring(Coloring):
         if not reset:
             print('Cannot reset color tuple with vid:', resetVid)
 
-    def resetAllColorTuples(self):
+    def resetAllColorTuples(self, vertices):
         for i in range(len(self.allColors)):
             tmpVid, tmpIndex, tmpC = self.allColors[i]
-            self.allColors[i] = (tmpVid, tmpIndex, self.calculateColorByIndex(self.grades, tmpIndex))
+            node_state = vertices[tmpVid].getProperty('state')
+            if node_state == 'Chosen':
+                self.allColors[i] = (tmpVid, tmpIndex, self.getColorByName('red'))
+            elif node_state == 'To_be_chosen' or node_state == 'Not_proved':
+                self.allColors[i] = (tmpVid, tmpIndex, self.getColorByName('yellow'))
+            else:
+                self.allColors[i] = (tmpVid, tmpIndex, self.calculateColorByIndex(self.grades, tmpIndex))
 
     def insertColorTuple(self, newVid, newIndex, gradesChanged=True):
         inserted = False
@@ -145,8 +152,8 @@ class GradualColoring(Coloring):
     def resetColorOfVertex(self, lookupTable, resetVid):
         self.resetColorTuple(resetVid)
         # self.updateLookupTable(lookupTable)
-    def resetColorsOfAllVertices(self, lookupTable, colorArray):
-        self.resetAllColorTuples()
+    def resetColorsOfAllVertices(self, lookupTable, colorArray, vertices):
+        self.resetAllColorTuples(vertices)
         # self.updateLookupTable(lookupTable)
     def insertColorOfVertex(self, lookupTable, newVid, newIndex, newGrades):
         gradesChanged = False

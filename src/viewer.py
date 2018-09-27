@@ -410,16 +410,16 @@ class TreeViewer(Viewer):
         if nid not in self.nid2Vid:
             return
         vid = self.nid2Vid[nid]
-        if vid != 0:
-            while vid in self.children and len(self.children[vid]) > 0:
-                # find a leaf of the subtree with root vid
-                leafVid = vid
-                while leafVid in self.children and len(self.children[leafVid]) > 0:
-                    leafVid = self.children[leafVid][0]
-                vidMap = {(self.vertexNumber-1):leafVid}
-                self.clearVertexInfo(leafVid)
-                self.removeVertexFromGraphUnder(leafVid)
-                self.modifyVertexInfo(vidMap)
+        # if vid != 0:
+        while vid in self.children and len(self.children[vid]) > 0:
+            # find a leaf of the subtree with root vid
+            leafVid = vid
+            while leafVid in self.children and len(self.children[leafVid]) > 0:
+                leafVid = self.children[leafVid][0]
+            vidMap = {(self.vertexNumber-1):leafVid}
+            self.clearVertexInfo(leafVid)
+            self.removeVertexFromGraphUnder(leafVid)
+            self.modifyVertexInfo(vidMap)
         self.rules.pop(vid,None)
             # vidMap = {(self.vertexNumber-1):vid}
             # self.clearVertexInfo(vid)

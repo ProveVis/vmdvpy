@@ -109,3 +109,21 @@ class RemoveSubproofTrigger(Trigger):
         nid = self.viewer.vertices[vid].getProperty('id')
         self.viewer.vmdv.putMsg(messenger.RemoveSubproofMessage(self.viewer.sid, nid))
         return [affect.RemoveSubproofAffect(nid)]
+
+class HideProofTrigger(Trigger):
+    def __init__(self, viewer):
+        Trigger.__init__(self, viewer, 'Hide Proof')
+        self.viewer = viewer
+    def action(self):
+        vid = self.viewer.selectedVids[0]
+        nid = self.viewer.vertices[vid].getProperty('id')
+        return [affect.HideProofAffect(nid)]
+
+class RestoreProofTrigger(Trigger):
+    def __init__(self, viewer):
+        Trigger.__init__(self, viewer, 'Restore Proof')
+        self.viewer = viewer
+    def action(self):
+        vid = self.viewer.selectedVids[0]
+        nid = self.viewer.vertices[vid].getProperty('id')
+        return [affect.RestoreProofAffect(nid)]

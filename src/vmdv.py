@@ -66,6 +66,8 @@ class VMDV:
             tviewer.addForegroundMenuItem(trigger.HighlightSubtreeTrigger(tviewer))
             tviewer.addForegroundMenuItem(trigger.SubFormulaTrigger(tviewer))
             tviewer.addForegroundMenuItem(trigger.RemoveSubproofTrigger(tviewer))
+            tviewer.addForegroundMenuItem(trigger.HideProofTrigger(tviewer))
+            tviewer.addForegroundMenuItem(trigger.RestoreProofTrigger(tviewer))
             # tviewer.addBackgroundMenuItem(trigger.ShowRuleTrigger(tviewer, '/\\-R'))
             # tviewer.addBackgroundMenuItem(trigger.ShowRuleTrigger(tviewer, 'EU-R1'))
             # tviewer.addBackgroundMenuItem(trigger.ShowRuleTrigger(tviewer, 'EU-R2'))

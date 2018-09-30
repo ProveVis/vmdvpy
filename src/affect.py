@@ -216,6 +216,7 @@ class SetProofRuleAffect(Affect):
     def affect(self, viewer):
         vid = viewer.nid2Vid[self.nid]
         viewer.rules[vid] = self.rule
+        # viewer.vertices[vid].setProperty('label', self.rule)
 
 class RemoveSubproofAffect(Affect):
     def __init__(self, nid):
@@ -231,3 +232,48 @@ class ChangeNodePropAffect(Affect):
     def affect(self,viewer):
         vid = viewer.nid2Vid[self.nid]
         viewer.vertices[vid].setProperty(self.key, self.value)
+
+class HideProofAffect(Affect):
+    def __init__(self, nid):
+        self.nid = nid
+    def affect(self,tv):
+        print('hiding proof from node', self.nid)
+        vid = tv.nid2Vid[self.nid]
+        prooftree = viewer.ProofTree(tv.vertices[vid])
+        tmpQ = deque([])
+        tmpQ.append(vid)
+        while len(tmpQ) != 0:
+            tmpVid = tmpQ.popleft()
+            tmpNid = tv.vertices[tmpVid].getProperty('id')
+            prooftree.addRule(tmpNid, tv.rules[tmpVid])
+            for cvid in tv.children[tmpVid]:
+                prooftree.addChild(tmpNid, tv.vertices[cvid], tv.rules[tmpVid])
+                tmpQ.append(cvid)
+        tv.hiddenProofs[self.nid] = prooftree
+        tv.removeNode(self.nid)
+
+class RestoreProofAffect(Affect):
+    def __init__(self, nid):
+        self.nid = nid
+
+    def affect(self,viewer):
+        print('restoring proof from node', self.nid)
+        if self.nid not in viewer.hiddenProofs:
+            return
+        prooftree = viewer.hiddenProofs[self.nid]
+        tmpQ = deque([])
+        tmpQ.append(self.nid)
+        while len(tmpQ) != 0:
+            tmpNid = tmpQ.popleft()
+            if tmpNid in prooftree.children:
+                for cNid in prooftree.children[tmpNid]:
+                    viewer.addNode(prooftree.nodes[cNid])
+                    viewer.addEdge(tmpNid, cNid, prooftree.rules[tmpNid])
+                    tmpQ.append(cNid)
+            elif tmpNid in prooftree.rules:
+                tmpVid = viewer.nid2Vid[tmpNid]
+                viewer.rules[tmpVid] = (prooftree.rules[tmpNid])
+
+        # del viewer.hiddenProofs[self.nid]
+
+

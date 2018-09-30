@@ -28,6 +28,24 @@ class Node:
     def hasProperty(self, key):
         return (key in self.props)
 
+class ProofTree:
+    def __init__(self, root):
+        self.root = root
+        self.children = {}
+        self.nodes = {root.getProperty('id'): root}
+        self.rules = {}
+    def addChild(self, fromid, tonode, rule):
+        toid = tonode.getProperty('id')
+        self.nodes[toid] = tonode
+        self.rules[fromid] = rule
+        if fromid in self.children:
+            self.children[fromid].append(toid)
+        else:
+            self.children[fromid] = [toid]
+    def addRule(self, nid, rule):
+        self.rules[nid] = rule
+
+
 class Viewer(QMainWindow):
     affectSignal = QtCore.pyqtSignal(str, affect.Affect)
     def __init__(self, vmdv, sid, descr, attributes, colors, parent=None):
@@ -307,6 +325,7 @@ class TreeViewer(Viewer):
         self.children = {}
         self.parent = {}
         self.rules = {}
+        self.hiddenProofs = {}
         self.setWindowTitle('Proof Tree')
 
     # vidMap has the form {ovid:nvid}, and the following function
@@ -472,7 +491,7 @@ class TreeViewer(Viewer):
             # print('Tree Viewer:',nid, 'has already been added')
             pass
 
-    def addEdge(self, fromNid, toNid, label):
+    def addEdge(self, fromNid, toNid, rule):
         if fromNid not in self.nid2Vid:
             print('From node', fromNid, 'has not been added')
             return
@@ -493,12 +512,11 @@ class TreeViewer(Viewer):
                 self.children[fromVid].append(toVid)
                 self.parent[toVid] = fromVid
                 # self.edgeLabel[(fromVid, toVid)] = label
-                self.rules[fromVid] = label
+                self.rules[fromVid] = rule
+                # self.vertices[fromVid].setProperty('label', label)
                 self.graphUnder.AddEdge(fromVid, toVid)
                 self.colors.insertColorOfVertex(self.lookupTable, toVid, self.vertexHeight[toVid], self.treeHeight)
                 # self.updateRendering()
-
-    
 
 
 class DiGraphViewer(Viewer):

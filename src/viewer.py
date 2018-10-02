@@ -280,15 +280,6 @@ class TreeViewer(Viewer):
     def __init__(self, vmdv, sid, descr, attributes, colors):
         Viewer.__init__(self, vmdv, sid, descr, attributes, colors)
         Viewer.initViewerWindow(self, vtk.vtkTree(), 'Cone')
-        # def findProofRule(fromVid):
-        #     if fromVid in self.rules:
-        #         return self.rules[fromVid]
-        #     else:
-        #         return None
-            # for (fv, tv) in self.edgeLabel:
-            #     if fv == fromVid:
-            #         return self.edgeLabel[(fv, tv)]
-            # return None
         def selection(obj, e):
             selected = set([])
             sel = obj.GetCurrentSelection()
@@ -299,10 +290,11 @@ class TreeViewer(Viewer):
             if len(self.selectedVids) > 0:
                 sv = self.selectedVids[0]
                 node = self.vertices[sv]
-                rule = None
-                if sv in self.rules:
-                    rule = self.rules[sv]
                 nid = node.getProperty('id')
+                rule = None
+                if nid in self.rules:
+                    rule = self.rules[nid]
+                # nid = node.getProperty('id')
                 if rule != None and nid != None:
                     self.statusBar().showMessage("ID: "+nid+"\t"+"Tactic: "+rule)
                 else:
@@ -439,7 +431,7 @@ class TreeViewer(Viewer):
             self.clearVertexInfo(leafVid)
             self.removeVertexFromGraphUnder(leafVid)
             self.modifyVertexInfo(vidMap)
-        self.rules.pop(vid,None)
+        self.rules.pop(nid, None)
             # vidMap = {(self.vertexNumber-1):vid}
             # self.clearVertexInfo(vid)
             # self.removeVertexFromGraphUnder(vid)
@@ -512,7 +504,7 @@ class TreeViewer(Viewer):
                 self.children[fromVid].append(toVid)
                 self.parent[toVid] = fromVid
                 # self.edgeLabel[(fromVid, toVid)] = label
-                self.rules[fromVid] = rule
+                self.rules[fromNid] = rule
                 # self.vertices[fromVid].setProperty('label', label)
                 self.graphUnder.AddEdge(fromVid, toVid)
                 self.colors.insertColorOfVertex(self.lookupTable, toVid, self.vertexHeight[toVid], self.treeHeight)

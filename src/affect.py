@@ -214,8 +214,8 @@ class SetProofRuleAffect(Affect):
         self.nid = nid
         self.rule = rule
     def affect(self, viewer):
-        vid = viewer.nid2Vid[self.nid]
-        viewer.rules[vid] = self.rule
+        # vid = viewer.nid2Vid[self.nid]
+        viewer.rules[self.nid] = self.rule
         # viewer.vertices[vid].setProperty('label', self.rule)
 
 class RemoveSubproofAffect(Affect):
@@ -245,9 +245,9 @@ class HideProofAffect(Affect):
         while len(tmpQ) != 0:
             tmpVid = tmpQ.popleft()
             tmpNid = tv.vertices[tmpVid].getProperty('id')
-            prooftree.addRule(tmpNid, tv.rules[tmpVid])
+            prooftree.addRule(tmpNid, tv.rules[tmpNid])
             for cvid in tv.children[tmpVid]:
-                prooftree.addChild(tmpNid, tv.vertices[cvid], tv.rules[tmpVid])
+                prooftree.addChild(tmpNid, tv.vertices[cvid], tv.rules[tmpNid])
                 tmpQ.append(cvid)
         tv.hiddenProofs[self.nid] = prooftree
         tv.removeNode(self.nid)
@@ -271,8 +271,8 @@ class RestoreProofAffect(Affect):
                     viewer.addEdge(tmpNid, cNid, prooftree.rules[tmpNid])
                     tmpQ.append(cNid)
             elif tmpNid in prooftree.rules:
-                tmpVid = viewer.nid2Vid[tmpNid]
-                viewer.rules[tmpVid] = (prooftree.rules[tmpNid])
+                # tmpVid = viewer.nid2Vid[tmpNid]
+                viewer.rules[tmpNid] = (prooftree.rules[tmpNid])
 
         # del viewer.hiddenProofs[self.nid]
 

@@ -120,15 +120,20 @@ class Viewer(QMainWindow):
 
         # build lookup table and the vtkIntArray object
         self.colorArray = vtk.vtkIntArray()
+        self.labelArray = vtk.vtkStringArray()
         self.colorArray.SetNumberOfComponents(1)
+        self.labelArray.SetNumberOfTuples(1)
         self.colorArray.SetName("color")
+        self.labelArray.SetName("labels")
         self.lookupTable = vtk.vtkLookupTable()
         # self.lookupTable.SetNumberOfTableValues(4)
         # self.lookupTable.SetTableValue(0,1.0,0.0,0.0)    # red
         self.lookupTable.Build()
         self.colorArray.InsertValue(0,0)
         self.graphUnder.GetVertexData().AddArray(self.colorArray)
+        self.graphUnder.GetVertexData().AddArray(self.labelArray)
         self.view.SetVertexColorArrayName("color")
+        self.view.SetVertexLabelArrayName("labels")
         self.view.ColorVerticesOn()
         
         # print('color array ready')
@@ -279,7 +284,20 @@ class Viewer(QMainWindow):
 class TreeViewer(Viewer):
     def __init__(self, vmdv, sid, descr, attributes, colors):
         Viewer.__init__(self, vmdv, sid, descr, attributes, colors)
-        Viewer.initViewerWindow(self, vtk.vtkTree(), 'Cone')
+
+
+        # # using force layout
+        # layout = vtk.vtkForceDirectedLayoutStrategy()
+        # layout.SetMaxNumberOfIterations(70)
+        # layout.ThreeDimensionalLayoutOn()
+        # layout.AutomaticBoundsComputationOn()
+        # layout.SetInitialTemperature(20)
+        # Viewer.initViewerWindow(self, vtk.vtkTree(), layout)
+
+        coneLayout = vtk.vtkConeLayoutStrategy()
+        coneLayout.CompressionOn()
+
+        Viewer.initViewerWindow(self, vtk.vtkTree(), coneLayout)
         def selection(obj, e):
             selected = set([])
             sel = obj.GetCurrentSelection()
@@ -360,9 +378,14 @@ class TreeViewer(Viewer):
             if ovid in self.parent:
                 self.parent[nvid] = self.parent[tmpVid]
                 self.parent.pop(ovid)
-            if ovid in self.rules:
-                self.rules[nvid] = self.rules[ovid]
-                self.rules.pop(ovid)
+            if ovid in self.vertices:
+                onid = self.vertices[ovid].getProperty('id')
+                if onid in self.rules:
+                    self.labelArray.SetValue(nvid, self.rules[onid])
+            # if ovid in self.rules:
+            #     self.rules[nvid] = self.rules[ovid]
+            #     self.labelArray.InsertValue(nvid, self.rules[ovid])
+            #     self.rules.pop(ovid)
 
     def updateTreeHeight(self):
         max = 0
@@ -480,7 +503,7 @@ class TreeViewer(Viewer):
 
             self.graphUnder.GetVertexData().SetPedigreeIds(self.vertIds)
         else:
-            # print('Tree Viewer:',nid, 'has already been added')
+            print('Tree Viewer:',nid, 'has already been added')
             pass
 
     def addEdge(self, fromNid, toNid, rule):
@@ -505,6 +528,7 @@ class TreeViewer(Viewer):
                 self.parent[toVid] = fromVid
                 # self.edgeLabel[(fromVid, toVid)] = label
                 self.rules[fromNid] = rule
+                self.labelArray.InsertValue(fromVid, rule)
                 # self.vertices[fromVid].setProperty('label', label)
                 self.graphUnder.AddEdge(fromVid, toVid)
                 self.colors.insertColorOfVertex(self.lookupTable, toVid, self.vertexHeight[toVid], self.treeHeight)

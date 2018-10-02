@@ -216,6 +216,7 @@ class SetProofRuleAffect(Affect):
     def affect(self, viewer):
         # vid = viewer.nid2Vid[self.nid]
         viewer.rules[self.nid] = self.rule
+        viewer.labelArray.InsertValue(viewer.nid2Vid[self.nid], self.rule)
         # viewer.vertices[vid].setProperty('label', self.rule)
 
 class RemoveSubproofAffect(Affect):
@@ -276,4 +277,30 @@ class RestoreProofAffect(Affect):
 
         # del viewer.hiddenProofs[self.nid]
 
+
+class HideShowRulesAffect(Affect):
+    def affect(self,viewer):
+        viewer.view.SetVertexLabelVisibility(not viewer.view.GetVertexLabelVisibility())
+
+class HighlightCutNodesAffect(Affect):
+    def affect(self,tviewer):
+        cutNodes = []
+        for nid in tviewer.rules:
+            vid = tviewer.nid2Vid[nid]
+            rule = tviewer.rules[nid]
+            splt1 = rule.split('.')
+            splt2 = splt1[0].split(' ')
+            if len(splt2) == 2 and splt2[0] == 'apply':
+                cutNodes.append(vid)
+        tviewer.colors.updateColorsOfVertices(tviewer.lookupTable, cutNodes, 'red')
+        tviewer.colors.updateLookupTable(tviewer.lookupTable)
+        tviewer.updateRendering()
+
+class ExpandCutAffect(Affect):
+    def __init__(self, nid, cutname):
+        self.nid = nid
+        self.cutname = cutname
+
+    def affect(self, tviewer):
+        tviewer.vmdv.putMsg(messenger.ExpandCutMessage(tviewer.sid, self.nid, self.cutname))
 

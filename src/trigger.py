@@ -127,3 +127,34 @@ class RestoreProofTrigger(Trigger):
         vid = self.viewer.selectedVids[0]
         nid = self.viewer.vertices[vid].getProperty('id')
         return [affect.RestoreProofAffect(nid)]
+
+class ShowHideRulesTrigger(Trigger):
+    def __init__(self, viewer):
+        Trigger.__init__(self, viewer, 'Show/Hide Rules')
+        self.viewer = viewer
+    def action(self):
+        return [affect.HideShowRulesAffect()]
+
+class HighlightCutNodesTrigger(Trigger):
+    def __init__(self, viewer):
+        Trigger.__init__(self, viewer, 'Find Applications of Lemmas')
+        self.viewer = viewer
+    def action(self):
+        return [affect.HighlightCutNodesAffect()]
+
+class ExpandCutTrigger(Trigger):
+    def __init__(self, viewer):
+        Trigger.__init__(self, viewer, 'Expand Lemma')
+    def action(self):
+        vid = self.viewer.selectedVids[0]
+        nid = self.viewer.vertices[vid].getProperty('id')
+        rule = self.viewer.rules[nid]
+        split1 = rule.split('.')
+        split2 = split1[0].split(' ')
+        if len(split2) == 2 and split2[0] == 'apply':
+            pvid = self.viewer.parent[vid]
+            pnid = self.viewer.vertices[pvid].getProperty('id')
+            return [affect.ExpandCutAffect(pnid, split2[1])]
+        else:
+            return []
+

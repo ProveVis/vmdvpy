@@ -144,7 +144,7 @@ class Receiver(QThread):
                     sys.exit(1)
                     break
                 
-                print(recvdBytes)
+                # print(recvdBytes)
 
                 # logging.getLogger('file').info('Received JSON:'+recvdBytes.decode('utf-8'))
                 recvdStrs = []
@@ -181,11 +181,13 @@ class Receiver(QThread):
                             self.v.sessions.pop(data['session_id'])
                         elif t == 'add_node':
                             nodeProps = data['node']
+                            print('adding node', nodeProps['id'], 'to', data['session_id'])
                             a = affect.AddNodeAffect(nodeProps)
                             # a = affect.AddNodeAffect(data['node']['id'], data['node']['label'], data['node']['state'])
                             # self.v.putAffect(data['session_id'], a)
                             self.affectSignal.emit(data['session_id'], a)
                         elif t == 'add_edge':
+                            print('adding edge', data['from_id'], '-->', data['to_id'], 'to', data['session_id'])
                             a = None
                             if 'label' in data:
                                 a = affect.AddEdgeAffect(data['from_id'], data['to_id'], data['label'])
@@ -291,6 +293,20 @@ class RemoveSubproofMessage(Message):
             'type': 'remove_subproof',
             'session_id': self.sid,
             'node_id': self.nid
+        }
+        return (json.dumps(data))+'\n'
+
+class ExpandCutMessage(Message):
+    def __init__(self, sid, nid, cutname):
+        self.sid = sid
+        self.nid = nid
+        self.cutname = cutname
+    def toStr(self):
+        data = {
+            'type': 'expand_cut',
+            'session_id': self.sid,
+            'node_id': self.nid,
+            'cut_name': self.cutname
         }
         return (json.dumps(data))+'\n'
 

@@ -42,6 +42,9 @@ class AddEdgeAffect(Affect):
 
     def affect(self, viewer):
         viewer.addEdge(self.fromId, self.toId, self.label)
+        viewer.labelArray.InsertValue(viewer.nid2Vid[self.toId], '')
+        # viewer.resetGraphColor()
+        # viewer.updateRendering()
 
 class ShowNodeLabelAffect(Affect):
     def __init__(self, vids):
@@ -233,6 +236,7 @@ class ChangeNodePropAffect(Affect):
     def affect(self,viewer):
         vid = viewer.nid2Vid[self.nid]
         viewer.vertices[vid].setProperty(self.key, self.value)
+        viewer.resetGraphColor()
 
 class HideProofAffect(Affect):
     def __init__(self, nid):

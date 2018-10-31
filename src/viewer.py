@@ -382,6 +382,8 @@ class TreeViewer(Viewer):
                 onid = self.vertices[ovid].getProperty('id')
                 if onid in self.rules:
                     self.labelArray.SetValue(nvid, self.rules[onid])
+            if ovid in self.rules:
+                self.rules.pop(ovid)
             # if ovid in self.rules:
             #     self.rules[nvid] = self.rules[ovid]
             #     self.labelArray.InsertValue(nvid, self.rules[ovid])
@@ -532,6 +534,12 @@ class TreeViewer(Viewer):
                 # self.vertices[fromVid].setProperty('label', label)
                 self.graphUnder.AddEdge(fromVid, toVid)
                 self.colors.insertColorOfVertex(self.lookupTable, toVid, self.vertexHeight[toVid], self.treeHeight)
+
+                # self.colors.resetColorsOfAllVertices(self.lookupTable, self.colorArray, self.vertices)
+                # self.colors.updateLookupTable(self.lookupTable)
+                # self.updateRendering()
+
+                # self.resetGraphColor()
                 # self.updateRendering()
 
 

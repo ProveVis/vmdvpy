@@ -108,6 +108,18 @@ class RemoveSubproofTrigger(Trigger):
         vid = self.viewer.selectedVids[0]
         nid = self.viewer.vertices[vid].getProperty('id')
         self.viewer.vmdv.putMsg(messenger.RemoveSubproofMessage(self.viewer.sid, nid))
+        self.viewer.vertices[vid].setProperty("state", "Chosen")
+        parent = self.viewer.parent[vid]
+        while parent != -1:
+            self.viewer.vertices[parent].setProperty("state", "Not_proved")
+            if parent not in self.viewer.parent:
+                break
+            pp = self.viewer.parent[parent]
+            if pp == parent:
+                parent = -1
+            else:
+                parent = pp
+
         return [affect.RemoveSubproofAffect(nid)]
 
 class HideProofTrigger(Trigger):

@@ -64,7 +64,7 @@ class VMDV:
             tviewer.addForegroundMenuItem(trigger.HighlightChildrenTrigger(tviewer))
             tviewer.addForegroundMenuItem(trigger.HighlightAncestorsTrigger(tviewer))
             tviewer.addForegroundMenuItem(trigger.HighlightSubtreeTrigger(tviewer))
-            tviewer.addForegroundMenuItem(trigger.SubFormulaTrigger(tviewer))
+            # tviewer.addForegroundMenuItem(trigger.SubFormulaTrigger(tviewer))
             tviewer.addForegroundMenuItem(trigger.RemoveSubproofTrigger(tviewer))
             tviewer.addForegroundMenuItem(trigger.HideProofTrigger(tviewer))
             tviewer.addForegroundMenuItem(trigger.RestoreProofTrigger(tviewer))

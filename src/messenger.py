@@ -181,13 +181,13 @@ class Receiver(QThread):
                             self.v.sessions.pop(data['session_id'])
                         elif t == 'add_node':
                             nodeProps = data['node']
-                            print('adding node', nodeProps['id'], 'to', data['session_id'])
+                            # print('adding node', nodeProps['id'], 'to', data['session_id'])
                             a = affect.AddNodeAffect(nodeProps)
                             # a = affect.AddNodeAffect(data['node']['id'], data['node']['label'], data['node']['state'])
                             # self.v.putAffect(data['session_id'], a)
                             self.affectSignal.emit(data['session_id'], a)
                         elif t == 'add_edge':
-                            print('adding edge', data['from_id'], '-->', data['to_id'], 'to', data['session_id'])
+                            # print('adding edge', data['from_id'], '-->', data['to_id'], 'to', data['session_id'])
                             a = None
                             if 'label' in data:
                                 a = affect.AddEdgeAffect(data['from_id'], data['to_id'], data['label'])

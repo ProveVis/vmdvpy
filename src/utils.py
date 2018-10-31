@@ -238,7 +238,7 @@ class FixedColoring(Coloring):
         # self.updateLookupTable(lookupTable)
         # self.updateVertexColor(colorArray, vid, cindex)
 
-    def resetColorsOfAllVertices(self, lookupTable, colorArray):
+    def resetColorsOfAllVertices(self, lookupTable, colorArray, vertices):
         nt = colorArray.GetNumberOfTuples()
         for i in range(nt):
             colorArray.SetValue(i, 0)
